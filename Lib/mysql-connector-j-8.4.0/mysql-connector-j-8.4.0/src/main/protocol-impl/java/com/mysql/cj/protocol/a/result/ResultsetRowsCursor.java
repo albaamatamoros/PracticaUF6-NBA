@@ -40,7 +40,7 @@ import com.mysql.cj.telemetry.TelemetrySpan;
 import com.mysql.cj.telemetry.TelemetrySpanName;
 
 /**
- * Model for result set data backed by a cursor (see http://dev.mysql.com/doc/refman/5.7/en/cursors.html and
+ * Model.Model for result set data backed by a cursor (see http://dev.mysql.com/doc/refman/5.7/en/cursors.html and
  * SERVER_STATUS_CURSOR_EXISTS flag description on http://dev.mysql.com/doc/internals/en/status-flags.html).
  * Only works for forward-only result sets (but still works with updatable concurrency).
  */
