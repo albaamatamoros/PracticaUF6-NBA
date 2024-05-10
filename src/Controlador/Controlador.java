@@ -1,8 +1,9 @@
 package Controlador;
+import Vista.Vista;
 
 public class Controlador {
-    //hola
-    public static void consultas(){
 
+    public static void consultas(){
+        Vista.menuInicial();
     }
 }
