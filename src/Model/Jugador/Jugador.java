@@ -1,9 +1,8 @@
 package Model.Jugador;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Jugador {
-    private int id;
     private String nom;
     private String cognom;
     private Date dataNaixement;
@@ -22,5 +21,37 @@ public class Jugador {
         this.dorsal = dorsal;
         this.posicio = posicio;
         this.equipId = equipId;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public String getCognom() {
+        return cognom;
+    }
+
+    public Date getDataNaixement() {
+        return dataNaixement;
+    }
+
+    public float getAlcada() {
+        return alcada;
+    }
+
+    public float getPes() {
+        return pes;
+    }
+
+    public String getDorsal() {
+        return dorsal;
+    }
+
+    public String getPosicio() {
+        return posicio;
+    }
+
+    public int getEquipId() {
+        return equipId;
     }
 }
