@@ -16,4 +16,34 @@ public class Model {
     public static void llistarPartitsJugats(){
 
     }
+
+    //4. Inserir un nou jugador a un equip.
+    public static void inserirJugadorAEquip(){
+
+    }
+
+    //5. Traspassar un judador a un altra equip
+    public static void traspassarJugadorAltreEquip(){
+
+    }
+
+    //6. Actualitzar les dades de jugadors o equips després d'un partit.
+    public static void actualitzarDadesJugador(){
+
+    }
+
+    //7. Modificar les estadístiques d’un jugador
+    public static void modifciarEstadistiquesJugador(){
+
+    }
+
+    //8. Retirar (Eliminar) un jugador.
+    public static void eliminarJugador(){
+
+    }
+
+    //9. Canviar nom franquícia d’un equip
+    public static void  canviarNomEquip(){
+
+    }
 }
