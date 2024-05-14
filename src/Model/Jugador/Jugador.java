@@ -3,6 +3,7 @@ package Model.Jugador;
 import java.sql.Date;
 
 public class Jugador {
+    private int id;
     private String nom;
     private String cognom;
     private Date dataNaixement;
@@ -13,6 +14,7 @@ public class Jugador {
     private int equipId;
 
     public Jugador(String nom, String cognom, Date dataNaixement, float alcada, float pes, String dorsal, String posicio, int equipId) {
+        this.id = 0;
         this.nom = nom;
         this.cognom = cognom;
         this.dataNaixement = dataNaixement;
@@ -21,6 +23,14 @@ public class Jugador {
         this.dorsal = dorsal;
         this.posicio = posicio;
         this.equipId = equipId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNom() {
