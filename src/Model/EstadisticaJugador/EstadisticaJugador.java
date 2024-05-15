@@ -1,6 +1,6 @@
-package Model.EstadistiquesJugadors;
+package Model.EstadisticaJugador;
 
-public class EstadistiquesJugadors{
+public class EstadisticaJugador {
     private int assistencies;
     private int bloqueigs;
     private int equipId;
@@ -18,7 +18,7 @@ public class EstadistiquesJugadors{
     private int tirsTriplesAnotats;
     private int tirsTriplesTirats;
 
-    public EstadistiquesJugadors(int assistencies, int bloqueigs, int equipId, int jugadorId, float minutsJugats, int partitId, int punts, int rebotsDefensius, int rebotsOfensius, int robades, int tirsAnotats, int tirsLliuresAnotats, int tirsLliuresTirats, int tirsTirats, int tirsTriplesAnotats, int tirsTriplesTirats) {
+    public EstadisticaJugador(int assistencies, int bloqueigs, int equipId, int jugadorId, float minutsJugats, int partitId, int punts, int rebotsDefensius, int rebotsOfensius, int robades, int tirsAnotats, int tirsLliuresAnotats, int tirsLliuresTirats, int tirsTirats, int tirsTriplesAnotats, int tirsTriplesTirats) {
         this.assistencies = assistencies;
         this.bloqueigs = bloqueigs;
         this.equipId = equipId;

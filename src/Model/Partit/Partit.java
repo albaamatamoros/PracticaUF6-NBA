@@ -1,15 +1,15 @@
-package Model.Partits;
+package Model.Partit;
 
 import java.util.Date;
 
-public class Partits {
+public class Partit {
     private Date data_partit;
     private int equip_id;
     private String matx;
     private int partit_id;
     private String resultat;
 
-    public Partits(Date data_partit, int equip_id, String matx, int partit_id, String resultat) {
+    public Partit(Date data_partit, int equip_id, String matx, int partit_id, String resultat) {
         this.data_partit = data_partit;
         this.equip_id = equip_id;
         this.matx = matx;
