@@ -15,7 +15,6 @@ public class Controlador {
             switch (opcio) {
                 case "1":
                     System.out.println("De quin equip vols llistar els seus jugadors?");
-
                     break;
                 case "2":
                     break;
