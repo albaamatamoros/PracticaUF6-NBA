@@ -5,4 +5,5 @@ public interface DAO<T> {
     boolean actualitzar(T obj);
     boolean esborrar(T obj);
     T cercar(int id);
+    int count();
 }
