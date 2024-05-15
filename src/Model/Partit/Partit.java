@@ -1,36 +1,35 @@
 package Model.Partit;
-
-import java.util.Date;
+import java.sql.Date;
 
 public class Partit {
-    private Date data_partit;
-    private int equip_id;
+    private Date dataPartit;
+    private int equipId;
     private String matx;
-    private int partit_id;
+    private int partitId;
     private String resultat;
 
-    public Partit(Date data_partit, int equip_id, String matx, int partit_id, String resultat) {
-        this.data_partit = data_partit;
-        this.equip_id = equip_id;
+    public Partit(Date dataPartit, int equipId, String matx, int partitId, String resultat) {
+        this.dataPartit = dataPartit;
+        this.equipId = equipId;
         this.matx = matx;
-        this.partit_id = partit_id;
+        this.partitId = partitId;
         this.resultat = resultat;
     }
 
-    public Date getData_partit() {
-        return data_partit;
+    public Date getDataPartit() {
+        return dataPartit;
     }
 
-    public void setData_partit(Date data_partit) {
-        this.data_partit = data_partit;
+    public void setDataPartit(Date dataPartit) {
+        this.dataPartit = dataPartit;
     }
 
-    public int getEquip_id() {
-        return equip_id;
+    public int getEquipId() {
+        return equipId;
     }
 
-    public void setEquip_id(int equip_id) {
-        this.equip_id = equip_id;
+    public void setEquipId(int equipId) {
+        this.equipId = equipId;
     }
 
     public String getMatx() {
@@ -41,12 +40,12 @@ public class Partit {
         this.matx = matx;
     }
 
-    public int getPartit_id() {
-        return partit_id;
+    public int getPartitId() {
+        return partitId;
     }
 
-    public void setPartit_id(int partit_id) {
-        this.partit_id = partit_id;
+    public void setPartitId(int partitId) {
+        this.partitId = partitId;
     }
 
     public String getResultat() {
