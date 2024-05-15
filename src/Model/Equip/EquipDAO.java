@@ -189,52 +189,46 @@ public class EquipDAO implements DAO<Equip> {
     }
 
     public List<Jugador> obtenirJugadors(String nom_equip) throws Exception {
-        Connection connexio;
+        Connection connexio = Model.getConnection();
+        PreparedStatement sentenciaEquipId = connexio.prepareStatement(
+                "SELECT equip_id FROM equips WHERE ciutat = ? AND nom = ?"
+        );
 
-        try {
-            connexio = Model.getConnection();
-            PreparedStatement sentenciaEquipId = connexio.prepareStatement(
-                    "SELECT equip_id FROM equips WHERE ciutat = ? AND nom = ?"
-            );
+        sentenciaEquipId.setString(1, nom_equip.split(" ")[0]);
+        sentenciaEquipId.setString(2, nom_equip.split(" ")[1]);
 
-            sentenciaEquipId.setString(1, nom_equip.split(" ")[0]);
-            sentenciaEquipId.setString(2, nom_equip.split(" ")[1]);
+        ResultSet resultSetId = sentenciaEquipId.executeQuery();
 
-            ResultSet resultSetId = sentenciaEquipId.executeQuery();
-
-            int equipId;
-            if (resultSetId.next()) {
-                equipId = resultSetId.getInt("equip_id");
-            } else {
-                throw new Exception("No s'ha trobat l'equip");
-            }
-
-            PreparedStatement sentenciaJugadors = connexio.prepareStatement(
-                    "SELECT * FROM jugadors WHERE equip_id = ?"
-            );
-
-            sentenciaJugadors.setInt(1, equipId);
-            ResultSet rsJugadors = sentenciaJugadors.executeQuery();
-
-            List<Jugador> llistaJugadors = new ArrayList<>();
-
-            while (rsJugadors.next()) {
-                llistaJugadors.add(new Jugador(
-                        rsJugadors.getString("nom"),
-                        rsJugadors.getString("cognom"),
-                        rsJugadors.getDate("data_naixement"),
-                        rsJugadors.getFloat("alcada"),
-                        rsJugadors.getFloat("pes"),
-                        rsJugadors.getString("dorsal"),
-                        rsJugadors.getString("posicio"),
-                        rsJugadors.getInt("equip_id")
-                ));
-            }
-
-            return llistaJugadors;
-
-        } catch (SQLException e) {
-            return null;
+        int equipId;
+        if (resultSetId.next()) {
+            equipId = resultSetId.getInt("equip_id");
+        } else {
+            throw new Exception("No s'ha trobat l'equip");
         }
+
+        PreparedStatement sentenciaJugadors = connexio.prepareStatement(
+                "SELECT * FROM jugadors WHERE equip_id = ?"
+        );
+
+        sentenciaJugadors.setInt(1, equipId);
+        ResultSet rsJugadors = sentenciaJugadors.executeQuery();
+
+        List<Jugador> llistaJugadors = new ArrayList<>();
+
+        while (rsJugadors.next()) {
+            llistaJugadors.add(new Jugador(
+                    rsJugadors.getString("nom"),
+                    rsJugadors.getString("cognom"),
+                    rsJugadors.getDate("data_naixement"),
+                    rsJugadors.getFloat("alcada"),
+                    rsJugadors.getFloat("pes"),
+                    rsJugadors.getString("dorsal"),
+                    rsJugadors.getString("posicio"),
+                    rsJugadors.getInt("equip_id")
+            ));
+        }
+
+        return llistaJugadors;
+
     }
 }
