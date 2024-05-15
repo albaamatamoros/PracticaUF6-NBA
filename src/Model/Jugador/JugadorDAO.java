@@ -1,5 +1,4 @@
 package Model.Jugador;
-
 import Model.DAO;
 import Model.Model;
 import java.sql.Connection;

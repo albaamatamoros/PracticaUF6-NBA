@@ -25,6 +25,7 @@ public class PartitDAO implements DAO<Partit> {
             sentencia.setInt(5,partit.getPartitId());
             sentencia.setString(6,partit.getResultat());
 
+            return sentencia.executeUpdate() > 0;
         }catch (SQLException e) {
             return false;
         } finally {
