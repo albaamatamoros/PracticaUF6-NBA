@@ -8,8 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class EquipDAO implements DAO<Equip> {
     @Override
@@ -98,40 +97,103 @@ public class EquipDAO implements DAO<Equip> {
         return rsNumEquips.getInt(1);
     }
 
-    public List<Jugador> obtenirJugadors(String nom_equip) throws Exception {
+    public List<Jugador> obtenirJugadors(String nomEquip) throws Exception {
         Connection connexio = Connexio.getConnection();
-        PreparedStatement sentenciaEquipId = connexio.prepareStatement(
-                "SELECT equip_id,CONCAT(ciutat,' ',nom) AS nom_equip FROM `equips` HAVING nom_equip LIKE ?"
-        );
-
-        sentenciaEquipId.setString(1, nom_equip);
-        ResultSet resultSetId = sentenciaEquipId.executeQuery();
-
-        int equipId = resultSetId.getInt("equip_id");
-
         PreparedStatement sentenciaJugadors = connexio.prepareStatement(
-                "SELECT * FROM jugadors WHERE equip_id = ?"
+                "SELECT j.nom,j.cognom,j.data_naixement,j.alcada,j.pes,j.dorsal,j.posicio,e.equip_id,CONCAT(e.ciutat,' ',e.nom) AS nom_equip FROM jugadors j INNER JOIN equips e ON j.equip_id = e.equip_id HAVING nom_equip = ?"
         );
 
-        sentenciaJugadors.setInt(1, equipId);
+        sentenciaJugadors.setString(1, nomEquip);
         ResultSet rsJugadors = sentenciaJugadors.executeQuery();
 
-        List<Jugador> llistaJugadors = new ArrayList<>();
+        List<Jugador> llistaJugadors;
 
-        while (rsJugadors.next()) {
-            llistaJugadors.add(new Jugador(
-                    rsJugadors.getString("nom"),
-                    rsJugadors.getString("cognom"),
-                    rsJugadors.getDate("data_naixement"),
-                    rsJugadors.getFloat("alcada"),
-                    rsJugadors.getFloat("pes"),
-                    rsJugadors.getString("dorsal"),
-                    rsJugadors.getString("posicio"),
-                    rsJugadors.getInt("equip_id")
-            ));
+        if (rsJugadors.next()) {
+            llistaJugadors = new ArrayList<>();
+
+            while (rsJugadors.next()) {
+                llistaJugadors.add(new Jugador(
+                        rsJugadors.getString("nom"),
+                        rsJugadors.getString("cognom"),
+                        rsJugadors.getDate("data_naixement"),
+                        rsJugadors.getFloat("alcada"),
+                        rsJugadors.getFloat("pes"),
+                        rsJugadors.getString("dorsal"),
+                        rsJugadors.getString("posicio"),
+                        rsJugadors.getInt("equip_id")
+                ));
+            }
+        } else {
+            throw new Exception("Equip no trobat");
         }
 
         return llistaJugadors;
 
+    }
+
+    public List<Set<Map.Entry<String,Integer>>> obtenirResultatPartits(String nomEquip) throws Exception {
+        Connection connexio = Connexio.getConnection();
+        PreparedStatement sentenciaEquip = connexio.prepareStatement(
+                "SELECT equip_id,acronim,CONCAT(ciutat,' ',nom) AS nom_equip FROM equips HAVING nom_equip LIKE ?"
+        );
+
+        sentenciaEquip.setString(1, nomEquip);
+        ResultSet rsEquip = sentenciaEquip.executeQuery();
+
+        int equipId;
+        String acronim;
+
+        if (rsEquip.next()) {
+            equipId = rsEquip.getInt("equip_id");
+            acronim = rsEquip.getString("acronim");
+        } else {
+            throw new Exception("Equip no trobat");
+        }
+
+        PreparedStatement sentenciaPuntsPartitsPropis = connexio.prepareStatement(
+                "SELECT CONCAT(e.ciutat,' ',e.nom) AS nom,SUM(punts) AS punts " +
+                        "FROM estadistiques_jugadors es " +
+                        "INNER JOIN equips e ON e.equip_id = es.equip_id " +
+                        "WHERE es.equip_id = ? GROUP BY es.partit_id ORDER BY es.partit_id"
+        );
+
+        sentenciaPuntsPartitsPropis.setInt(1, equipId);
+        ResultSet rsPuntsPartitsPropis = sentenciaPuntsPartitsPropis.executeQuery();
+
+        PreparedStatement sentenciaPuntsPartitsRivals = connexio.prepareStatement(
+                "SELECT CONCAT(e.ciutat,' ',e.nom) AS nom,SUM(punts) AS punts " +
+                        "FROM estadistiques_jugadors es " +
+                        "INNER JOIN equips e ON e.equip_id = es.equip_id " +
+                        "WHERE es.partit_id IN (SELECT partit_id FROM partits WHERE LEFT(matx,3) = ?) " +
+                        "AND es.equip_id != ? " +
+                        "GROUP BY partit_id,es.equip_id " +
+                        "ORDER BY partit_id"
+        );
+
+        sentenciaPuntsPartitsRivals.setString(1, acronim);
+        sentenciaPuntsPartitsRivals.setInt(2, equipId);
+        ResultSet rsPuntsPartitsRivals = sentenciaPuntsPartitsRivals.executeQuery();
+
+        List<Set<Map.Entry<String,Integer>>> llistaResultats = new ArrayList<>();
+
+        while (rsPuntsPartitsPropis.next() && rsPuntsPartitsRivals.next()) {
+            String nomPropi = rsPuntsPartitsPropis.getString("nom");
+            int puntuacioPropia = rsPuntsPartitsPropis.getInt("punts");
+
+            String nomRival = rsPuntsPartitsRivals.getString("nom");
+            int puntuacioRival = rsPuntsPartitsRivals.getInt("punts");
+
+            Set<Map.Entry<String,Integer>> resultatPartit = new HashSet<>();
+
+            Map.Entry<String,Integer> resultatPropi = new AbstractMap.SimpleEntry<>(nomPropi, puntuacioPropia);
+            resultatPartit.add(resultatPropi);
+
+            Map.Entry<String,Integer> resultatRival = new AbstractMap.SimpleEntry<>(nomRival, puntuacioRival);
+            resultatPartit.add(resultatRival);
+
+            llistaResultats.add(resultatPartit);
+        }
+
+        return llistaResultats;
     }
 }
