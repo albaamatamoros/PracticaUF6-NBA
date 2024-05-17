@@ -3,7 +3,7 @@ import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class Model {
+public class Connexio {
 
     //10.94.255.99 Santi PhpMyAdmin 3336
     //nba_2023-24

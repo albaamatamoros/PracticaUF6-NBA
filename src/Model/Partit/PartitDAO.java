@@ -1,13 +1,11 @@
 package Model.Partit;
-import Model.Jugador.Jugador;
-import Model.Model;
+import Model.Connexio;
 import Model.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
 
 public class PartitDAO implements DAO<Partit> {
 
@@ -17,7 +15,7 @@ public class PartitDAO implements DAO<Partit> {
         PreparedStatement sentencia = null;
 
         try {
-            connexio = Model.getConnection();
+            connexio = Connexio.getConnection();
             sentencia = connexio.prepareStatement("INSERT INTO partits (equip_id,data_partit,matx,resultat) VALUES (?,?,?,?)");
 
             sentencia.setInt(1,partit.getEquipId());
@@ -48,7 +46,7 @@ public class PartitDAO implements DAO<Partit> {
         PreparedStatement sentencia = null;
 
         try {
-            connexio = Model.getConnection();
+            connexio = Connexio.getConnection();
             sentencia = connexio.prepareStatement(
                     "UPDATE partits SET equip_id=?,data_partit=?,matx=?,resultat=? WHERE partit_id=?"
             );
@@ -83,7 +81,7 @@ public class PartitDAO implements DAO<Partit> {
         PreparedStatement sentencia = null;
 
         try {
-            connexio = Model.getConnection();
+            connexio = Connexio.getConnection();
             sentencia = connexio.prepareStatement(
                     "DELETE FROM partits WHERE partit_id = ?"
             );
@@ -113,7 +111,7 @@ public class PartitDAO implements DAO<Partit> {
         PreparedStatement sentencia = null;
 
         try {
-            connexio = Model.getConnection();
+            connexio = Connexio.getConnection();
             sentencia = connexio.prepareStatement(
                     "SELECT * FROM partits WHERE partit_id = ?"
             );
@@ -153,7 +151,7 @@ public class PartitDAO implements DAO<Partit> {
         PreparedStatement sentencia = null;
 
         try {
-            connexio = Model.getConnection();
+            connexio = Connexio.getConnection();
             sentencia = connexio.prepareStatement(
                     "SELECT COUNT(*) FROM partits"
             );

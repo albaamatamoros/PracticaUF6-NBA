@@ -2,7 +2,7 @@ package Model.EstadisticaJugador;
 
 import Model.DAO;
 import Model.Equip.Equip;
-import Model.Model;
+import Model.Connexio;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -15,7 +15,7 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
         PreparedStatement sentencia = null;
 
         try {
-            connexio = Model.getConnection();
+            connexio = Connexio.getConnection();
             sentencia = connexio.prepareStatement("INSERT INTO estadistiques_jugadors () VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
 
@@ -36,6 +36,7 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
             sentencia.setInt(10,estadisticaJugador.getRobades());
             sentencia.setInt(2,estadisticaJugador.getBloqueigs());
 
+            return sentencia.executeUpdate() > 0;
         }catch (SQLException e) {
             return false;
         } finally {
@@ -53,11 +54,20 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
     }
 
     @Override
-    public boolean actualitzar(Equip equip) {return true;}
+    public boolean actualitzar(EstadisticaJugador obj) {
+        return false;
+    }
 
     @Override
-    public boolean esborrar(Equip equip) {return false;}
+    public boolean esborrar(EstadisticaJugador obj) {
+        return false;
+    }
 
+    @Override
+    public EstadisticaJugador cercar(int id) {
+        return null;
+    }
+    
     @Override
     public int count() {return 1;}
 }
