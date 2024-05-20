@@ -19,8 +19,7 @@ public class EstadisticaJugador {
     private int robades;
     private int bloqueigs;
 
-    public EstadisticaJugador(int assistencies, int bloqueigs, int equipId, int jugadorId, float minutsJugats, int partitId, int punts, int rebotsDefensius, int rebotsOfensius, int robades, int tirsAnotats, int tirsLliuresAnotats, int tirsLliuresTirats, int tirsTirats, int tirsTriplesAnotats, int tirsTriplesTirats) {
-
+    public EstadisticaJugador(int jugadorId, int equipId, int partitId, float minutsJugats, int punts, int tirsAnotats, int tirsTirats, int tirsTriplesAnotats, int tirsTriplesTirats, int tirsLliuresAnotats, int tirsLliuresTirats, int rebotsOfensius, int rebotsDefensius, int assistencies, int robades, int bloqueigs) {
         this.jugadorId = jugadorId;
         this.equipId = equipId;
         this.partitId = partitId;

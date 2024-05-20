@@ -1,7 +1,7 @@
 package Model.EstadisticaJugador;
 
 import Model.DAO;
-import Model.Equip.Equip;
+import Model.Jugador.Jugador;
 import Model.Model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -56,13 +56,78 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
     }
 
     @Override
-    public boolean actualitzar(EstadisticaJugador obj) {
-        return false;
+    public boolean actualitzar(EstadisticaJugador estadisticaJugador) {
+        Connection connexio = null;
+        PreparedStatement sentencia = null;
+
+        try {
+            connexio = Model.getConnection();
+            sentencia = connexio.prepareStatement(
+                    "UPDATE estadistiques_jugadors SET equip_id=?,partit_id=?,minuts_jugats=?,punts=?,tirs_anotats=?,tirs_tirats=?,tirs_triples_antotats=?,tirs_triples_tirats=?,tirs_lliures_anotats=?,tirs_lliures_tirats=?,rebots_ofensius=?,rebots_defensius=?,assistencies=?,robades=?,bloqueigs=? WHERE jugador_id=?"
+            );
+
+            sentencia.setInt(1,estadisticaJugador.getJugadorId());
+            sentencia.setInt(2,estadisticaJugador.getEquipId());
+            sentencia.setInt(3,estadisticaJugador.getPartitId());
+            sentencia.setFloat(4,estadisticaJugador.getMinutsJugats());
+            sentencia.setInt(5,estadisticaJugador.getPunts());
+            sentencia.setInt(6,estadisticaJugador.getTirsAnotats());
+            sentencia.setInt(7,estadisticaJugador.getTirsTirats());
+            sentencia.setInt(8,estadisticaJugador.getTirsTriplesAnotats());
+            sentencia.setInt(9,estadisticaJugador.getTirsTriplesTirats());
+            sentencia.setInt(10,estadisticaJugador.getTirsLliuresAnotats());
+            sentencia.setInt(11,estadisticaJugador.getTirsLliuresTirats());
+            sentencia.setInt(12,estadisticaJugador.getRebotsOfensius());
+            sentencia.setInt(13,estadisticaJugador.getRebotsDefensius());
+            sentencia.setInt(14,estadisticaJugador.getAssistencies());
+            sentencia.setInt(15,estadisticaJugador.getRobades());
+            sentencia.setInt(16,estadisticaJugador.getBloqueigs());
+
+            return sentencia.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            return false;
+        } finally {
+            try {
+                if (sentencia != null) {
+                    sentencia.close();
+                }
+                if (connexio != null) {
+                    connexio.close();
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     @Override
-    public boolean esborrar(EstadisticaJugador obj) {
-        return false;
+    public boolean esborrar(EstadisticaJugador estadisticaJugador) {
+        Connection connexio = null;
+        PreparedStatement sentencia = null;
+
+        try {
+            connexio = Model.getConnection();
+            sentencia = connexio.prepareStatement(
+                    "DELETE FROM estadistiques_jugadors WHERE jugador_id = ?"
+            );
+
+            sentencia.setInt(1,estadisticaJugador.getJugadorId());
+            return sentencia.executeUpdate() > 0;
+        } catch (SQLException e) {
+            return false;
+        } finally {
+            try {
+                if (sentencia != null) {
+                    sentencia.close();
+                }
+                if (connexio != null) {
+                    connexio.close();
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     @Override
@@ -118,5 +183,32 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
     }
 
     @Override
-    public int count() {return 1;}
+    public int count() {
+        Connection connexio = null;
+        PreparedStatement sentencia = null;
+
+        try {
+            connexio = Model.getConnection();
+            sentencia = connexio.prepareStatement(
+                    "SELECT COUNT(*) FROM estadistiques_jugadors"
+            );
+
+            ResultSet rsEstadisticaJugador = sentencia.executeQuery();
+            rsEstadisticaJugador.next();
+            return rsEstadisticaJugador.getInt(1);
+        } catch (SQLException e) {
+            return -1;
+        } finally {
+            try {
+                if (sentencia != null) {
+                    sentencia.close();
+                }
+                if (connexio != null) {
+                    connexio.close();
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
 }
