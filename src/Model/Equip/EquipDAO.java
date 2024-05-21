@@ -2,6 +2,8 @@ package Model.Equip;
 import Model.DAO;
 import Model.Jugador.Jugador;
 import Model.Connexio;
+import Model.Jugador.JugadorDAO;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -98,7 +100,7 @@ public class EquipDAO implements DAO<Equip> {
     public List<Jugador> obtenirJugadors(String nomEquip) throws Exception {
         Connection connexio = Connexio.getConnection();
         PreparedStatement sentenciaJugadors = connexio.prepareStatement(
-                "SELECT j.nom,j.cognom,j.data_naixement,j.alcada,j.pes,j.dorsal,j.posicio,e.equip_id,CONCAT(e.ciutat,' ',e.nom) AS nom_equip FROM jugadors j INNER JOIN equips e ON j.equip_id = e.equip_id HAVING nom_equip = ?"
+                "SELECT j.jugador_id,CONCAT(e.ciutat,' ',e.nom) AS nom_equip FROM jugadors j INNER JOIN equips e ON j.equip_id = e.equip_id HAVING nom_equip = ?"
         );
 
         sentenciaJugadors.setString(1, nomEquip);
@@ -108,18 +110,10 @@ public class EquipDAO implements DAO<Equip> {
 
         if (rsJugadors.next()) {
             llistaJugadors = new ArrayList<>();
+            JugadorDAO jugadorDAO = new JugadorDAO();
 
             while (rsJugadors.next()) {
-                llistaJugadors.add(new Jugador(
-                        rsJugadors.getString("nom"),
-                        rsJugadors.getString("cognom"),
-                        rsJugadors.getDate("data_naixement"),
-                        rsJugadors.getFloat("alcada"),
-                        rsJugadors.getFloat("pes"),
-                        rsJugadors.getString("dorsal"),
-                        rsJugadors.getString("posicio"),
-                        rsJugadors.getInt("equip_id")
-                ));
+                llistaJugadors.add(jugadorDAO.cercar(rsJugadors.getInt("jugador_id")));
             }
         } else {
             throw new Exception("Equip no trobat");
