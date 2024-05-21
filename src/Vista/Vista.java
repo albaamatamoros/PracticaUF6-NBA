@@ -1,9 +1,10 @@
 package Vista;
-import java.util.Scanner;
+import Model.Jugador.Jugador;
+import java.util.List;
 
 public class Vista {
 
-    public static void  menuInicial(){
+    public static void menuInicial(){
             System.out.println("------ MENÚ ------");
             System.out.println("1. Llistar tots els jugadors d'un equip");
             System.out.println("2. Calcular la mitjana de punts, rebots, assistències, ... d'un jugador");
@@ -15,5 +16,11 @@ public class Vista {
             System.out.println("8. Retirar (Eliminar) un jugador");
             System.out.println("9. Canviar nom franquícia d'un equip");
             System.out.println("0. Sortir");
+    }
+
+    public static void llistarJugadorsEquip(List<Jugador> jugadors){
+            for (Jugador jugador : jugadors) {
+                    System.out.println(jugador.getNom());
+            }
     }
 }

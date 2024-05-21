@@ -1,9 +1,7 @@
 package Model.Equip;
-
 import Model.DAO;
 import Model.Jugador.Jugador;
 import Model.Connexio;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -1,19 +1,13 @@
 import Model.Equip.EquipDAO;
-import Model.Jugador.Jugador;
-import Model.Jugador.JugadorDAO;
-import Controlador.Controlador;
-
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import Controlador.Controlador;
 
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        //Controlador.consultas();
+        Controlador.consultas();
 
         /*
         Jugador jugador = new Jugador("Santi","Onieva", Date.valueOf("2003-12-03"),190.56f,110.25f, "05","Forward" , 1610612737);
@@ -27,13 +21,8 @@ public class Main {
             System.out.println("El jugador no se ha registrado correctamente");
         } */
 
-        EquipDAO equipDAO = new EquipDAO();
-        /*
-        List<Jugador> jugadors = equipDAO.obtenirJugadors("Denver Nuggets");
-        for (Jugador jugador : jugadors) {
-            System.out.println(jugador.getNom());
-        } */
 
+        /*
         List<Set<Map.Entry<String,Integer>>> llista = equipDAO.obtenirResultatPartits("Atlanta Hawks");
         for (Set<Map.Entry<String,Integer>> set : llista) {
             for (Map.Entry<String,Integer> entry : set) {
@@ -42,5 +31,6 @@ public class Main {
             System.out.println();
         }
 
+         */
     }
 }

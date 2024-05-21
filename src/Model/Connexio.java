@@ -9,7 +9,7 @@ public class Connexio {
     //nba_2023-24
     //root mas
 
-    private static final String URL = "jdbc:mysql://localhost:3336/nba_2023-24";
+    private static final String URL = "jdbc:mysql://10.94.255.99:3336/nba_2023-24";
     private static final String USUARI = "root";
     private static final String PASSWORD = "mas";
 
