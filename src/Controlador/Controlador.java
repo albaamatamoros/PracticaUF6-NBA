@@ -74,14 +74,24 @@ public class Controlador {
                         }
                         break;
                     case "5":
+                        Vista.mostrarMissatge("Introdueix un jugador per trasspasar a un altre equip: (Ex: LeBron James)");
+                        jugadorNom = scan.nextLine();
+                        Vista.mostrarMissatge("Introdueix un equip on trasspasar aquest jugador (Ex: Denver Nuggets)");
+                        equipNom = scan.nextLine();
                         break;
                     case "6":
                         break;
                     case "7":
+                        Vista.mostrarMissatge("Introdueix un jugador per modificar les seves estadístiques: (Ex: LeBron James)");
+                        jugadorNom = scan.nextLine();
                         break;
                     case "8":
+                        Vista.mostrarMissatge("Introdueix un jugador per eliminar-lo: (Ex: LeBron James)");
+                        jugadorNom = scan.nextLine();
                         break;
                     case "9":
+                        Vista.mostrarMissatge("Introdueix un equip per modificar la seva franquícia: (Ex: Denver Nuggets)");
+                        equipNom = scan.nextLine();
                         break;
                     case "0":
                         break;
