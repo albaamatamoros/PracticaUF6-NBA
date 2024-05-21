@@ -1,40 +1,41 @@
 package Model.EstadisticaJugador;
 
 public class EstadisticaJugador {
-    private int assistencies;
-    private int bloqueigs;
-    private int equipId;
+
     private int jugadorId;
-    private float minutsJugats;
+    private int equipId;
     private int partitId;
+    private float minutsJugats;
     private int punts;
-    private int rebotsDefensius;
-    private int rebotsOfensius;
-    private int robades;
     private int tirsAnotats;
-    private int tirsLliuresAnotats;
-    private int tirsLliuresTirats;
     private int tirsTirats;
     private int tirsTriplesAnotats;
     private int tirsTriplesTirats;
+    private int tirsLliuresAnotats;
+    private int tirsLliuresTirats;
+    private int rebotsOfensius;
+    private int rebotsDefensius;
+    private int assistencies;
+    private int robades;
+    private int bloqueigs;
 
-    public EstadisticaJugador(int assistencies, int bloqueigs, int equipId, int jugadorId, float minutsJugats, int partitId, int punts, int rebotsDefensius, int rebotsOfensius, int robades, int tirsAnotats, int tirsLliuresAnotats, int tirsLliuresTirats, int tirsTirats, int tirsTriplesAnotats, int tirsTriplesTirats) {
-        this.assistencies = assistencies;
-        this.bloqueigs = bloqueigs;
-        this.equipId = equipId;
+    public EstadisticaJugador(int jugadorId, int equipId, int partitId, float minutsJugats, int punts, int tirsAnotats, int tirsTirats, int tirsTriplesAnotats, int tirsTriplesTirats, int tirsLliuresAnotats, int tirsLliuresTirats, int rebotsOfensius, int rebotsDefensius, int assistencies, int robades, int bloqueigs) {
         this.jugadorId = jugadorId;
-        this.minutsJugats = minutsJugats;
+        this.equipId = equipId;
         this.partitId = partitId;
+        this.minutsJugats = minutsJugats;
         this.punts = punts;
-        this.rebotsDefensius = rebotsDefensius;
-        this.rebotsOfensius = rebotsOfensius;
-        this.robades = robades;
         this.tirsAnotats = tirsAnotats;
-        this.tirsLliuresAnotats = tirsLliuresAnotats;
-        this.tirsLliuresTirats = tirsLliuresTirats;
         this.tirsTirats = tirsTirats;
         this.tirsTriplesAnotats = tirsTriplesAnotats;
         this.tirsTriplesTirats = tirsTriplesTirats;
+        this.tirsLliuresAnotats = tirsLliuresAnotats;
+        this.tirsLliuresTirats = tirsLliuresTirats;
+        this.rebotsOfensius = rebotsOfensius;
+        this.rebotsDefensius = rebotsDefensius;
+        this.assistencies = assistencies;
+        this.robades = robades;
+        this.bloqueigs = bloqueigs;
     }
 
     public int getAssistencies() {
