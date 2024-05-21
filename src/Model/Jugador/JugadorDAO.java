@@ -7,6 +7,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class JugadorDAO implements DAO<Jugador> {
+    /*INSERTAR NORMAL
+    @Override
+    public boolean insertar(Jugador jugador) throws SQLException {
+        Connection connexio = Connexio.getConnection();
+        PreparedStatement sentencia = connexio.prepareStatement(
+                "INSERT INTO jugadors (nom,cognom,data_naixement,alcada,pes,dorsal,posicio,equip_id) VALUES (?,?,?,?,?,?,?,?)"
+        );
+
+        sentencia.setString(1,jugador.getNom());
+        sentencia.setString(2,jugador.getCognom());
+        sentencia.setDate(3,jugador.getDataNaixement());
+        sentencia.setFloat(4,jugador.getAlcada());
+        sentencia.setFloat(5,jugador.getPes());
+        sentencia.setString(6,jugador.getDorsal());
+        sentencia.setString(7,jugador.getPosicio());
+        sentencia.setInt(8,jugador.getEquipId());
+
+        return sentencia.executeUpdate() > 0;
+    }*/
 
     @Override
     public boolean insertar(Jugador jugador) throws SQLException {
