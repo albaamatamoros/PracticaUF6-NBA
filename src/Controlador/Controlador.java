@@ -2,19 +2,25 @@ package Controlador;
 import Model.Jugador.Jugador;
 import Vista.Vista;
 import Model.Equip.EquipDAO;
+
+import java.security.PublicKey;
 import java.util.List;
 import java.util.Scanner;
 
 public class Controlador {
     static Scanner scan = new Scanner(System.in);
-    //Opcio Menu
-    public static String opcio = "";
-
     //DAO
     static EquipDAO equipDAO = new EquipDAO();
 
+    //VARIABLES:
+    //Opcio Menu
+    public static String opcio = "";
+
     //Variable per rebre el nom de l'equip.
     static String equipNom;
+
+    //Variable per rebre el nom del jugador.
+    public String jugadorNom;
 
     public static void consultas() throws Exception {
         try {
@@ -26,12 +32,14 @@ public class Controlador {
                 opcio = scan.nextLine();
                 switch (opcio) {
                     case "1":
-                        System.out.println("De quin equip vols llistar els seus jugadors?");
+                        System.out.println("Introdueix el nom d'un equip per llistar els seus jugadors: (Ex: Denver Nuggets)");
                         equipNom = scan.nextLine();
                         List<Jugador> jugadors = equipDAO.obtenirJugadors(equipNom);
                         Vista.llistarJugadorsEquip(jugadors);
                         break;
                     case "2":
+                        System.out.println("Introdueix un jugador per calcular la seva mitjana de punts: (Ex: LeBron James)");
+
                         break;
                     case "3":
                         break;
