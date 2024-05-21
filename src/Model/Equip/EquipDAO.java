@@ -4,6 +4,7 @@ import Model.Jugador.Jugador;
 import Model.Connexio;
 import Model.Jugador.JugadorDAO;
 
+import javax.print.attribute.standard.RequestingUserName;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -84,6 +85,24 @@ public class EquipDAO implements DAO<Equip> {
         }
     }
 
+    //4 Inserir un nou jugador a un equip. (Cercar l'ID)
+    public Integer cercarIdPerNom(String nomEquip) throws SQLException {
+        Connection connexio = Connexio.getConnection();
+        PreparedStatement sentencia = connexio.prepareStatement(
+                "SELECT equip_id,CONCAT(ciutat,' ',nom) AS nom_equip FROM equips HAVING nom_equip LIKE = ?"
+        );
+
+        sentencia.setString(1,nomEquip);
+        ResultSet rsEquip = sentencia.executeQuery();
+
+        if (rsEquip.next()) {
+            int equipId = rsEquip.getInt("equip_id");
+            return equipId;
+        } else {
+            return null;
+        }
+    }
+
     @Override
     public int count() throws SQLException {
         Connection connexio = Connexio.getConnection();
@@ -97,6 +116,7 @@ public class EquipDAO implements DAO<Equip> {
         return rsNumEquips.getInt(1);
     }
 
+    //1 Llistar tots els jugadors d'un equip
     public List<Jugador> obtenirJugadors(String nomEquip) throws Exception {
         Connection connexio = Connexio.getConnection();
         PreparedStatement sentenciaJugadors = connexio.prepareStatement(
@@ -123,6 +143,7 @@ public class EquipDAO implements DAO<Equip> {
 
     }
 
+    //3 Llistar tots els partits jugats per un equip amb el seu resultat.
     public List<Set<Map.Entry<String,Integer>>> obtenirResultatPartits(String nomEquip) throws Exception {
         Connection connexio = Connexio.getConnection();
         PreparedStatement sentenciaEquip = connexio.prepareStatement(
@@ -175,7 +196,7 @@ public class EquipDAO implements DAO<Equip> {
             String nomRival = rsPuntsPartitsRivals.getString("nom");
             int puntuacioRival = rsPuntsPartitsRivals.getInt("punts");
 
-            Set<Map.Entry<String,Integer>> resultatPartit = new HashSet<>();
+            Set<Map.Entry<String,Integer>> resultatPartit = new LinkedHashSet<>();
 
             Map.Entry<String,Integer> resultatPropi = new AbstractMap.SimpleEntry<>(nomPropi, puntuacioPropia);
             resultatPartit.add(resultatPropi);

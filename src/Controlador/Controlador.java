@@ -20,7 +20,7 @@ public class Controlador {
     static String equipNom;
 
     //Variable per rebre el nom del jugador.
-    public String jugadorNom;
+    public static String jugadorNom;
 
     public static void consultas() throws Exception {
         try {
@@ -44,6 +44,10 @@ public class Controlador {
                     case "3":
                         break;
                     case "4":
+                        System.out.println("Introdueix un jugador per inserir a la taula: (Ex: LeBron James)");
+                        jugadorNom = scan.nextLine();
+                        System.out.println("Introdueix un equip on unir a aquest jugador: (Ex: Denver Nuggets)");
+                        equipNom = scan.nextLine();
                         break;
                     case "0":
                         break;

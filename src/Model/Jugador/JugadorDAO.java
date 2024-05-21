@@ -87,18 +87,17 @@ public class JugadorDAO implements DAO<Jugador> {
         }
     }
 
-    public Jugador cercarNom(String nomComplet) throws SQLException {
+    public Integer cercarIdPerNom(String nomComplet) throws SQLException {
         Connection connexio = Connexio.getConnection();
         PreparedStatement sentencia = connexio.prepareStatement(
-                "SELECT id,CONCAT(nom,' ',cognom) AS nom_complet FROM jugadors HAVING nom_complet LIKE = ?"
+                "SELECT juagdor_id,CONCAT(nom,' ',cognom) AS nom_complet FROM jugadors HAVING nom_complet LIKE = ?"
         );
 
         sentencia.setString(1,nomComplet);
         ResultSet rsJugador = sentencia.executeQuery();
 
         if (rsJugador.next()) {
-            Jugador jugador = cercar(rsJugador.getInt("id"));
-            return jugador;
+            return rsJugador.getInt("jugador_id");
         } else {
             return null;
         }
@@ -116,5 +115,6 @@ public class JugadorDAO implements DAO<Jugador> {
 
         return rsNumJugadors.getInt(1);
     }
+
 
 }
