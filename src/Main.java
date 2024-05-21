@@ -7,6 +7,8 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -26,9 +28,19 @@ public class Main {
         } */
 
         EquipDAO equipDAO = new EquipDAO();
+        /*
         List<Jugador> jugadors = equipDAO.obtenirJugadors("Denver Nuggets");
         for (Jugador jugador : jugadors) {
             System.out.println(jugador.getNom());
+        } */
+
+        List<Set<Map.Entry<String,Integer>>> llista = equipDAO.obtenirResultatPartits("Atlanta Hawks");
+        for (Set<Map.Entry<String,Integer>> set : llista) {
+            for (Map.Entry<String,Integer> entry : set) {
+                System.out.println(entry.getKey() + ": " + entry.getValue());
+            }
+            System.out.println();
         }
+
     }
 }
