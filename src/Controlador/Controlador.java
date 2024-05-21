@@ -8,7 +8,9 @@ import Model.Equip.EquipDAO;
 import java.security.PublicKey;
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Controlador {
     static Scanner scan = new Scanner(System.in);
@@ -35,32 +37,51 @@ public class Controlador {
                 opcio = scan.nextLine();
                 switch (opcio) {
                     case "1":
-                        System.out.println("Introdueix el nom d'un equip per llistar els seus jugadors: (Ex: Denver Nuggets)");
+                        Vista.mostrarMissatge("Introdueix el nom d'un equip per llistar els seus jugadors: (Ex: Denver Nuggets)");
                         equipNom = scan.nextLine();
                         List<Jugador> jugadors = equipDAO.obtenirJugadors(equipNom);
                         Vista.llistarJugadorsEquip(jugadors);
                         break;
                     case "2":
-                        System.out.println("Introdueix un jugador per calcular la seva mitjana de punts: (Ex: LeBron James)");
-
+                        Vista.mostrarMissatge("Introdueix un jugador per calcular la seva mitjana de punts: (Ex: LeBron James)");
                         break;
                     case "3":
+                        Vista.mostrarMissatge("Introdueix el nom d'un equip per llistar tots els partits i els seus resultats: (Ex: Denver Nuggets)");
+                        equipNom = scan.nextLine();
+                        //
+                        //EquipDAO equipDAO = new EquipDAO();
+                        List<Set<Map.Entry<String,Integer>>> llista = equipDAO.obtenirResultatPartits(equipNom);
+                        Vista.llistarPartitsIResultats(llista);
                         break;
                     case "4":
-                        System.out.println("Introdueix un jugador per inserir a la taula: (Ex: LeBron James)");
+                        //Insertar dades.
+                        Vista.mostrarMissatge("Introdueix un jugador per inserir a la taula: (Ex: LeBron James)");
                         jugadorNom = scan.nextLine();
                         String[] nomCognom = jugadorNom.split(" ");
-                        System.out.println("Introdueix un equip on unir a aquest jugador: (Ex: Denver Nuggets)");
+                        Vista.mostrarMissatge("Introdueix un equip on unir a aquest jugador: (Ex: Denver Nuggets)");
                         equipNom = scan.nextLine();
-                        Jugador jugador = new Jugador(nomCognom[0],nomCognom[1], Date.valueOf("2003-12-03"),190.56f,110.25f, "05","Forward" , equipDAO.cercarIdPerNom(equipNom));
+
+                        //Crear el jugador i insertar-lo
+                        Jugador jugador = new Jugador(nomCognom[0],nomCognom[1],Date.valueOf("2003-12-03"),190.56f,110.25f, "05","Forward" , equipDAO.cercarIdPerNom(equipNom));
                         JugadorDAO dao = new JugadorDAO();
                         boolean correcte = dao.insertar(jugador);
 
+                        //Comprovar si s'ha creat correctament.
                         if (correcte){
-                            System.out.println("El jugador se ha registrado correctamente");
+                            Vista.mostrarMissatge("El jugador s'ha registrat correctament");
                         } else {
-                            System.out.println("El jugador no se ha registrado correctamente");
+                            Vista.mostrarMissatge("El jugador no s'ha registrat correctament");
                         }
+                        break;
+                    case "5":
+                        break;
+                    case "6":
+                        break;
+                    case "7":
+                        break;
+                    case "8":
+                        break;
+                    case "9":
                         break;
                     case "0":
                         break;

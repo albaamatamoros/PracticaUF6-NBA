@@ -7,21 +7,9 @@ import Controlador.Controlador;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        //Controlador.consultas();
+        Controlador.consultas();
 
         /*
-        Jugador jugador = new Jugador("Santi","Onieva", Date.valueOf("2003-12-03"),190.56f,110.25f, "05","Forward" , 1610612737);
-
-        JugadorDAO dao = new JugadorDAO();
-        boolean correcte = dao.insertar(jugador);
-
-        if (correcte){
-            System.out.println("El jugador se ha registrado correctamente");
-        } else {
-            System.out.println("El jugador no se ha registrado correctamente");
-        } */
-
-
         EquipDAO equipDAO = new EquipDAO();
         List<Set<Map.Entry<String,Integer>>> llista = equipDAO.obtenirResultatPartits("Atlanta Hawks");
         for (Set<Map.Entry<String,Integer>> set : llista) {
@@ -30,6 +18,7 @@ public class Main {
             }
             System.out.println();
         }
+        */
 
 
     }
