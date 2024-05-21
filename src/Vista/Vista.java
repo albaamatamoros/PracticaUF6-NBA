@@ -23,4 +23,8 @@ public class Vista {
                     System.out.println(jugador.getNom());
             }
     }
+
+    public static void mostrarMissatge(String missatge){
+        System.out.println(missatge);
+    }
 }

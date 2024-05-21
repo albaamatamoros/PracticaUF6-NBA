@@ -53,6 +53,14 @@ public class Controlador {
                         System.out.println("Introdueix un equip on unir a aquest jugador: (Ex: Denver Nuggets)");
                         equipNom = scan.nextLine();
                         Jugador jugador = new Jugador(nomCognom[0],nomCognom[1], Date.valueOf("2003-12-03"),190.56f,110.25f, "05","Forward" , equipDAO.cercarIdPerNom(equipNom));
+                        JugadorDAO dao = new JugadorDAO();
+                        boolean correcte = dao.insertar(jugador);
+
+                        if (correcte){
+                            System.out.println("El jugador se ha registrado correctamente");
+                        } else {
+                            System.out.println("El jugador no se ha registrado correctamente");
+                        }
                         break;
                     case "0":
                         break;
