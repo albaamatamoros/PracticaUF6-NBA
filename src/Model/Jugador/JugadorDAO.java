@@ -5,6 +5,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class JugadorDAO implements DAO<Jugador> {
 
@@ -103,6 +106,36 @@ public class JugadorDAO implements DAO<Jugador> {
 
     //MÈTODES D'INTERFÍCIE ESPECÍFICS EXERCICIS
 
+    //2 Calcular la mitjana de punts, rebots, assistències, ... d'un jugador
+    public LinkedHashMap<String,Float> calcularMitjana(String nomComplet) throws Exception {
+        Connection connexio = Connexio.getConnection();
+        PreparedStatement sentencia = connexio.prepareStatement(
+                "SELECT ROUND(AVG(punts),2) AS mitjana_punts, " +
+                        "ROUND(AVG(rebots_defensius) + AVG(rebots_ofensius),2) AS mitjana_rebots, " +
+                        "ROUND(AVG(assistencies),2) AS mitjana_assistencies " +
+                        "FROM estadistiques_jugadors " +
+                        "WHERE jugador_id = ?"
+        );
+
+        int jugadorId = cercarIdPerNom(nomComplet);
+
+        if (jugadorId == 0) {
+            throw new Exception("Jugador no trobat");
+        }
+
+        sentencia.setInt(1,jugadorId);
+        ResultSet rsJugador = sentencia.executeQuery();
+        rsJugador.next();
+
+        LinkedHashMap<String, Float> mitjanes = new LinkedHashMap<>(3);
+
+        mitjanes.put("Mitjana Punts", rsJugador.getFloat("mitjana_punts"));
+        mitjanes.put("Mitjana Rebots", rsJugador.getFloat("mitjana_rebots"));
+        mitjanes.put("Mitjana Assistencies", rsJugador.getFloat("mitjana_assistencies"));
+
+        return mitjanes;
+    }
+
     //4 Inserir un nou jugador a un equip.
     public int cercarIdPerNom(String nomComplet) throws SQLException {
         Connection connexio = Connexio.getConnection();
@@ -115,27 +148,6 @@ public class JugadorDAO implements DAO<Jugador> {
 
         if (rsJugador.next()) {
             return rsJugador.getInt("jugador_id");
-        } else {
-            return 0;
-        }
-    }
-
-    //2 Calcular la mitjana de punts, rebots, assistències, ... d'un jugador
-    public int calculMitjana(String nomComplet) throws SQLException {
-        Connection connexio = Connexio.getConnection();
-        PreparedStatement sentencia = connexio.prepareStatement(
-                "SELECT ROUND(AVG(punts),2) AS mitjana_punts, " +
-                "ROUND(AVG(rebots_defensius) + AVG(rebots_ofensius),2) AS mitjana_rebots, " +
-                "ROUND(AVG(assistencies),2) AS mitjana_assistencies " +
-                "FROM estadistiques_jugadors " +
-                "WHERE jugador_id = ?"
-        );
-
-        sentencia.setInt(1,cercarIdPerNom(nomComplet));
-        ResultSet rsJugador = sentencia.executeQuery();
-
-        if (rsJugador.next()) {
-            return rsJugador.getInt("mitjana_punts");
         } else {
             return 0;
         }

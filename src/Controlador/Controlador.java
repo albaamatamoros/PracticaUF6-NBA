@@ -1,17 +1,7 @@
 package Controlador;
-import Model.Equip.Equip;
-import Model.Jugador.Jugador;
-import Model.Jugador.JugadorDAO;
 import Vista.Vista;
-import Model.Equip.EquipDAO;
 import Model.Model;
-
-import java.security.PublicKey;
-import java.sql.Date;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 
 public class Controlador {
     static Scanner scan = new Scanner(System.in);
@@ -46,6 +36,8 @@ public class Controlador {
                         break;
                     case "2":
                         Vista.mostrarMissatge("Introdueix un jugador per calcular la seva mitjana de punts: (Ex: LeBron James)");
+                        jugadorNom = scan.nextLine();
+                        Model.exercici2(jugadorNom);
                         break;
                     case "3":
                         Vista.mostrarMissatge("Introdueix el nom d'un equip per llistar tots els partits i els seus resultats: (Ex: Denver Nuggets)");
@@ -78,12 +70,16 @@ public class Controlador {
                         jugadorNom = scan.nextLine();
                         Vista.mostrarMissatge("Introdueix un equip on trasspasar aquest jugador (Ex: Denver Nuggets)");
                         equipNom = scan.nextLine();
+                        Model.exercici5(jugadorNom,equipNom);
                         break;
                     case "6":
+                        Vista.mostrarMissatge("Actualitzant dades...");
+                        Model.exercici6();
                         break;
                     case "7":
                         Vista.mostrarMissatge("Introdueix un jugador per modificar les seves estadístiques: (Ex: LeBron James)");
                         jugadorNom = scan.nextLine();
+                        Model.exercici7(jugadorNom);
                         break;
                     case "8":
                         Vista.mostrarMissatge("Introdueix un jugador per eliminar-lo: (Ex: LeBron James)");
