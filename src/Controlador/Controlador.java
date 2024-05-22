@@ -62,6 +62,9 @@ public class Controlador {
                         Vista.mostrarMissatge("Introdueix un equip on unir a aquest jugador: (Ex: Denver Nuggets)");
                         equipNom = scan.nextLine();
 
+
+
+
                         if (!(equipDAO.cercarIdPerNom(equipNom) == null)){
                             //Crear el jugador i insertar-lo
                             Jugador jugador = new Jugador(nomCognom[0],nomCognom[1],Date.valueOf("2003-12-03"),190.56f,110.25f, "05","Forward" , equipDAO.cercarIdPerNom(equipNom));
