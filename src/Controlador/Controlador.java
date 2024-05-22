@@ -48,10 +48,11 @@ public class Controlador {
                     case "3":
                         Vista.mostrarMissatge("Introdueix el nom d'un equip per llistar tots els partits i els seus resultats: (Ex: Denver Nuggets)");
                         equipNom = scan.nextLine();
-                        //
+
                         //EquipDAO equipDAO = new EquipDAO();
                         List<Set<Map.Entry<String,Integer>>> llista = equipDAO.obtenirResultatPartits(equipNom);
                         Vista.llistarPartitsIResultats(llista);
+
                         break;
                     case "4":
                         //Insertar dades.
@@ -61,17 +62,20 @@ public class Controlador {
                         Vista.mostrarMissatge("Introdueix un equip on unir a aquest jugador: (Ex: Denver Nuggets)");
                         equipNom = scan.nextLine();
 
-                        //Crear el jugador i insertar-lo
-                        Jugador jugador = new Jugador(nomCognom[0],nomCognom[1],Date.valueOf("2003-12-03"),190.56f,110.25f, "05","Forward" , equipDAO.cercarIdPerNom(equipNom));
-                        JugadorDAO dao = new JugadorDAO();
-                        boolean correcte = dao.insertar(jugador);
+                        if (!(equipDAO.cercarIdPerNom(equipNom) == null)){
+                            //Crear el jugador i insertar-lo
+                            Jugador jugador = new Jugador(nomCognom[0],nomCognom[1],Date.valueOf("2003-12-03"),190.56f,110.25f, "05","Forward" , equipDAO.cercarIdPerNom(equipNom));
+                            JugadorDAO dao = new JugadorDAO();
+                            boolean correcte = dao.insertar(jugador);
 
-                        //Comprovar si s'ha creat correctament.
-                        if (correcte){
-                            Vista.mostrarMissatge("El jugador s'ha registrat correctament");
-                        } else {
-                            Vista.mostrarMissatge("El jugador no s'ha registrat correctament");
+                            //Comprovar si s'ha creat correctament.
+                            if (correcte){
+                                Vista.mostrarMissatge("El jugador s'ha registrat correctament");
+                            } else {
+                                Vista.mostrarMissatge("El jugador no s'ha registrat correctament");
+                            }
                         }
+
                         break;
                     case "5":
                         Vista.mostrarMissatge("Introdueix un jugador per trasspasar a un altre equip: (Ex: LeBron James)");
