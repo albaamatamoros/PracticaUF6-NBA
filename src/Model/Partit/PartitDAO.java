@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 public class PartitDAO implements DAO<Partit> {
 
+    //MÈTODES D'INTERFÍCIE DAO GENERALS
     @Override
     public boolean insertar(Partit partit) {
         Connection connexio = null;
@@ -174,4 +175,6 @@ public class PartitDAO implements DAO<Partit> {
             }
         }
     }
+
+    //MÈTODES D'INTERFÍCIE ESPECÍFICS EXERCICIS
 }

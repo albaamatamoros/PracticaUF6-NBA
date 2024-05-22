@@ -23,7 +23,7 @@ public class Vista {
     //1.- Llistar tots els jugadors d'un equip
     public static void llistarJugadorsEquip(List<Jugador> jugadors){
             for (Jugador jugador : jugadors) {
-                    System.out.println(jugador.getNom());
+                    System.out.println(jugador.getNom() + " " + jugador.getCognom());
             }
     }
 

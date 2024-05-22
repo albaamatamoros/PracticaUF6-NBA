@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
 
+    //MÈTODES D'INTERFÍCIE DAO GENERALS
     @Override
     public boolean insertar(EstadisticaJugador estadisticaJugador) {
         Connection connexio = null;
@@ -209,4 +210,6 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
             }
         }
     }
+
+    //MÈTODES D'INTERFÍCIE ESPECÍFICS EXERCICIS
 }

@@ -4,6 +4,7 @@ import Model.Jugador.Jugador;
 import Model.Jugador.JugadorDAO;
 import Vista.Vista;
 import Model.Equip.EquipDAO;
+import Model.Model;
 
 import java.security.PublicKey;
 import java.sql.Date;
@@ -14,8 +15,6 @@ import java.util.Set;
 
 public class Controlador {
     static Scanner scan = new Scanner(System.in);
-    //DAO
-    static EquipDAO equipDAO = new EquipDAO();
 
     //VARIABLES:
     //Opcio Menu
@@ -27,11 +26,14 @@ public class Controlador {
     //Variable per rebre el nom del jugador.
     public static String jugadorNom;
 
+    //
+    public static String franquiciaNom;
+
     public static void consultas() throws Exception {
         try {
             do {
                 //Canviem el limitador de scan perquè agafi espais. (Per evitar problemes amb els espais dels noms)
-                scan.useDelimiter("\n");
+                scan.useDelimiter("\\n");
                 //Cridem al menú
                 Vista.menuInicial();
                 opcio = scan.nextLine();
@@ -39,8 +41,8 @@ public class Controlador {
                     case "1":
                         Vista.mostrarMissatge("Introdueix el nom d'un equip per llistar els seus jugadors: (Ex: Denver Nuggets)");
                         equipNom = scan.nextLine();
-                        List<Jugador> jugadors = equipDAO.obtenirJugadors(equipNom);
-                        Vista.llistarJugadorsEquip(jugadors);
+                        //Cridem l'excercici 1
+                        Model.exercici1(equipNom);
                         break;
                     case "2":
                         Vista.mostrarMissatge("Introdueix un jugador per calcular la seva mitjana de punts: (Ex: LeBron James)");
@@ -48,37 +50,28 @@ public class Controlador {
                     case "3":
                         Vista.mostrarMissatge("Introdueix el nom d'un equip per llistar tots els partits i els seus resultats: (Ex: Denver Nuggets)");
                         equipNom = scan.nextLine();
-
-                        //EquipDAO equipDAO = new EquipDAO();
-                        List<Set<Map.Entry<String,Integer>>> llista = equipDAO.obtenirResultatPartits(equipNom);
-                        Vista.llistarPartitsIResultats(llista);
-
+                        //Cridem l'excercici 3
+                        Model.exercici3(equipNom);
                         break;
                     case "4":
-                        //Insertar dades.
                         Vista.mostrarMissatge("Introdueix un jugador per inserir a la taula: (Ex: LeBron James)");
                         jugadorNom = scan.nextLine();
-                        String[] nomCognom = jugadorNom.split(" ");
                         Vista.mostrarMissatge("Introdueix un equip on unir a aquest jugador: (Ex: Denver Nuggets)");
                         equipNom = scan.nextLine();
 
+                        //Cridem l'excercici 4
+                        boolean jaExisteix = Model.exercici4(jugadorNom,equipNom);
 
-
-
-                        if (!(equipDAO.cercarIdPerNom(equipNom) == null)){
-                            //Crear el jugador i insertar-lo
-                            Jugador jugador = new Jugador(nomCognom[0],nomCognom[1],Date.valueOf("2003-12-03"),190.56f,110.25f, "05","Forward" , equipDAO.cercarIdPerNom(equipNom));
-                            JugadorDAO dao = new JugadorDAO();
-                            boolean correcte = dao.insertar(jugador);
-
-                            //Comprovar si s'ha creat correctament.
-                            if (correcte){
-                                Vista.mostrarMissatge("El jugador s'ha registrat correctament");
-                            } else {
-                                Vista.mostrarMissatge("El jugador no s'ha registrat correctament");
+                        //Si el jugador ja existeix, preguntem a l'usuari si vol traspassar-lo o no.
+                        if (jaExisteix) {
+                            Vista.mostrarMissatge("El jugador ja existeix, vols traspassar-lo a un altre equip? (S/n)");
+                            //Variable Si/No per preguntar al usuari.
+                            String opcioSiNo;
+                            opcioSiNo = scan.nextLine().toUpperCase();
+                            if (opcioSiNo.equals("S") || opcioSiNo.isEmpty()) {
+                                Model.exercici5(jugadorNom,equipNom);
                             }
                         }
-
                         break;
                     case "5":
                         Vista.mostrarMissatge("Introdueix un jugador per trasspasar a un altre equip: (Ex: LeBron James)");

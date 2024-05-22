@@ -63,4 +63,8 @@ public class Jugador {
     public int getEquipId() {
         return equipId;
     }
+
+    public void setEquipId(int equipId) {
+        this.equipId = equipId;
+    }
 }

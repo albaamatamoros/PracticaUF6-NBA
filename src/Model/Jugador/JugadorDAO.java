@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class JugadorDAO implements DAO<Jugador> {
+
+    //MÈTODES D'INTERFÍCIE DAO GENERALS
     @Override
     public boolean insertar(Jugador jugador) throws SQLException {
         Connection connexio = Connexio.getConnection();
@@ -30,7 +32,7 @@ public class JugadorDAO implements DAO<Jugador> {
     public boolean actualitzar(Jugador jugador) throws SQLException {
         Connection connexio = Connexio.getConnection();
         PreparedStatement sentencia = connexio.prepareStatement(
-                "UPDATE jugadors SET nom=?,cognom=?,data_naixement=?,alcada=?,pes=?,dorsal=?,posicio=?,equip_id=? WHERE id=?"
+                "UPDATE jugadors SET nom=?,cognom=?,data_naixement=?,alcada=?,pes=?,dorsal=?,posicio=?,equip_id=? WHERE jugador_id=?"
         );
 
         sentencia.setString(1,jugador.getNom());
@@ -79,24 +81,8 @@ public class JugadorDAO implements DAO<Jugador> {
                     rsJugador.getString("posicio"),
                     rsJugador.getInt("equip_id"));
 
-            jugador.setId(rsJugador.getInt("id"));
+            jugador.setId(rsJugador.getInt("jugador_id"));
             return jugador;
-        } else {
-            return null;
-        }
-    }
-
-    public Integer cercarIdPerNom(String nomComplet) throws SQLException {
-        Connection connexio = Connexio.getConnection();
-        PreparedStatement sentencia = connexio.prepareStatement(
-                "SELECT juagdor_id,CONCAT(nom,' ',cognom) AS nom_complet FROM jugadors HAVING nom_complet LIKE = ?"
-        );
-
-        sentencia.setString(1,nomComplet);
-        ResultSet rsJugador = sentencia.executeQuery();
-
-        if (rsJugador.next()) {
-            return rsJugador.getInt("jugador_id");
         } else {
             return null;
         }
@@ -115,5 +101,43 @@ public class JugadorDAO implements DAO<Jugador> {
         return rsNumJugadors.getInt(1);
     }
 
+    //MÈTODES D'INTERFÍCIE ESPECÍFICS EXERCICIS
 
+    //4 Inserir un nou jugador a un equip.
+    public int cercarIdPerNom(String nomComplet) throws SQLException {
+        Connection connexio = Connexio.getConnection();
+        PreparedStatement sentencia = connexio.prepareStatement(
+                "SELECT jugador_id,CONCAT(nom,' ',cognom) AS nom_complet FROM jugadors HAVING nom_complet = ?"
+        );
+
+        sentencia.setString(1,nomComplet);
+        ResultSet rsJugador = sentencia.executeQuery();
+
+        if (rsJugador.next()) {
+            return rsJugador.getInt("jugador_id");
+        } else {
+            return 0;
+        }
+    }
+
+    //2 Calcular la mitjana de punts, rebots, assistències, ... d'un jugador
+    public int calculMitjana(String nomComplet) throws SQLException {
+        Connection connexio = Connexio.getConnection();
+        PreparedStatement sentencia = connexio.prepareStatement(
+                "SELECT ROUND(AVG(punts),2) AS mitjana_punts, " +
+                "ROUND(AVG(rebots_defensius) + AVG(rebots_ofensius),2) AS mitjana_rebots, " +
+                "ROUND(AVG(assistencies),2) AS mitjana_assistencies " +
+                "FROM estadistiques_jugadors " +
+                "WHERE jugador_id = ?"
+        );
+
+        sentencia.setInt(1,cercarIdPerNom(nomComplet));
+        ResultSet rsJugador = sentencia.executeQuery();
+
+        if (rsJugador.next()) {
+            return rsJugador.getInt("mitjana_punts");
+        } else {
+            return 0;
+        }
+    }
 }

@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class EquipDAO implements DAO<Equip> {
+
+    //MÈTODES D'INTERFÍCIE DAO GENERALS
     @Override
     public boolean insertar(Equip equip) throws SQLException {
         Connection connexio = Connexio.getConnection();
@@ -85,24 +87,6 @@ public class EquipDAO implements DAO<Equip> {
         }
     }
 
-    //4 Inserir un nou jugador a un equip. (Cercar l'ID)
-    public Integer cercarIdPerNom(String nomEquip) throws SQLException {
-        Connection connexio = Connexio.getConnection();
-        PreparedStatement sentencia = connexio.prepareStatement(
-                "SELECT equip_id,CONCAT(ciutat,' ',nom) AS nom_equip FROM equips HAVING nom_equip LIKE = ?"
-        );
-
-        sentencia.setString(1,nomEquip);
-        ResultSet rsEquip = sentencia.executeQuery();
-
-        if (rsEquip.next()) {
-            int equipId = rsEquip.getInt("equip_id");
-            return equipId;
-        } else {
-            return null;
-        }
-    }
-
     @Override
     public int count() throws SQLException {
         Connection connexio = Connexio.getConnection();
@@ -115,6 +99,8 @@ public class EquipDAO implements DAO<Equip> {
 
         return rsNumEquips.getInt(1);
     }
+
+    //MÈTODES D'INTERFÍCIE ESPECÍFICS EXERCICIS
 
     //1 Llistar tots els jugadors d'un equip
     public List<Jugador> obtenirJugadors(String nomEquip) throws Exception {
@@ -133,7 +119,7 @@ public class EquipDAO implements DAO<Equip> {
             JugadorDAO jugadorDAO = new JugadorDAO();
 
             while (rsJugadors.next()) {
-                llistaJugadors.add(jugadorDAO.cercar(rsJugadors.getInt("jugador_id")));
+                llistaJugadors.add(jugadorDAO.cercar(rsJugadors.getInt("j.jugador_id")));
             }
         } else {
             throw new Exception("Equip no trobat");
@@ -141,6 +127,24 @@ public class EquipDAO implements DAO<Equip> {
 
         return llistaJugadors;
 
+    }
+
+    //4 Inserir un nou jugador a un equip. (Cercar l'ID)
+    public int cercarIdPerNom(String nomEquip) throws SQLException {
+        Connection connexio = Connexio.getConnection();
+        PreparedStatement sentencia = connexio.prepareStatement(
+                "SELECT equip_id,CONCAT(ciutat,' ',nom) AS nom_equip FROM equips HAVING nom_equip = ?"
+        );
+
+        sentencia.setString(1,nomEquip);
+        ResultSet rsEquip = sentencia.executeQuery();
+
+        if (rsEquip.next()) {
+            int equipId = rsEquip.getInt("equip_id");
+            return equipId;
+        } else {
+            return 0;
+        }
     }
 
     //3 Llistar tots els partits jugats per un equip amb el seu resultat.
