@@ -1,9 +1,11 @@
 package Model;
+import Model.Equip.Equip;
 import Model.Equip.EquipDAO;
 import Model.Jugador.Jugador;
 import Model.Jugador.JugadorDAO;
 import Vista.Vista;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.*;
 
 public class Model {
@@ -100,7 +102,19 @@ public class Model {
     }
 
     //9.- Canviar nom franquícia d’un equip
-    public static void exercici9(){
+    public static void exercici9(String equipNom, String franquiciaNom) throws Exception {
+        int equipId = equipDAO.cercarIdPerNom(equipNom);
+        if (equipId != 0){
+            Equip equip = equipDAO.cercar(equipId);
+            equip.setCiutat(franquiciaNom);
 
+            boolean correcte = equipDAO.actualitzar(equip);
+
+            if (correcte) {
+                Vista.mostrarMissatge("S'ha actualitzat correctament");
+            } else {
+                Vista.mostrarMissatge("No s'ha actualitzat la franquícia");
+            }
+        } else Vista.mostrarMissatge("L'equip no existeix");
     }
 }

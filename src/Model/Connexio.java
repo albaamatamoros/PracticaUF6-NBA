@@ -22,16 +22,16 @@ public class Connexio {
     private static final String USUARI2 = "perepi";
     private static final String PASSWORD2 = "pastanaga";
 
+    /*
     //PHPMYADMIN
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL,USUARI,PASSWORD);
     }
+    */
 
-    /*
     //MAQUINA BD
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL2,USUARI2,PASSWORD2);
     }
-    */
 
 }

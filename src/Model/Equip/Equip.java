@@ -31,6 +31,10 @@ public class Equip {
         return ciutat;
     }
 
+    public void setCiutat(String ciutat) {
+        this.ciutat = ciutat;
+    }
+
     public String getNom() {
         return nom;
     }
