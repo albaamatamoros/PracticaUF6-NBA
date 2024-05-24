@@ -1,14 +1,13 @@
 package Model;
 import Model.Equip.Equip;
 import Model.Equip.EquipDAO;
+import Model.EstadisticaJugador.EstadisticaJugadorDAO;
+import Model.EstadisticsJugadorsHistorics.EstadisticaJugadorHistoric;
 import Model.Jugador.Jugador;
 import Model.Jugador.JugadorDAO;
 import Vista.Vista;
 
-import java.sql.Connection;
 import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.*;
 
 public class Model {
@@ -17,6 +16,7 @@ public class Model {
     //DAO
     static EquipDAO equipDAO = new EquipDAO();
     static JugadorDAO jugadorDAO = new JugadorDAO();
+    static EstadisticaJugadorDAO estadisticaJugadorDAO = new EstadisticaJugadorDAO();
 
     //1.- Llistar tots els jugadors d'un equip
     public static void exercici1(String equipNom) throws Exception {
@@ -105,7 +105,8 @@ public class Model {
         int jugadorId = jugadorDAO.cercarIdPerNom(jugadorNom);
 
         if (jugadorId != 0) {
-
+            estadisticaJugadorDAO.traspasarEstadistiques(jugadorId);
+            EstadisticaJugadorHistoric estadisticaJugadorHistoric = new EstadisticaJugadorHistoric();
         }
     }
 

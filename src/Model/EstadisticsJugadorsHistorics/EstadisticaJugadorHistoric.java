@@ -1,6 +1,6 @@
 package Model.EstadisticsJugadorsHistorics;
 
-public class EstadisticsJugadorsHistorics {
+public class EstadisticaJugadorHistoric {
 
     private int jugadorId;
     private int equipId;
@@ -19,7 +19,7 @@ public class EstadisticsJugadorsHistorics {
     private int robades;
     private int bloqueigs;
 
-    public EstadisticsJugadorsHistorics(int jugadorId, int equipId, int partitId, int minutsJugats, int punts, int tirsAnotats, int tirsTirats, int tirsTriplesAnotats, int tirsTriplesTirats, int tirsLliuresAnotats, int tirsLliuresTirats, int rebotsOfensius, int rebotsDefensius, int assistencies, int robades, int bloqueigs) {
+    public EstadisticaJugadorHistoric(int jugadorId, int equipId, int partitId, int minutsJugats, int punts, int tirsAnotats, int tirsTirats, int tirsTriplesAnotats, int tirsTriplesTirats, int tirsLliuresAnotats, int tirsLliuresTirats, int rebotsOfensius, int rebotsDefensius, int assistencies, int robades, int bloqueigs) {
         this.jugadorId = jugadorId;
         this.equipId = equipId;
         this.partitId = partitId;
