@@ -1,5 +1,4 @@
 from nba_api.stats.endpoints import leaguegamefinder,commonplayerinfo,playergamelogs,teaminfocommon
-import csv
 import mysql.connector
 from time import sleep
 
@@ -50,11 +49,6 @@ if contEquips <= 0:
         valorsEquips.append((equipId,ciutat,nom,acronim,divisio,guanyades,perdudes))
         sleep(0.4)
 
-    with open('equips.csv','w',newline='') as csvEquips:
-        escritorEquips = csv.writer(csvEquips,delimiter=';')
-        escritorEquips.writerow(['equip_id','ciutat','nom','acronim','divisio','guanyades','perdudes'])
-        escritorEquips.writerows(valorsEquips)
-
     try:
         cur.executemany(insertEquips,valorsEquips)
         con.commit()
@@ -96,12 +90,7 @@ if contJugadors <= 0:
             equipId = int(infoJugador['TEAM_ID'])
             valorsJugadors.append((idJugador,nom,cognom,dataNaixement,altura,pes,dorsal,posicio,equipId))
             sleep(0.4)
-            
-    with open('jugadors.csv','w',newline='') as csvJugadors:
-       escritorJugadors = csv.writer(csvJugadors, delimiter=';')
-       escritorJugadors.writerow(['jugador_id','nom','cognom','data_naixement','alcada','pes','dorsal','posicio','equip_id'])
-       escritorJugadors.writerows(valorsJugadors)
-       
+
     try:
         cur.executemany(insertJugadors, valorsJugadors)
         con.commit()
@@ -144,11 +133,6 @@ if contPartits <= 0:
             valorsPartits.append((partitId,equipId,dataPartit,matx,resultat))
         sleep(0.4)
             
-    with open('partits.csv', 'w', newline='') as csvPartits:
-       escritorPartits = csv.writer(csvPartits, delimiter=';')
-       escritorPartits.writerow(['partit_id', 'equip_id', 'data_partit', 'matx','resultat'])
-       escritorPartits.writerows(valorsPartits)
-
     try:
         cur.executemany(insertPartits, valorsPartits)
         con.commit()
@@ -207,11 +191,6 @@ if contEstadistiques <= 0:
             bloqueigs = int(log['BLK'])
             valorsEstadistiques.append((idJugador,partitId,minutsJugats,punts,tirsAnotats,tirsTirats,tirsTriplesAnotats,tirsLliuresTirats,tirsLliuresAnotats,tirsLliuresTirats,rebotsOfensius,rebotsDefensius,assistencies,robades,bloqueigs))
         sleep(0.4)
-
-    with open('estadistiques_jugadors.csv', 'w', newline='') as csvEstadistiques:
-       escritorEstadistiques = csv.writer(csvEstadistiques, delimiter=';')
-       escritorEstadistiques.writerow(["jugador_id", "partit_id", "minuts_jugats", "punts", "tirs_anotats", "tirs_tirats", "tirs_triples_anotats","tirs_triples_tirats", "tirs_lliures_anotats", "tirs_lliures_tirats", "rebots_ofensius", "rebots_defensius", "assistencies", "robades", "bloqueigs"])
-       escritorEstadistiques.writerows(valorsEstadistiques)
 
     try:
         cur.executemany(insertEstadistiques, valorsEstadistiques)

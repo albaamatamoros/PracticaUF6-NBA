@@ -174,9 +174,6 @@ public class EquipDAO implements DAO<Equip> {
                         "WHERE es.equip_id = ? GROUP BY es.partit_id ORDER BY es.partit_id"
         );
 
-        sentenciaPuntsPartitsPropis.setInt(1, equipId);
-        ResultSet rsPuntsPartitsPropis = sentenciaPuntsPartitsPropis.executeQuery();
-
         PreparedStatement sentenciaPuntsPartitsRivals = connexio.prepareStatement(
                 "SELECT CONCAT(e.ciutat,' ',e.nom) AS nom,SUM(punts) AS punts " +
                         "FROM estadistiques_jugadors es " +
@@ -186,6 +183,9 @@ public class EquipDAO implements DAO<Equip> {
                         "GROUP BY partit_id,es.equip_id " +
                         "ORDER BY partit_id"
         );
+
+        sentenciaPuntsPartitsPropis.setInt(1, equipId);
+        ResultSet rsPuntsPartitsPropis = sentenciaPuntsPartitsPropis.executeQuery();
 
         sentenciaPuntsPartitsRivals.setString(1, acronim);
         sentenciaPuntsPartitsRivals.setInt(2, equipId);
