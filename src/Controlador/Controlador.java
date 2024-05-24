@@ -16,7 +16,7 @@ public class Controlador {
     //Variable per rebre el nom del jugador.
     public static String jugadorNom;
 
-    //
+    //Variable per rebre la nova franquícia.
     public static String franquiciaNom;
 
     public static void consultas() throws Exception {
@@ -70,6 +70,7 @@ public class Controlador {
                         jugadorNom = scan.nextLine();
                         Vista.mostrarMissatge("Introdueix un equip on trasspasar aquest jugador (Ex: Denver Nuggets)");
                         equipNom = scan.nextLine();
+                        //Cridem l'excercici 5
                         Model.exercici5(jugadorNom,equipNom);
                         break;
                     case "6":
@@ -89,7 +90,10 @@ public class Controlador {
                     case "9":
                         Vista.mostrarMissatge("Introdueix un equip per modificar la seva franquícia: (Ex: Denver Nuggets)");
                         equipNom = scan.nextLine();
-                        Model.exercici9(equipNom);
+                        Vista.mostrarMissatge("Introdueix la nova franquícia:");
+                        franquiciaNom = scan.nextLine();
+                        //Cridem l'excercici 9
+                        Model.exercici9(equipNom,franquiciaNom);
                         break;
                     case "0":
                         break;
