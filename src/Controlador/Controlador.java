@@ -85,6 +85,7 @@ public class Controlador {
                     case "8":
                         Vista.mostrarMissatge("Introdueix un jugador per eliminar-lo: (Ex: LeBron James)");
                         jugadorNom = scan.nextLine();
+                        //Cridem l'excercici 8
                         Model.exercici8(jugadorNom);
                         break;
                     case "9":
