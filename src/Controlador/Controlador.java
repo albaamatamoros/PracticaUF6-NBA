@@ -84,10 +84,12 @@ public class Controlador {
                     case "8":
                         Vista.mostrarMissatge("Introdueix un jugador per eliminar-lo: (Ex: LeBron James)");
                         jugadorNom = scan.nextLine();
+                        Model.exercici8(jugadorNom);
                         break;
                     case "9":
                         Vista.mostrarMissatge("Introdueix un equip per modificar la seva franquícia: (Ex: Denver Nuggets)");
                         equipNom = scan.nextLine();
+                        Model.exercici9(equipNom);
                         break;
                     case "0":
                         break;
