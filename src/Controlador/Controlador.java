@@ -19,7 +19,7 @@ public class Controlador {
     //Variable per rebre la nova franquícia.
     public static String franquiciaNom;
 
-    public static void consultas() throws Exception {
+    public static void consultas() {
         try {
             do {
                 //Canviem el limitador de scan perquè agafi espais. (Per evitar problemes amb els espais dels noms)
@@ -99,7 +99,7 @@ public class Controlador {
                         break;
                     default:
                         System.out.println("-------------------------------");
-                        System.out.println("ATENCIÓ! Ha de ser entre 0 i 3");
+                        System.out.println("ATENCIÓ! Ha de ser entre 0 i 9");
                         System.out.println("-------------------------------");
                 }
             } while (!(opcio.equals("0")));

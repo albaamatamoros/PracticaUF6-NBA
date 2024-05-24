@@ -4,7 +4,10 @@ import Model.Equip.EquipDAO;
 import Model.Jugador.Jugador;
 import Model.Jugador.JugadorDAO;
 import Vista.Vista;
+
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -99,6 +102,15 @@ public class Model {
 
     //8.- Retirar (Eliminar) un jugador.
     public static void exercici8(String jugadorNom) throws Exception {
+
+    }
+
+    public static void crearTaulaHistoricsEX8() throws SQLException {
+        Connection connexio = null;
+        PreparedStatement sentencia = null;
+
+        connexio = Connexio.getConnection();
+        sentencia = connexio.prepareStatement("CREATE TABLE IF NOT EXISTS user(user_id SERIAL NOT NULL PRIMARY KEY,username varchar(225) NOT NULL UNIQUE,password varchar(225),islogged varchar(10))");
     }
 
     //9.- Canviar nom franquícia d’un equip
