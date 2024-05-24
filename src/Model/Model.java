@@ -97,7 +97,7 @@ public class Model {
 
     //7.- Modificar les estadístiques d’un jugador
     public static void exercici7(String jugadorNom) throws Exception {
-        
+
     }
 
     //8.- Retirar (Eliminar) un jugador.
