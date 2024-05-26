@@ -2,17 +2,17 @@ package Model.Partit;
 import java.sql.Date;
 
 public class Partit {
+    private int partitId;
     private int equipId;
     private Date dataPartit;
     private String matx;
-    private int partitId;
     private String resultat;
 
-    public Partit(int equipId, Date dataPartit, String matx, int partitId, String resultat) {
+    public Partit( int partitId, int equipId, Date dataPartit, String matx, String resultat) {
+        this.partitId = partitId;
         this.equipId = equipId;
         this.dataPartit = dataPartit;
         this.matx = matx;
-        this.partitId = partitId;
         this.resultat = resultat;
     }
 
