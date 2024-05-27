@@ -24,6 +24,7 @@ public class Model {
     static Scanner scan = new Scanner(System.in);
 
     //DAO
+    //Creem un nou objecte de cada classe dao necessària.
     static EquipDAO equipDAO = new EquipDAO();
     static JugadorDAO jugadorDAO = new JugadorDAO();
     static PartitDAO partitDAO = new PartitDAO();
@@ -31,13 +32,17 @@ public class Model {
 
     //1.- Llistar tots els jugadors d'un equip
     public static void exercici1(String equipNom) throws Exception {
+        //Fem una llista jugadors per poder guardar i mostrar tots els jugadors de l'equip demanat.
         List<Jugador> jugadors = equipDAO.obtenirJugadors(equipNom);
+        //Mostra la llista de jugadors.
         Vista.llistarJugadorsEquip(jugadors);
     }
 
     //2.- Calcular la mitjana de punts, rebots, assistències, ... d'un jugador
     public static void exercici2(String jugadorNom) throws Exception {
+        //Utilitzem un LinkedHasMap per mostrar els càlculs de les mitjanes de forma ordenada.
         LinkedHashMap<String,Float> mitjanes = jugadorDAO.calcularMitjana(jugadorNom);
+        //Mostrem totes les mitjanes.
         Vista.llistarMitjanes(mitjanes);
     }
 

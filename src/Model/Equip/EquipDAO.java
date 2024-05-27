@@ -104,6 +104,7 @@ public class EquipDAO implements DAO<Equip> {
 
     //1 Llistar tots els jugadors d'un equip
     public List<Jugador> obtenirJugadors(String nomEquip) throws Exception {
+        //Connectem a la BD.
         Connection connexio = Connexio.getConnection();
         PreparedStatement sentenciaJugadors = connexio.prepareStatement(
                 "SELECT j.jugador_id,CONCAT(e.ciutat,' ',e.nom) AS nom_equip FROM jugadors j INNER JOIN equips e ON j.equip_id = e.equip_id HAVING nom_equip = ?"

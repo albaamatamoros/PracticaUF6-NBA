@@ -1,11 +1,14 @@
 package Model;
+import Controlador.Controlador;
+import Vista.Vista;
 import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+//Classe connexió amb la connexió a la base de dades.
 public class Connexio {
 
-    //PHPMYADMIN/10.94.255.99 Santi PhpMyAdmin 3336
+    //PHPMYADMIN: 10.94.255.99 Santi PhpMyAdmin 3336
     //nba_2023-24
     //root mas
 
@@ -14,7 +17,7 @@ public class Connexio {
     private static final String USUARI = "root";
     private static final String PASSWORD = "mas";
 
-    //MAQUINA BD/192.168.56.103:3306
+    //MAQUINA BD: 192.168.56.103:3306
     //nba_2023_24
     //perepi pastanaga
 
@@ -22,17 +25,24 @@ public class Connexio {
     private static final String USUARI2 = "perepi";
     private static final String PASSWORD2 = "pastanaga";
 
-
+    //Comprovem si la base de dades principals és operativa, si no és el cas donarà una excepció que tractarem intent connectarà amb la BD secundària.
     public static Connection getConnection() throws SQLException {
         try {
             return DriverManager.getConnection(URL,USUARI,PASSWORD);
         } catch (SQLException e) {
             try {
+                Vista.mostrarMissatge("Connectant... 192.168.56.103:3306");
                 return DriverManager.getConnection(URL2,USUARI,PASSWORD);
             } catch (SQLException e1) {
-                return DriverManager.getConnection(URL3,USUARI2,PASSWORD2);
+                try {
+                    Vista.mostrarMissatge("Connectant.... localhost:3306");
+                    return DriverManager.getConnection(URL3,USUARI2,PASSWORD2);
+                } catch (SQLException e2) {
+                    Vista.mostrarMissatge("No s'ha pogut connectar amb cap BD");
+                }
             }
         }
+        Controlador.consultas();
+        return null;
     }
-
 }
