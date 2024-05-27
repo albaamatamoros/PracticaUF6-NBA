@@ -104,7 +104,7 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
                     rsEstadisticaJugador.getInt("punts"),
                     rsEstadisticaJugador.getInt("tirs_anotats"),
                     rsEstadisticaJugador.getInt("tirs_tirats"),
-                    rsEstadisticaJugador.getInt("tirs_triples_antotats"),
+                    rsEstadisticaJugador.getInt("tirs_triples_anotats"),
                     rsEstadisticaJugador.getInt("tirs_triples_tirats"),
                     rsEstadisticaJugador.getInt("tirs_lliures_anotats"),
                     rsEstadisticaJugador.getInt("tirs_lliures_tirats"),
@@ -127,6 +127,7 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
 
         ResultSet rsEstadisticaJugador = sentencia.executeQuery();
         rsEstadisticaJugador.next();
+
         return rsEstadisticaJugador.getInt(1);
     }
 
@@ -165,7 +166,8 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
         }
         return true;
     }
-    public void traspasarEstadistiques(int jugadorId) throws SQLException {
+
+    public List<EstadisticaJugador> obtenirEstadistiques(int jugadorId) throws SQLException {
         Connection connexio = Connexio.getConnection();
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT * FROM estadistiques_jugadors WHERE jugador_id = ?"
@@ -173,7 +175,9 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
 
         sentencia.setInt(1,jugadorId);
         ResultSet rsEstadisticaJugador = sentencia.executeQuery();
+
         List<EstadisticaJugador> llistaEstadistiques = new ArrayList<>();
+
         while (rsEstadisticaJugador.next()) {
             EstadisticaJugador e = new EstadisticaJugador(
                     rsEstadisticaJugador.getInt("jugador_id"),
@@ -183,7 +187,7 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
                     rsEstadisticaJugador.getInt("punts"),
                     rsEstadisticaJugador.getInt("tirs_anotats"),
                     rsEstadisticaJugador.getInt("tirs_tirats"),
-                    rsEstadisticaJugador.getInt("tirs_triples_antotats"),
+                    rsEstadisticaJugador.getInt("tirs_triples_anotats"),
                     rsEstadisticaJugador.getInt("tirs_triples_tirats"),
                     rsEstadisticaJugador.getInt("tirs_lliures_anotats"),
                     rsEstadisticaJugador.getInt("tirs_lliures_tirats"),
@@ -192,10 +196,11 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
                     rsEstadisticaJugador.getInt("assistencies"),
                     rsEstadisticaJugador.getInt("robades"),
                     rsEstadisticaJugador.getInt("bloqueigs"));
-
             e.setJugadorId(rsEstadisticaJugador.getInt("jugador_id"));
 
             llistaEstadistiques.add(e);
         }
+
+        return llistaEstadistiques;
     }
 }

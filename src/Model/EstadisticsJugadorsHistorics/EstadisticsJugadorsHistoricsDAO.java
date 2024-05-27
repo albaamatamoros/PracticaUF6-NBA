@@ -4,50 +4,35 @@ import Model.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 public class EstadisticsJugadorsHistoricsDAO implements DAO<EstadisticaJugadorHistoric> {
 
     @Override
     public boolean insertar(EstadisticaJugadorHistoric estadisticaJugadorHistoric) throws SQLException {
-        Connection connexio = null;
-        PreparedStatement sentencia = null;
+        Connection connexio = Connexio.getConnection();
+        PreparedStatement sentencia = connexio.prepareStatement("INSERT INTO estadistiques_jugadors_historics (jugador_id,nom,cognom,equip_id,partit_id,minuts_jugats,punts,tirs_anotats,tirs_tirats,tirs_triples_anotats,tirs_triples_tirats,tirs_lliures_anotats,tirs_lliures_tirats,rebots_ofensius,rebots_defensius,assistencies,robades,bloqueigs) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
-        try {
-            connexio = Connexio.getConnection();
-            sentencia = connexio.prepareStatement("INSERT INTO estadistics_jugadors_historics (jugador_id,equip_id,partit_id,minuts_jugats,punts,tirs_anotats,tirs_tirats,tirs_triples_antotats,tirs_triples_tirats,tirs_lliures_anotats,tirs_lliures_tirats,rebots_ofensius,rebots_defensius,assistencies,robades,bloqueigs) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        sentencia.setInt(1, estadisticaJugadorHistoric.getJugadorId());
+        sentencia.setString(2, estadisticaJugadorHistoric.getNom());
+        sentencia.setString(3, estadisticaJugadorHistoric.getCognom());
+        sentencia.setInt(4, estadisticaJugadorHistoric.getEquipId());
+        sentencia.setInt(5, estadisticaJugadorHistoric.getPartitId());
+        sentencia.setFloat(6, estadisticaJugadorHistoric.getMinutsJugats());
+        sentencia.setInt(7, estadisticaJugadorHistoric.getPunts());
+        sentencia.setInt(8, estadisticaJugadorHistoric.getTirsAnotats());
+        sentencia.setInt(9, estadisticaJugadorHistoric.getTirsTirats());
+        sentencia.setInt(10, estadisticaJugadorHistoric.getTirsTriplesAnotats());
+        sentencia.setInt(11, estadisticaJugadorHistoric.getTirsTriplesTirats());
+        sentencia.setInt(12, estadisticaJugadorHistoric.getTirsLliuresAnotats());
+        sentencia.setInt(13, estadisticaJugadorHistoric.getTirsLliuresTirats());
+        sentencia.setInt(14, estadisticaJugadorHistoric.getRebotsOfensius());
+        sentencia.setInt(15, estadisticaJugadorHistoric.getRebotsDefensius());
+        sentencia.setInt(16, estadisticaJugadorHistoric.getAssistencies());
+        sentencia.setInt(17, estadisticaJugadorHistoric.getRobades());
+        sentencia.setInt(18, estadisticaJugadorHistoric.getBloqueigs());
 
-            sentencia.setInt(1, estadisticaJugadorHistoric.getJugadorId());
-            sentencia.setInt(2, estadisticaJugadorHistoric.getEquipId());
-            sentencia.setInt(3, estadisticaJugadorHistoric.getPartitId());
-            sentencia.setFloat(4, estadisticaJugadorHistoric.getMinutsJugats());
-            sentencia.setInt(5, estadisticaJugadorHistoric.getPunts());
-            sentencia.setInt(6, estadisticaJugadorHistoric.getTirsAnotats());
-            sentencia.setInt(7, estadisticaJugadorHistoric.getTirsTirats());
-            sentencia.setInt(8, estadisticaJugadorHistoric.getTirsTriplesAnotats());
-            sentencia.setInt(9, estadisticaJugadorHistoric.getTirsTriplesTirats());
-            sentencia.setInt(10, estadisticaJugadorHistoric.getTirsLliuresAnotats());
-            sentencia.setInt(11, estadisticaJugadorHistoric.getTirsLliuresTirats());
-            sentencia.setInt(12, estadisticaJugadorHistoric.getRebotsOfensius());
-            sentencia.setInt(13, estadisticaJugadorHistoric.getRebotsDefensius());
-            sentencia.setInt(14, estadisticaJugadorHistoric.getAssistencies());
-            sentencia.setInt(15, estadisticaJugadorHistoric.getRobades());
-            sentencia.setInt(16, estadisticaJugadorHistoric.getBloqueigs());
-            return sentencia.executeUpdate() > 0;
-
-        }catch (SQLException e) {
-            return false;
-        } finally {
-            try {
-                if (sentencia != null) {
-                    sentencia.close();
-                }
-                if (connexio != null) {
-                    connexio.close();
-                }
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
-        }
+        return sentencia.executeUpdate() > 0;
     }
 
     @Override
@@ -68,5 +53,43 @@ public class EstadisticsJugadorsHistoricsDAO implements DAO<EstadisticaJugadorHi
     @Override
     public int count() throws SQLException {
         return 0;
+    }
+
+    public boolean traspassarEstadistiques(List<EstadisticaJugadorHistoric> estadistiquesHistoriques) throws SQLException {
+        Connection connexio = Connexio.getConnection();
+        PreparedStatement sentencia = connexio.prepareStatement(
+                "INSERT INTO estadistiques_jugadors_historics (jugador_id,nom,cognom,equip_id,partit_id,minuts_jugats,punts,tirs_anotats,tirs_tirats,tirs_triples_anotats,tirs_triples_tirats,tirs_lliures_anotats,tirs_lliures_tirats,rebots_ofensius,rebots_defensius,assistencies,robades,bloqueigs) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+        );
+        connexio.setAutoCommit(false);
+
+        for (EstadisticaJugadorHistoric estadisticaHistorica : estadistiquesHistoriques) {
+            sentencia.setInt(1,estadisticaHistorica.getJugadorId());
+            sentencia.setString(2,estadisticaHistorica.getNom());
+            sentencia.setString(3,estadisticaHistorica.getCognom());
+            sentencia.setInt(4,estadisticaHistorica.getEquipId());
+            sentencia.setInt(5,estadisticaHistorica.getPartitId());
+            sentencia.setFloat(6,estadisticaHistorica.getMinutsJugats());
+            sentencia.setInt(7,estadisticaHistorica.getPunts());
+            sentencia.setInt(8,estadisticaHistorica.getTirsAnotats());
+            sentencia.setInt(9,estadisticaHistorica.getTirsTirats());
+            sentencia.setInt(10,estadisticaHistorica.getTirsTriplesAnotats());
+            sentencia.setInt(11,estadisticaHistorica.getTirsTriplesTirats());
+            sentencia.setInt(12,estadisticaHistorica.getTirsLliuresAnotats());
+            sentencia.setInt(13,estadisticaHistorica.getTirsLliuresTirats());
+            sentencia.setInt(14,estadisticaHistorica.getRebotsOfensius());
+            sentencia.setInt(15,estadisticaHistorica.getRebotsDefensius());
+            sentencia.setInt(16,estadisticaHistorica.getAssistencies());
+            sentencia.setInt(17,estadisticaHistorica.getRobades());
+            sentencia.setInt(18,estadisticaHistorica.getBloqueigs());
+
+            boolean correcte = sentencia.executeUpdate() > 0;
+
+            if (!correcte) {
+                connexio.rollback();
+                return false;
+            }
+        }
+        connexio.commit();
+        return true;
     }
 }

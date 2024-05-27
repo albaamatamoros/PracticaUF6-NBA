@@ -97,6 +97,7 @@ public class PartitDAO implements DAO<Partit> {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "UPDATE partits SET data_partit=?, matx=?, resultat=? WHERE partit_id=? AND equip_id =?"
         );
+        connexio.setAutoCommit(false);
 
         for (Partit partit : partits) {
             sentencia.setDate(1,partit.getDataPartit());
@@ -108,9 +109,11 @@ public class PartitDAO implements DAO<Partit> {
             boolean correcte = sentencia.executeUpdate() > 0;
 
             if (!correcte) {
+                connexio.rollback();
                 return false;
             }
         }
+        connexio.commit();
         return true;
     }
 }
