@@ -213,4 +213,23 @@ if contEstadistiques <= 0:
 else:
     print("Ya hi ha valors a la taula 'estadistiques_jugadors'")
 
+cur.execute("""CREATE TABLE IF NOT EXISTS estadistiques_jugadors_historics (    jugador_id INT UNSIGNED NOT NULL,
+                                                                                nom VARCHAR(150) NOT NULL,
+                                                                                cognom VARCHAR(150) NOT NULL,
+                                                                                equip_id INT UNSIGNED NOT NULL,
+                                                                                partit_id INT UNSIGNED NOT NULL,
+                                                                                minuts_jugats DECIMAL(4,2) UNSIGNED NOT NULL,
+                                                                                punts TINYINT(3) UNSIGNED NOT NULL,
+                                                                                tirs_anotats TINYINT(2) UNSIGNED NOT NULL,
+                                                                                tirs_tirats TINYINT(2) UNSIGNED NOT NULL,
+                                                                                tirs_triples_anotats TINYINT(2) UNSIGNED NOT NULL,
+                                                                                tirs_triples_tirats TINYINT(2) UNSIGNED NOT NULL,
+                                                                                tirs_lliures_anotats TINYINT(2) UNSIGNED NOT NULL,
+                                                                                tirs_lliures_tirats TINYINT(2) UNSIGNED NOT NULL,
+                                                                                rebots_ofensius TINYINT(2) UNSIGNED NOT NULL,
+                                                                                rebots_defensius TINYINT(2) UNSIGNED NOT NULL,
+                                                                                assistencies TINYINT(2) UNSIGNED NOT NULL,
+                                                                                robades TINYINT(2) UNSIGNED NOT NULL,
+                                                                                bloqueigs TINYINT(2) UNSIGNED NOT NULL)""")
+
 con.close()

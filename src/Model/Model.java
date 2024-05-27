@@ -1,27 +1,23 @@
 package Model;
-import Model.Equip.Equip;
-import Model.Equip.EquipDAO;
-import Model.EstadisticaJugador.EstadisticaJugador;
-import Model.EstadisticaJugador.EstadisticaJugadorDAO;
-import Model.EstadisticsJugadorsHistorics.EstadisticaJugadorHistoric;
-import Model.Jugador.Jugador;
-import Model.Jugador.JugadorDAO;
-import Model.Partit.Partit;
-import Model.Partit.PartitDAO;
+import Model.Equip.*;
+import Model.EstadisticaJugador.*;
+import Model.EstadisticsJugadorsHistorics.*;
+import Model.Jugador.*;
+import Model.Partit.*;
 import Vista.Vista;
+import com.sun.source.tree.LiteralTree;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
-import java.sql.Connection;
 import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.util.*;
 
 public class Model {
     static Scanner scan = new Scanner(System.in);
+    static Random random = new Random();
 
     //DAO
     //Creem un nou objecte de cada classe dao necessària.
@@ -29,6 +25,7 @@ public class Model {
     static JugadorDAO jugadorDAO = new JugadorDAO();
     static PartitDAO partitDAO = new PartitDAO();
     static EstadisticaJugadorDAO estadisticaJugadorDAO = new EstadisticaJugadorDAO();
+    static EstadisticsJugadorsHistoricsDAO estadisticsJugadorsHistoricsDAO = new EstadisticsJugadorsHistoricsDAO();
 
     //1.- Llistar tots els jugadors d'un equip
     public static void exercici1(String equipNom) throws Exception {
@@ -55,29 +52,10 @@ public class Model {
     //4.- Inserir un nou jugador a un equip.
     public static boolean exercici4(String jugadorNom, String equipNom) throws Exception {
         if (jugadorDAO.cercarIdPerNom(jugadorNom) == 0) {
-            if (equipDAO.cercarIdPerNom(equipNom) != 0) {
-                //Crear el jugador i insertar-lo
-
-                String[] nomCognom = jugadorNom.split(" ");
-                String nom;
-                String cognom;
-
-                if (nomCognom.length > 2) {
-                    nom = nomCognom[0] + " " + nomCognom[1];
-                    cognom = nomCognom[2];
-                } else {
-                    nom = nomCognom[0];
-                    cognom = nomCognom[1];
-                }
-
-                Jugador jugador = new Jugador(nom,cognom,
-                        Date.valueOf("2003-12-03"),
-                        190.56f,
-                        110.25f,
-                        "05",
-                        "Forward" ,
-                        equipDAO.cercarIdPerNom(equipNom));
-
+            int equipId = equipDAO.cercarIdPerNom(equipNom);
+            if (equipId != 0) {
+                //Generar el jugador i insertar-lo
+                Jugador jugador = generarJugadorAleatori(jugadorNom,equipId);
                 boolean correcte = jugadorDAO.insertar(jugador);
 
                 //Comprovar si s'ha creat correctament.
@@ -88,6 +66,31 @@ public class Model {
             }
         } else { return true; }
         return false;
+    }
+
+    private static Jugador generarJugadorAleatori(String jugadorNom, int equipId) throws Exception {
+        String[] nomComplet = jugadorNom.split(" ");
+        String nom;
+        String cognom;
+
+        if (nomComplet.length > 2) {
+            nom = nomComplet[0] + " " + nomComplet[1];
+            cognom = nomComplet[2];
+        } else {
+            nom = nomComplet[0];
+            cognom = nomComplet[1];
+        }
+
+        String[] numeros = {"0","1","2","3","4","5","6","7","8","9"};
+        String[] posicions = {"Forward","Guard","Center-Forward","Forward-Center","Center","Guard-Forward","Forward-Guard"};
+
+        Date dataNaixementAleatoria = Date.valueOf(LocalDate.of(random.nextInt(3000) + 1,random.nextInt(12) + 1,random.nextInt(28) + 1));
+        Float alcadaAleatoria = random.nextFloat(170f,300f);
+        Float pesAleatori = random.nextFloat(65f, 150f);
+        String dorsalRandom = numeros[random.nextInt(numeros.length)] + numeros[random.nextInt(numeros.length)];
+        String posicioAleatoria = posicions[random.nextInt(posicions.length)];
+
+        return new Jugador(nom,cognom,dataNaixementAleatoria,alcadaAleatoria,pesAleatori,dorsalRandom,posicioAleatoria,equipId);
     }
 
     //5.- Traspassar un judador a un altra equip
@@ -128,7 +131,7 @@ public class Model {
             int codiSortida = proces.waitFor();
 
             if (codiSortida != 0) {
-                throw new Exception("Ha ocurregut un error en l'execució del script");
+                throw new Exception("Ha ocurregut un error en l'execució del script Python");
             }
         }
 
@@ -196,8 +199,34 @@ public class Model {
         int jugadorId = jugadorDAO.cercarIdPerNom(jugadorNom);
 
         if (jugadorId != 0) {
-            estadisticaJugadorDAO.traspasarEstadistiques(jugadorId);
-            //EstadisticaJugadorHistoric estadisticaJugadorHistoric = new EstadisticaJugadorHistoric();
+            Jugador jugador = jugadorDAO.cercar(jugadorId);
+            List<EstadisticaJugador> estadistiques = estadisticaJugadorDAO.obtenirEstadistiques(jugadorId);
+            List<EstadisticaJugadorHistoric> estadistiquesHistoriques = new ArrayList<>();
+
+            for (EstadisticaJugador estadistica : estadistiques) {
+                EstadisticaJugadorHistoric eH = new EstadisticaJugadorHistoric(jugadorId,
+                        jugador.getNom(),
+                        jugador.getCognom(),
+                        estadistica.getEquipId(),
+                        estadistica.getPartitId(),
+                        estadistica.getMinutsJugats(),
+                        estadistica.getPunts(),
+                        estadistica.getTirsAnotats(),
+                        estadistica.getTirsTirats(),
+                        estadistica.getTirsTriplesAnotats(),
+                        estadistica.getTirsTriplesTirats(),
+                        estadistica.getTirsLliuresAnotats(),
+                        estadistica.getTirsLliuresTirats(),
+                        estadistica.getRebotsOfensius(),
+                        estadistica.getRebotsDefensius(),
+                        estadistica.getAssistencies(),
+                        estadistica.getRobades(),
+                        estadistica.getBloqueigs());
+
+                estadistiquesHistoriques.add(eH);
+            }
+
+            estadisticsJugadorsHistoricsDAO.traspassarEstadistiques(estadistiquesHistoriques);
         }
     }
 

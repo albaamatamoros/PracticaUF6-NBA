@@ -1,6 +1,8 @@
 package Controlador;
 import Vista.Vista;
 import Model.Model;
+
+import javax.sound.midi.VoiceStatus;
 import java.util.Scanner;
 
 //Classe controlador on demanem les dades a l'usuari.
@@ -35,6 +37,7 @@ public class Controlador {
                         //REGEX amb excepció per no permetre inserir números en l'equip.
                         if (!equipNom.matches("^[a-zA-Z]+$")) throw new Exception("El nom d'un equip no pot contenir números.");
                         //Cridem l'excercici 1
+                        Vista.mostrarMissatge("Cercant jugadors...");
                         Model.exercici1(equipNom);
                         break;
                     case "2":
@@ -42,12 +45,14 @@ public class Controlador {
                         jugadorNom = scan.nextLine();
                         //REGEX amb excepció per no permetre inserir números en el nom.
                         if (!jugadorNom.matches("^[a-zA-Z]+$")) throw new Exception("Un nom només pot contenir lletres.");
+                        Vista.mostrarMissatge("Cercant mitjana...");
                         Model.exercici2(jugadorNom);
                         break;
                     case "3":
                         Vista.mostrarMissatge("Introdueix el nom d'un equip per llistar tots els partits i els seus resultats: (Ex: Denver Nuggets)");
                         equipNom = scan.nextLine();
                         if (!equipNom.matches("^[a-zA-Z]+$")) throw new Exception("El nom d'un equip no pot contenir números.");
+                        Vista.mostrarMissatge("Cercant resultats...");
                         //Cridem l'excercici 3
                         Model.exercici3(equipNom);
                         break;
@@ -58,6 +63,7 @@ public class Controlador {
                         Vista.mostrarMissatge("Introdueix un equip on unir a aquest jugador: (Ex: Denver Nuggets)");
                         equipNom = scan.nextLine();
                         if (!equipNom.matches("^[a-zA-Z]+$")) throw new Exception("El nom d'un equip no pot contenir números.");
+                        Vista.mostrarMissatge("Introduint jugador...");
 
                         //Cridem l'excercici 4
                         boolean jaExisteix = Model.exercici4(jugadorNom,equipNom);
@@ -69,6 +75,7 @@ public class Controlador {
                             String opcioSiNo;
                             opcioSiNo = scan.nextLine().toUpperCase();
                             if (opcioSiNo.equals("S") || opcioSiNo.isEmpty()) {
+                                Vista.mostrarMissatge("Trasspasant jugador...");
                                 Model.exercici5(jugadorNom,equipNom);
                             }
                         }
@@ -81,6 +88,7 @@ public class Controlador {
                         equipNom = scan.nextLine();
                         if (!equipNom.matches("^[a-zA-Z]+$")) throw new Exception("El nom d'un equip no pot contenir números.");
                         //Cridem l'excercici 5
+                        Vista.mostrarMissatge("Trasspasant jugador...");
                         Model.exercici5(jugadorNom,equipNom);
                         break;
                     case "6":
@@ -91,12 +99,14 @@ public class Controlador {
                         Vista.mostrarMissatge("Introdueix un jugador per modificar les seves estadístiques: (Ex: LeBron James)");
                         jugadorNom = scan.nextLine();
                         if (!jugadorNom.matches("^[a-zA-Z]+$")) throw new Exception("Un nom només pot contenir lletres.");
+                        Vista.mostrarMissatge("Modifcant dades dels partits...");
                         Model.exercici7(jugadorNom);
                         break;
                     case "8":
                         Vista.mostrarMissatge("Introdueix un jugador per eliminar-lo: (Ex: LeBron James)");
                         jugadorNom = scan.nextLine();
                         if (!jugadorNom.matches("^[a-zA-Z]+$")) throw new Exception("Un nom només pot contenir lletres.");
+                        Vista.mostrarMissatge("Retirant jugador...");
                         //Cridem l'excercici 8
                         Model.exercici8(jugadorNom);
                         break;
@@ -109,6 +119,7 @@ public class Controlador {
                         franquiciaNom = scan.nextLine();
                         if (!jugadorNom.matches("^[a-zA-Z]+$")) throw new Exception("Una franquícia no pot contenir números.");
                         //Cridem l'excercici 9
+                        Vista.mostrarMissatge("Modificant equip...");
                         Model.exercici9(equipNom,franquiciaNom);
                         break;
                     case "0":

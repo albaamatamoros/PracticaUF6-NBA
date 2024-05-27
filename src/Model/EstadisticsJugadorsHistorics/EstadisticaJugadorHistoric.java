@@ -3,9 +3,11 @@ package Model.EstadisticsJugadorsHistorics;
 public class EstadisticaJugadorHistoric {
 
     private int jugadorId;
+    private String nom;
+    private String cognom;
     private int equipId;
     private int partitId;
-    private int minutsJugats;
+    private float minutsJugats;
     private int punts;
     private int tirsAnotats;
     private int tirsTirats;
@@ -19,8 +21,10 @@ public class EstadisticaJugadorHistoric {
     private int robades;
     private int bloqueigs;
 
-    public EstadisticaJugadorHistoric(int jugadorId, int equipId, int partitId, int minutsJugats, int punts, int tirsAnotats, int tirsTirats, int tirsTriplesAnotats, int tirsTriplesTirats, int tirsLliuresAnotats, int tirsLliuresTirats, int rebotsOfensius, int rebotsDefensius, int assistencies, int robades, int bloqueigs) {
+    public EstadisticaJugadorHistoric(int jugadorId, String nom, String cognom, int equipId, int partitId, float minutsJugats, int punts, int tirsAnotats, int tirsTirats, int tirsTriplesAnotats, int tirsTriplesTirats, int tirsLliuresAnotats, int tirsLliuresTirats, int rebotsOfensius, int rebotsDefensius, int assistencies, int robades, int bloqueigs) {
         this.jugadorId = jugadorId;
+        this.nom = nom;
+        this.cognom = cognom;
         this.equipId = equipId;
         this.partitId = partitId;
         this.minutsJugats = minutsJugats;
@@ -46,6 +50,22 @@ public class EstadisticaJugadorHistoric {
         this.jugadorId = jugadorId;
     }
 
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getCognom() {
+        return cognom;
+    }
+
+    public void setCognom(String cognom) {
+        this.cognom = cognom;
+    }
+
     public int getEquipId() {
         return equipId;
     }
@@ -62,7 +82,7 @@ public class EstadisticaJugadorHistoric {
         this.partitId = partitId;
     }
 
-    public int getMinutsJugats() {
+    public float getMinutsJugats() {
         return minutsJugats;
     }
 
