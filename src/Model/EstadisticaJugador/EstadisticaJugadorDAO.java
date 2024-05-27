@@ -5,8 +5,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-
+//asa
 
 public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
 
@@ -163,5 +164,38 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
             }
         }
         return true;
+    }
+    public void traspasarEstadistiques(int jugadorId) throws SQLException {
+        Connection connexio = Connexio.getConnection();
+        PreparedStatement sentencia = connexio.prepareStatement(
+                "SELECT * FROM estadistiques_jugadors WHERE jugador_id = ?"
+        );
+
+        sentencia.setInt(1,jugadorId);
+        ResultSet rsEstadisticaJugador = sentencia.executeQuery();
+        List<EstadisticaJugador> llistaEstadistiques = new ArrayList<>();
+        while (rsEstadisticaJugador.next()) {
+            EstadisticaJugador e = new EstadisticaJugador(
+                    rsEstadisticaJugador.getInt("jugador_id"),
+                    rsEstadisticaJugador.getInt("equip_id"),
+                    rsEstadisticaJugador.getInt("partit_id"),
+                    rsEstadisticaJugador.getFloat("minuts_jugats"),
+                    rsEstadisticaJugador.getInt("punts"),
+                    rsEstadisticaJugador.getInt("tirs_anotats"),
+                    rsEstadisticaJugador.getInt("tirs_tirats"),
+                    rsEstadisticaJugador.getInt("tirs_triples_antotats"),
+                    rsEstadisticaJugador.getInt("tirs_triples_tirats"),
+                    rsEstadisticaJugador.getInt("tirs_lliures_anotats"),
+                    rsEstadisticaJugador.getInt("tirs_lliures_tirats"),
+                    rsEstadisticaJugador.getInt("rebots_ofensius"),
+                    rsEstadisticaJugador.getInt("rebots_defensius"),
+                    rsEstadisticaJugador.getInt("assistencies"),
+                    rsEstadisticaJugador.getInt("robades"),
+                    rsEstadisticaJugador.getInt("bloqueigs"));
+
+            e.setJugadorId(rsEstadisticaJugador.getInt("jugador_id"));
+
+            llistaEstadistiques.add(e);
+        }
     }
 }

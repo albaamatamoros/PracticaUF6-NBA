@@ -3,6 +3,7 @@ import Model.Equip.Equip;
 import Model.Equip.EquipDAO;
 import Model.EstadisticaJugador.EstadisticaJugador;
 import Model.EstadisticaJugador.EstadisticaJugadorDAO;
+import Model.EstadisticsJugadorsHistorics.EstadisticaJugadorHistoric;
 import Model.Jugador.Jugador;
 import Model.Jugador.JugadorDAO;
 import Model.Partit.Partit;
@@ -190,7 +191,8 @@ public class Model {
         int jugadorId = jugadorDAO.cercarIdPerNom(jugadorNom);
 
         if (jugadorId != 0) {
-
+            estadisticaJugadorDAO.traspasarEstadistiques(jugadorId);
+            //EstadisticaJugadorHistoric estadisticaJugadorHistoric = new EstadisticaJugadorHistoric();
         }
     }
 
