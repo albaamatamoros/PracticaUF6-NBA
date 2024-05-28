@@ -12,8 +12,10 @@ import java.util.LinkedHashMap;
 public class JugadorDAO implements DAO<Jugador> {
 
     //MÈTODES D'INTERFÍCIE DAO GENERALS
+    //Insertar
     @Override
     public boolean insertar(Jugador jugador, Connection connexio) throws SQLException {
+        Vista.mostrarMissatge("INTRODUINT JUGADOR...");
         PreparedStatement sentencia = connexio.prepareStatement(
                 "INSERT INTO jugadors (nom,cognom,data_naixement,alcada,pes,dorsal,posicio,equip_id) VALUES (?,?,?,?,?,?,?,?)"
         );
@@ -30,8 +32,10 @@ public class JugadorDAO implements DAO<Jugador> {
         return sentencia.executeUpdate() > 0;
     }
 
+    //Actulitzar
     @Override
     public boolean actualitzar(Jugador jugador, Connection connexio) throws SQLException {
+        Vista.mostrarMissatge("TRASSPASANT JUGADOR...");
         PreparedStatement sentencia = connexio.prepareStatement(
                 "UPDATE jugadors SET nom=?,cognom=?,data_naixement=?,alcada=?,pes=?,dorsal=?,posicio=?,equip_id=? WHERE jugador_id=?"
         );
@@ -49,6 +53,7 @@ public class JugadorDAO implements DAO<Jugador> {
         return sentencia.executeUpdate() > 0;
     }
 
+    //Esborrar
     @Override
     public boolean esborrar(Jugador jugador, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
@@ -60,6 +65,7 @@ public class JugadorDAO implements DAO<Jugador> {
         return sentencia.executeUpdate() > 0;
     }
 
+    //Buscar
     @Override
     public Jugador cercar(int id, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
@@ -87,6 +93,7 @@ public class JugadorDAO implements DAO<Jugador> {
         }
     }
 
+    //Contar
     @Override
     public int count(Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
@@ -103,7 +110,7 @@ public class JugadorDAO implements DAO<Jugador> {
 
     //2 Calcular la mitjana de punts, rebots, assistències, ... d'un jugador
     public LinkedHashMap<String,Float> calcularMitjana(String nomComplet, Connection connexio) throws Exception {
-        Vista.mostrarMissatge("Cercant mitjana...");
+        Vista.mostrarMissatge("CERCANT MITJANA...");
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT ROUND(AVG(punts),2) AS mitjana_punts, " +
                         "ROUND(AVG(rebots_defensius) + AVG(rebots_ofensius),2) AS mitjana_rebots, " +

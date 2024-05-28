@@ -37,6 +37,7 @@ public class EquipDAO implements DAO<Equip> {
     @Override
     //Actualitzar un equip.
     public boolean actualitzar(Equip equip, Connection connexio) throws SQLException {
+        Vista.mostrarMissatge("Modificant equip...");
         //Preparem la sentència DDL per actualitzar dades d'un equip amb PreparedStatement.
         PreparedStatement sentencia = connexio.prepareStatement(
                 "UPDATE equips SET ciutat = ?, nom = ?, acronim = ?, divisio = ?, guanyades = ?, perdudes = ? WHERE equip_id = ?"

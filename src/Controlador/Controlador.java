@@ -5,6 +5,7 @@ import Model.Model;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import Model.Connexio;
 
@@ -28,7 +29,10 @@ public class Controlador {
     //Variable per rebre un partit_id
     public static int partitID;
 
-    //Variable ex7
+    //Opcio2 MenuModificacions
+    public static String opcio2 = "";
+
+    //Variable ex7 per saber si s'ha modificat o no un valor
     public static boolean modificacio = false;
 
     public static void consultas() throws SQLException {
@@ -76,7 +80,6 @@ public class Controlador {
                         Vista.mostrarMissatge("Introdueix un equip on unir a aquest jugador: (Ex: Denver Nuggets)");
                         equipNom = scan.nextLine();
                         if (equipNom.matches(".*\\d.*")) throw new Exception("El nom d'un equip no pot contenir números.");
-                        Vista.mostrarMissatge("Introduint jugador...");
 
                         //Cridem l'excercici 4
                         boolean jaExisteix = Model.exercici4(jugadorNom,equipNom,connexio);
@@ -88,7 +91,6 @@ public class Controlador {
                             String opcioSiNo;
                             opcioSiNo = scan.nextLine().toUpperCase();
                             if (opcioSiNo.equals("S") || opcioSiNo.isEmpty()) {
-                                Vista.mostrarMissatge("Trasspasant jugador...");
                                 Model.exercici5(jugadorNom,equipNom,connexio);
                             }
                         }
@@ -102,7 +104,6 @@ public class Controlador {
                         if (equipNom.matches(".*\\d.*")) throw new Exception("El nom d'un equip no pot contenir números.");
 
                         //Cridem l'excercici 5
-                        Vista.mostrarMissatge("Trasspasant jugador...");
                         Model.exercici5(jugadorNom,equipNom,connexio);
                         break;
                     case "6":
@@ -123,99 +124,96 @@ public class Controlador {
                             do {
                                 //Cridem al menú
                                 Vista.menúModificarEstadistiques();
-                                //Opcio2 MenuModificacions
-                                String opcio2 = "";
                                 opcio2 = scan.nextLine();
 
                                 switch (opcio2) {
                                     case "1":
                                         //NOU minuts jugats
-                                        System.out.println("Introdueix el nou valor per la columna (Minuts jugats):");
+                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Minuts jugats):");
                                         float nouMinutsJugats = scan.nextFloat();
                                         scan.nextLine();
                                         eJugador.setMinutsJugats(nouMinutsJugats);
                                         modificacio = true;
-                                        System.out.printf(String.valueOf(modificacio));
                                         break;
                                     case "2":
-                                        System.out.println("Introdueix el nou valor per la columna (Punts):");
+                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Punts):");
                                         int nouPunts = scan.nextInt();
                                         scan.nextLine();
                                         eJugador.setPunts(nouPunts);
                                         modificacio = true;
                                         break;
                                     case "3":
-                                        System.out.println("Introdueix el nou valor per la columna (Tirs anotats):");
+                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs anotats):");
                                         int nouTirsAnotats = scan.nextInt();
                                         scan.nextLine();
                                         eJugador.setTirsAnotats(nouTirsAnotats);
                                         modificacio = true;
                                         break;
                                     case "4":
-                                        System.out.println("Introdueix el nou valor per la columna (Tirs tirats):");
+                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs tirats):");
                                         int nouTirsTirats = scan.nextInt();
                                         scan.nextLine();
                                         eJugador.setTirsTirats(nouTirsTirats);
                                         modificacio = true;
                                         break;
                                     case "5":
-                                        System.out.println("Introdueix el nou valor per la columna (Tirs triples anotats):");
+                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs triples anotats):");
                                         int nouTirsTriplesAnotats = scan.nextInt();
                                         scan.nextLine();
                                         eJugador.setTirsTriplesAnotats(nouTirsTriplesAnotats);
                                         modificacio = true;
                                         break;
                                     case "6":
-                                        System.out.println("Introdueix el nou valor per la columna (Tirs triples tirats):");
+                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs triples tirats):");
                                         int nouTirsTriplesTirats = scan.nextInt();
                                         scan.nextLine();
                                         eJugador.setTirsTriplesTirats(nouTirsTriplesTirats);
                                         modificacio = true;
                                         break;
                                     case "7":
-                                        System.out.println("Introdueix el nou valor per la columna (Tirs lliures anotats):");
+                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs lliures anotats):");
                                         int nouTirsLliuresAnotats = scan.nextInt();
                                         scan.nextLine();
                                         eJugador.setTirsLliuresAnotats(nouTirsLliuresAnotats);
                                         modificacio = true;
                                         break;
                                     case "8":
-                                        System.out.println("Introdueix el nou valor per la columna (Tirs lliures tirats):");
+                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs lliures tirats):");
                                         int nouTirsLliuresTirats = scan.nextInt();
                                         scan.nextLine();
                                         eJugador.setTirsLliuresTirats(nouTirsLliuresTirats);
                                         modificacio = true;
                                         break;
                                     case "9":
-                                        System.out.println("Introdueix el nou valor per la columna (Rebots ofensius):");
+                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Rebots ofensius):");
                                         int nouRebotsOfensius = scan.nextInt();
                                         scan.nextLine();
                                         eJugador.setRebotsOfensius(nouRebotsOfensius);
                                         modificacio = true;
                                         break;
                                     case "10":
-                                        System.out.println("Introdueix el nou valor per la columna (Rebots defensius):");
+                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Rebots defensius):");
                                         int nouRebotsDefensius = scan.nextInt();
                                         scan.nextLine();
                                         eJugador.setRebotsDefensius(nouRebotsDefensius);
                                         modificacio = true;
                                         break;
                                     case "11":
-                                        System.out.println("Introdueix el nou valor per la columna (Assistencies):");
+                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Assistencies):");
                                         int nouAssistencies = scan.nextInt();
                                         scan.nextLine();
                                         eJugador.setAssistencies(nouAssistencies);
                                         modificacio = true;
                                         break;
                                     case "12":
-                                        System.out.println("Introdueix el nou valor per la columna (Robades):");
+                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Robades):");
                                         int nouRobades = scan.nextInt();
                                         scan.nextLine();
                                         eJugador.setRobades(nouRobades);
                                         modificacio = true;
                                         break;
                                     case "13":
-                                        System.out.println("Introdueix el nou valor per la columna (Bloqueig):");
+                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Bloqueig):");
                                         int nouBloqueig = scan.nextInt();
                                         scan.nextLine();
                                         eJugador.setBloqueigs(nouBloqueig);
@@ -226,21 +224,22 @@ public class Controlador {
                                         Model.exercici7P2(eJugador, modificacio, connexio);
                                         break;
                                     default:
-                                        System.out.println("-------------------------------");
-                                        System.out.println("ATENCIÓ! Ha de ser entre 0 i 13");
-                                        System.out.println("-------------------------------");
+                                        Vista.mostrarMissatge("-------------------------------");
+                                        Vista.mostrarMissatge("ATENCIÓ! Ha de ser entre 0 i 13");
+                                        Vista.mostrarMissatge("-------------------------------");
                                 }
-                            } while (!(opcio.equals("0")));
-                        } catch (Exception e){
-                            System.out.println(e.getMessage());
+                            } while (!(opcio2.equals("0")));
+                        } catch (InputMismatchException e){
+                            Vista.mostrarMissatge("Dades incorrectes");
+                        } catch (Exception e) {
+                            Vista.mostrarMissatge(e.getMessage());
                         }
                         break;
-                        //a
                     case "8":
                         Vista.mostrarMissatge("Introdueix un jugador per eliminar-lo: (Ex: LeBron James)");
                         jugadorNom = scan.nextLine();
                         if (jugadorNom.matches(".*\\d.*")) throw new Exception("Un nom només pot contenir lletres.");
-                        Vista.mostrarMissatge("Retirant jugador...");
+
                         //Cridem l'excercici 8
                         Model.exercici8(jugadorNom,connexio);
                         break;
@@ -252,20 +251,20 @@ public class Controlador {
                         Vista.mostrarMissatge("Introdueix la nova franquícia:");
                         franquiciaNom = scan.nextLine();
                         if (jugadorNom.matches(".*\\d.*")) throw new Exception("Una franquícia no pot contenir números.");
+
                         //Cridem l'excercici 9
-                        Vista.mostrarMissatge("Modificant equip...");
                         Model.exercici9(equipNom,franquiciaNom,connexio);
                         break;
                     case "0":
                         break;
                     default:
-                        System.out.println("-------------------------------");
-                        System.out.println("ATENCIÓ! Ha de ser entre 0 i 9");
-                        System.out.println("-------------------------------");
+                        Vista.mostrarMissatge("-------------------------------");
+                        Vista.mostrarMissatge("ATENCIÓ! Ha de ser entre 0 i 9");
+                        Vista.mostrarMissatge("-------------------------------");
                 }
             } while (!(opcio.equals("0")));
         } catch (Exception e){
-            System.out.println(e.getMessage());
+            Vista.mostrarMissatge(e.getMessage());
         }
     }
 }

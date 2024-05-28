@@ -205,9 +205,8 @@ public class Model {
         } else Vista.mostrarMissatge("El jugador no existeix");
         return null;
     }
-
+    //
     public static void exercici7P2(EstadisticaJugador eJugador, boolean modificacio, Connection connexio) throws SQLException {
-        System.out.printf(String.valueOf(modificacio));
         if (modificacio) {
             estadisticaJugadorDAO.actualitzarModificacions(eJugador, connexio);
             Vista.mostrarMissatge("S'han actualitzat les dades modificades correctament");
@@ -259,11 +258,8 @@ public class Model {
 
             boolean correcte = equipDAO.actualitzar(equip, connexio);
 
-            if (correcte) {
-                Vista.mostrarMissatge("S'ha actualitzat correctament");
-            } else {
-                Vista.mostrarMissatge("No s'ha actualitzat la franquícia");
-            }
+            if (correcte) Vista.mostrarMissatge("S'ha actualitzat correctament");
+            else Vista.mostrarMissatge("No s'ha actualitzat la franquícia");
         } else Vista.mostrarMissatge("L'equip no existeix");
     }
 }
