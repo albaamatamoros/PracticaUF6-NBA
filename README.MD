@@ -1,6 +1,6 @@
 # Pràctica 6.1 - BDD relacionals amb JDBC (NBA) Santi i Alba
 
-Les dades generades de la nostra base de dades ha sigut generada mitjançant endpoints amb Python.
+Les dades de la nostra base de dades han sigut generades mitjançant endpoints amb Python.
 
 -> Connexio amb la base de dades <-
 
