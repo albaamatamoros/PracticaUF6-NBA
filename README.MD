@@ -7,7 +7,9 @@ Les dades de la nostra base de dades han sigut generades mitjançant endpoints a
 En la classe "Connexió" recomanem a l'hora d'afegir la base de dades, modificar els valors següents perquè la connexió sigui més ràpida, ja que el programa comprova diferents connexions i aquesta és la primera en executar-se.
 
 (private static final String URL = "url";
+
 private static final String USUARI = "usuari";
+
 private static final String PASSWORD = "contrasenya";)
 
 ## MÈTODE CRUD, DAO.
