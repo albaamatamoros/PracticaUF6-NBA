@@ -9,6 +9,7 @@ public class Equip {
     private int guanyades;
     private int perdudes;
 
+    //Constructor Equip
     public Equip(String ciutat, String nom, String acronim, String divisio, int guanyades, int perdudes) {
         this.id = 0;
         this.ciutat = ciutat;
@@ -19,6 +20,7 @@ public class Equip {
         this.perdudes = perdudes;
     }
 
+    //Setter i getters Equip
     public void setId(int id) {
         this.id = id;
     }

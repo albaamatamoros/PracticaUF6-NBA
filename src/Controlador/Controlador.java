@@ -1,8 +1,6 @@
 package Controlador;
 import Vista.Vista;
 import Model.Model;
-
-import javax.sound.midi.VoiceStatus;
 import java.util.Scanner;
 
 //Classe controlador on demanem les dades a l'usuari.
@@ -35,34 +33,31 @@ public class Controlador {
                         Vista.mostrarMissatge("Introdueix el nom d'un equip per llistar els seus jugadors: (Ex: Denver Nuggets)");
                         equipNom = scan.nextLine();
                         //REGEX amb excepció per no permetre inserir números en l'equip.
-                        if (!equipNom.matches("^[a-zA-Z]+$")) throw new Exception("El nom d'un equip no pot contenir números.");
+                        if (equipNom.matches(".*\\d.*")) throw new Exception("El nom d'un equip no pot contenir números.");
                         //Cridem l'excercici 1
-                        Vista.mostrarMissatge("Cercant jugadors...");
                         Model.exercici1(equipNom);
                         break;
                     case "2":
                         Vista.mostrarMissatge("Introdueix un jugador per calcular la seva mitjana de punts: (Ex: LeBron James)");
                         jugadorNom = scan.nextLine();
                         //REGEX amb excepció per no permetre inserir números en el nom.
-                        if (!jugadorNom.matches("^[a-zA-Z]+$")) throw new Exception("Un nom només pot contenir lletres.");
-                        Vista.mostrarMissatge("Cercant mitjana...");
+                        if (jugadorNom.matches(".*\\d.*")) throw new Exception("Un nom només pot contenir lletres.");
                         Model.exercici2(jugadorNom);
                         break;
                     case "3":
                         Vista.mostrarMissatge("Introdueix el nom d'un equip per llistar tots els partits i els seus resultats: (Ex: Denver Nuggets)");
                         equipNom = scan.nextLine();
-                        if (!equipNom.matches("^[a-zA-Z]+$")) throw new Exception("El nom d'un equip no pot contenir números.");
-                        Vista.mostrarMissatge("Cercant resultats...");
+                        if (equipNom.matches(".*\\d.*")) throw new Exception("El nom d'un equip no pot contenir números.");
                         //Cridem l'excercici 3
                         Model.exercici3(equipNom);
                         break;
                     case "4":
                         Vista.mostrarMissatge("Introdueix un jugador per inserir a la taula: (Ex: LeBron James)");
                         jugadorNom = scan.nextLine();
-                        if (!jugadorNom.matches("^[a-zA-Z]+$")) throw new Exception("Un nom només pot contenir lletres.");
+                        if (jugadorNom.matches(".*\\d.*")) throw new Exception("Un nom només pot contenir lletres.");
                         Vista.mostrarMissatge("Introdueix un equip on unir a aquest jugador: (Ex: Denver Nuggets)");
                         equipNom = scan.nextLine();
-                        if (!equipNom.matches("^[a-zA-Z]+$")) throw new Exception("El nom d'un equip no pot contenir números.");
+                        if (equipNom.matches(".*\\d.*")) throw new Exception("El nom d'un equip no pot contenir números.");
                         Vista.mostrarMissatge("Introduint jugador...");
 
                         //Cridem l'excercici 4
@@ -83,10 +78,10 @@ public class Controlador {
                     case "5":
                         Vista.mostrarMissatge("Introdueix un jugador per trasspasar a un altre equip: (Ex: LeBron James)");
                         jugadorNom = scan.nextLine();
-                        if (!jugadorNom.matches("^[a-zA-Z]+$")) throw new Exception("Un nom només pot contenir lletres.");
+                        if (jugadorNom.matches(".*\\d.*")) throw new Exception("Un nom només pot contenir lletres.");
                         Vista.mostrarMissatge("Introdueix un equip on trasspasar aquest jugador (Ex: Denver Nuggets)");
                         equipNom = scan.nextLine();
-                        if (!equipNom.matches("^[a-zA-Z]+$")) throw new Exception("El nom d'un equip no pot contenir números.");
+                        if (equipNom.matches(".*\\d.*")) throw new Exception("El nom d'un equip no pot contenir números.");
                         //Cridem l'excercici 5
                         Vista.mostrarMissatge("Trasspasant jugador...");
                         Model.exercici5(jugadorNom,equipNom);
@@ -98,14 +93,14 @@ public class Controlador {
                     case "7":
                         Vista.mostrarMissatge("Introdueix un jugador per modificar les seves estadístiques: (Ex: LeBron James)");
                         jugadorNom = scan.nextLine();
-                        if (!jugadorNom.matches("^[a-zA-Z]+$")) throw new Exception("Un nom només pot contenir lletres.");
+                        if (jugadorNom.matches(".*\\d.*")) throw new Exception("Un nom només pot contenir lletres.");
                         Vista.mostrarMissatge("Modifcant dades dels partits...");
                         Model.exercici7(jugadorNom);
                         break;
                     case "8":
                         Vista.mostrarMissatge("Introdueix un jugador per eliminar-lo: (Ex: LeBron James)");
                         jugadorNom = scan.nextLine();
-                        if (!jugadorNom.matches("^[a-zA-Z]+$")) throw new Exception("Un nom només pot contenir lletres.");
+                        if (jugadorNom.matches(".*\\d.*")) throw new Exception("Un nom només pot contenir lletres.");
                         Vista.mostrarMissatge("Retirant jugador...");
                         //Cridem l'excercici 8
                         Model.exercici8(jugadorNom);
@@ -114,10 +109,10 @@ public class Controlador {
                         Vista.mostrarMissatge("Introdueix un equip per modificar la seva franquícia: (Ex: Denver Nuggets)");
                         equipNom = scan.nextLine();
                         //REGEX amb excepció per no permetre inserir números en la franquícia.
-                        if (!equipNom.matches("^[a-zA-Z]+$")) throw new Exception("El nom d'un equip no pot contenir números.");
+                        if (equipNom.matches(".*\\d.*")) throw new Exception("El nom d'un equip no pot contenir números.");
                         Vista.mostrarMissatge("Introdueix la nova franquícia:");
                         franquiciaNom = scan.nextLine();
-                        if (!jugadorNom.matches("^[a-zA-Z]+$")) throw new Exception("Una franquícia no pot contenir números.");
+                        if (jugadorNom.matches(".*\\d.*")) throw new Exception("Una franquícia no pot contenir números.");
                         //Cridem l'excercici 9
                         Vista.mostrarMissatge("Modificant equip...");
                         Model.exercici9(equipNom,franquiciaNom);

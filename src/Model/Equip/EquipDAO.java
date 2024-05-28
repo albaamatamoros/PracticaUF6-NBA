@@ -3,6 +3,7 @@ import Model.DAO;
 import Model.Jugador.Jugador;
 import Model.Connexio;
 import Model.Jugador.JugadorDAO;
+import Vista.Vista;
 
 import javax.print.attribute.standard.RequestingUserName;
 import java.sql.Connection;
@@ -15,12 +16,16 @@ public class EquipDAO implements DAO<Equip> {
 
     //MÈTODES D'INTERFÍCIE DAO GENERALS
     @Override
+    //Insertar un equip.
     public boolean insertar(Equip equip) throws SQLException {
+        //Cridem a la connexió per connectar-nos a una BD.
         Connection connexio = Connexio.getConnection();
+        //Preparem la sentència DDL per afegir el nostre nou equip amb PreparedStatement.
         PreparedStatement sentencia = connexio.prepareStatement(
                 "INSERT INTO equips (ciutat,nom,acronim,divisio,guanyades,perdudes) VALUES (?,?,?,?,?,?)"
         );
 
+        //Amb la sentència, per cada columna assignem el valor que haurà de recollir a l'hora d'inserir l'equip.
         sentencia.setString(1, equip.getCiutat());
         sentencia.setString(2, equip.getNom());
         sentencia.setString(3, equip.getAcronim());
@@ -28,16 +33,21 @@ public class EquipDAO implements DAO<Equip> {
         sentencia.setInt(5, equip.getGuanyades());
         sentencia.setInt(6,equip.getPerdudes());
 
+        //Tornem un valor major a 0 si s'ha pogut executa la sentència correctament i un valor menor o igual a 0 si no s'ha pogut.
         return sentencia.executeUpdate() > 0;
     }
 
     @Override
+    //Actualitzar un equip.
     public boolean actualitzar(Equip equip) throws SQLException {
+        //Cridem a la connexió per connectar-nos a una BD
         Connection connexio = Connexio.getConnection();
+        //Preparem la sentència DDL per actualitzar dades d'un equip amb PreparedStatement.
         PreparedStatement sentencia = connexio.prepareStatement(
                 "UPDATE equips SET ciutat = ?, nom = ?, acronim = ?, divisio = ?, guanyades = ?, perdudes = ? WHERE equip_id = ?"
         );
 
+        //Amb la sentència, per cada columna assignem el valor que haurà de recollir a l'hora d'inserir l'equip.
         sentencia.setString(1, equip.getCiutat());
         sentencia.setString(2, equip.getNom());
         sentencia.setString(3, equip.getAcronim());
@@ -46,31 +56,44 @@ public class EquipDAO implements DAO<Equip> {
         sentencia.setInt(6, equip.getPerdudes());
         sentencia.setInt(7, equip.getId());
 
+        //Tornem un valor major a 0 si s'ha pogut executa la sentència correctament i un valor menor o igual a 0 si no s'ha pogut.
         return sentencia.executeUpdate() > 0;
     }
 
     @Override
+    //Esborrar un equip.
     public boolean esborrar(Equip equip) throws SQLException {
+        //Cridem a la connexió per connectar-nos a una BD
         Connection connexio = Connexio.getConnection();
+        //Preparem la sentència DDL per esborrar un equip amb PreparedStatement.
         PreparedStatement sentencia = connexio.prepareStatement(
                 "DELETE FROM equips WHERE equip_id = ?"
         );
 
+        //Assignem el valor demanat amb les dades corresponents.
         sentencia.setInt(1,equip.getId());
 
+        //Tornem un valor major a 0 si s'ha pogut executa la sentència correctament i un valor menor o igual a 0 si no s'ha pogut.
         return sentencia.executeUpdate() > 0;
     }
 
     @Override
+    //Cercar un equip.
     public Equip cercar(int id) throws SQLException {
+        //Cridem a la connexió per connectar-nos a una BD
         Connection connexio = Connexio.getConnection();
+        //Preparem una consulta per poder cercar un equip en concret.
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT * FROM equips WHERE equip_id = ?"
         );
 
+        //Assignem el valor corresponent.
         sentencia.setInt(1,id);
+
+        //Executem la consulta i guardem les dades en l'objecte ResultSet.
         ResultSet rsEquip = sentencia.executeQuery();
 
+        //Amb rsEquip.next() comprovem fila per fila fins que ens retorni true (significa que ha trobat el que buscava) per mostrar les dades de l'equip demanat.
         if (rsEquip.next()) {
             Equip equip = new Equip(
                     rsEquip.getString("ciutat"),
@@ -81,6 +104,7 @@ public class EquipDAO implements DAO<Equip> {
                     rsEquip.getInt("perdudes"));
 
             equip.setId(rsEquip.getInt("equip_id"));
+            //Un cop trobat retornem l'objecte equip.
             return equip;
         } else {
             return null;
@@ -88,6 +112,7 @@ public class EquipDAO implements DAO<Equip> {
     }
 
     @Override
+    //Contar quants equips tenim.
     public int count() throws SQLException {
         Connection connexio = Connexio.getConnection();
         PreparedStatement sentencia = connexio.prepareStatement(
@@ -106,19 +131,25 @@ public class EquipDAO implements DAO<Equip> {
     public List<Jugador> obtenirJugadors(String nomEquip) throws Exception {
         //Connectem a la BD.
         Connection connexio = Connexio.getConnection();
+        //Preparem la nostra sentència amb la consulta DML que volem utilitzar.
         PreparedStatement sentenciaJugadors = connexio.prepareStatement(
+                //La nostra sentència mostra amb una concatenació el nom i el cognom dels jugadors que pertanyin de l'equip que insereix l'usuari.
                 "SELECT j.jugador_id,CONCAT(e.ciutat,' ',e.nom) AS nom_equip FROM jugadors j INNER JOIN equips e ON j.equip_id = e.equip_id HAVING nom_equip = ?"
         );
 
+        //Diem al programa que el valor que necessitem equival a nomEquip.
         sentenciaJugadors.setString(1, nomEquip);
         ResultSet rsJugadors = sentenciaJugadors.executeQuery();
 
+        //Fem una llista de jugadors.
         List<Jugador> llistaJugadors;
 
+        Vista.mostrarMissatge("Cercant jugadors...");
         if (rsJugadors.next()) {
             llistaJugadors = new ArrayList<>();
             JugadorDAO jugadorDAO = new JugadorDAO();
 
+            //Amb rsJugadors.next() anem llegint i afegint els jugadors que complexin els requisits a la llista jugadors.
             while (rsJugadors.next()) {
                 llistaJugadors.add(jugadorDAO.cercar(rsJugadors.getInt("j.jugador_id")));
             }

@@ -1,6 +1,8 @@
 package Model.Jugador;
 import Model.DAO;
 import Model.Connexio;
+import Vista.Vista;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -109,6 +111,7 @@ public class JugadorDAO implements DAO<Jugador> {
     //2 Calcular la mitjana de punts, rebots, assistències, ... d'un jugador
     public LinkedHashMap<String,Float> calcularMitjana(String nomComplet) throws Exception {
         Connection connexio = Connexio.getConnection();
+        Vista.mostrarMissatge("Cercant mitjana...");
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT ROUND(AVG(punts),2) AS mitjana_punts, " +
                         "ROUND(AVG(rebots_defensius) + AVG(rebots_ofensius),2) AS mitjana_rebots, " +

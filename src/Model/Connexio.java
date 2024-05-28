@@ -27,22 +27,28 @@ public class Connexio {
 
     //Comprovem si la base de dades principals és operativa, si no és el cas donarà una excepció que tractarem intent connectarà amb la BD secundària.
     public static Connection getConnection() throws SQLException {
-        try {
-            return DriverManager.getConnection(URL,USUARI,PASSWORD);
-        } catch (SQLException e) {
+        String[] urls = {URL, URL2, URL3}, usuaris = {USUARI, USUARI, USUARI2}, passwords = {PASSWORD, PASSWORD, PASSWORD2};
+        Connection connection = null;
+
+        for (int i = 0; i < urls.length; i++) {
+
+            String url = urls[i];
+            String usuario = usuaris[i];
+            String password = passwords[i];
+
             try {
-                Vista.mostrarMissatge("Connectant... 192.168.56.103:3306");
-                return DriverManager.getConnection(URL2,USUARI,PASSWORD);
-            } catch (SQLException e1) {
-                try {
-                    Vista.mostrarMissatge("Connectant.... localhost:3306");
-                    return DriverManager.getConnection(URL3,USUARI2,PASSWORD2);
-                } catch (SQLException e2) {
-                    Vista.mostrarMissatge("No s'ha pogut connectar amb cap BD");
+                connection = DriverManager.getConnection(url, usuario, password);
+                if (connection != null) {
+                    Vista.mostrarMissatge("Connexió exitosa amb " + url);
+                    break;
                 }
+            } catch (SQLException e) {
+                Vista.mostrarMissatge("Connectant... " + url);
             }
         }
-        Controlador.consultas();
-        return null;
+        if (connection == null) {
+            Vista.mostrarMissatge("No s'ha pogut connectar amb cap BD");
+        }
+        return connection;
     }
 }
