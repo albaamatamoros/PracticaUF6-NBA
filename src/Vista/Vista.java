@@ -5,6 +5,7 @@ import java.util.*;
 
 public class Vista {
 
+    //Menú inicial amb totes les opcions d'exercicis.
     public static void menuInicial(){
         System.out.println("\n------ MENÚ ------");
         System.out.println("1. Llistar tots els jugadors d'un equip");
@@ -19,7 +20,7 @@ public class Vista {
         System.out.println("0. Sortir");
     }
 
-    //1 Llistar tots els jugadors d'un equip
+    //1 Llistar tots els jugadors d'un equip.
     public static void llistarJugadorsEquip(List<Jugador> jugadors){
 
             for (Jugador jugador : jugadors) {
@@ -27,7 +28,7 @@ public class Vista {
             }
     }
 
-    //2 Calcular la mitjana de punts, rebots, assistències, ... d'un jugador
+    //2 Calcular la mitjana de punts, rebots, assistències, ... d'un jugador.
     public static void llistarMitjanes(LinkedHashMap<String, Float> mitjanes){
         for (Map.Entry<String, Float> entry : mitjanes.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue());
@@ -44,10 +45,12 @@ public class Vista {
         }
     }
 
+    //Sempre que és necessari mostrar un missatge utilitzem aquesta funció que fa un sout del missatge passat.
     public static void mostrarMissatge(String missatge){
         System.out.println(missatge);
     }
 
+    //7 Menú de modificacions a fer a les estadístiques de l'exercici 7.
     public static void menúModificarEstadistiques(){
         System.out.println("\n------ MODIFICAR ESTADISTIQUES ------");
         System.out.println("1. Minuts jugats");

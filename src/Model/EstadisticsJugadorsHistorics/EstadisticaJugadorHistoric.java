@@ -21,6 +21,7 @@ public class EstadisticaJugadorHistoric {
     private int robades;
     private int bloqueigs;
 
+    //Constructor EstadisticaJugadorHistoric
     public EstadisticaJugadorHistoric(int jugadorId, String nom, String cognom, int equipId, int partitId, float minutsJugats, int punts, int tirsAnotats, int tirsTirats, int tirsTriplesAnotats, int tirsTriplesTirats, int tirsLliuresAnotats, int tirsLliuresTirats, int rebotsOfensius, int rebotsDefensius, int assistencies, int robades, int bloqueigs) {
         this.jugadorId = jugadorId;
         this.nom = nom;
@@ -42,6 +43,7 @@ public class EstadisticaJugadorHistoric {
         this.bloqueigs = bloqueigs;
     }
 
+    //Setter i getters EstadisticaJugadorHistoric
     public int getJugadorId() {
         return jugadorId;
     }

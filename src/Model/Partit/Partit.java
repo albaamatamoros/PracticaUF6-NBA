@@ -8,6 +8,7 @@ public class Partit {
     private String matx;
     private String resultat;
 
+    //Constructor Partit
     public Partit( int partitId, int equipId, Date dataPartit, String matx, String resultat) {
         this.partitId = partitId;
         this.equipId = equipId;
@@ -16,6 +17,7 @@ public class Partit {
         this.resultat = resultat;
     }
 
+    //Setter i getters Partit
     public Date getDataPartit() {
         return dataPartit;
     }

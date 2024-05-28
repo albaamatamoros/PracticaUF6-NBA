@@ -15,6 +15,7 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
 
     //MÈTODES D'INTERFÍCIE DAO GENERALS
     @Override
+    //Insertar un EstadisticaJugador.
     public boolean insertar(EstadisticaJugador estadisticaJugador, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "INSERT INTO estadistiques_jugadors (jugador_id,equip_id,partit_id,minuts_jugats,punts,tirs_anotats,tirs_tirats,tirs_triples_anotats,tirs_triples_tirats,tirs_lliures_anotats,tirs_lliures_tirats,rebots_ofensius,rebots_defensius,assistencies,robades,bloqueigs) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
@@ -42,6 +43,7 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
     }
 
     @Override
+    //Actualitzar un EstadisticaJugador.
     public boolean actualitzar(EstadisticaJugador estadisticaJugador, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "UPDATE estadistiques_jugadors SET minuts_jugats=?,punts=?,tirs_anotats=?,tirs_tirats=?,tirs_triples_anotats=?,tirs_triples_tirats=?,tirs_lliures_anotats=?,tirs_lliures_tirats=?,rebots_ofensius=?,rebots_defensius=?,assistencies=?,robades=?,bloqueigs=? WHERE jugador_id=?,equip_id=?,partit_id=?"
@@ -68,6 +70,7 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
     }
 
     @Override
+    //Esborrar EstadisticaJugador
     public boolean esborrar(EstadisticaJugador estadisticaJugador, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "DELETE FROM estadistiques_jugadors WHERE jugador_id = ? AND equip_id = ? AND partit_id = ?"
@@ -81,11 +84,9 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
     }
 
     @Override
+    //Cercar un EstadisticaJugador
     public EstadisticaJugador cercar(int id, Connection connexio) throws SQLException {
-        //Connection connexio;
         PreparedStatement sentencia;
-
-        //connexio = Connexio.getConnection();
         sentencia = connexio.prepareStatement(
                 "SELECT * FROM estadistiques_jugadors WHERE jugador_id = ? LIMIT 1"
         );
@@ -118,6 +119,7 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
     }
 
     @Override
+    //Contar quantes estadistiques tenim.
     public int count(Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT COUNT(*) FROM estadistiques_jugadors"
@@ -165,6 +167,7 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
         return true;
     }
 
+    //8 Obtenir les estadístiques d'un jugador concret
     public List<EstadisticaJugador> obtenirEstadistiques(int jugadorId, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT * FROM estadistiques_jugadors WHERE jugador_id = ?"
@@ -201,6 +204,23 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
         return llistaEstadistiques;
     }
 
+    //7 Buscar el partit inserit amb el jugador per mirar si el jugador a jugat aquest partit
+    public int cercarPartitJugat(int partitID, int jugadorId, Connection connexio) throws SQLException {
+        PreparedStatement sentencia = connexio.prepareStatement(
+                "SELECT * FROM estadistiques_jugadors WHERE jugador_id=? AND partit_id=?"
+        );
+
+        sentencia.setInt(1,jugadorId);
+        sentencia.setInt(2,partitID);
+        ResultSet rsResultat = sentencia.executeQuery();
+
+        if (rsResultat.next()) {
+            return rsResultat.getInt("partit_id");
+        }
+        return 0;
+    }
+
+    //7 Obtenir les estadístiques d'un jugador concret i un partit concret per poder modificar-les
     public EstadisticaJugador obtenirEstadistiquesModificables (int jugadorId, int partitID, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT * FROM estadistiques_jugadors WHERE jugador_id = ? AND partit_id = ?"
@@ -235,7 +255,7 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
         return eJugador;
     }
 
-    //7
+    //7 Actualitzar les dades modificades d'un jugador i partit concret.
     public boolean actualitzarModificacions(EstadisticaJugador estadisticaJugador, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "UPDATE estadistiques_jugadors SET minuts_jugats=?,punts=?,tirs_anotats=?,tirs_tirats=?,tirs_triples_anotats=?,tirs_triples_tirats=?,tirs_lliures_anotats=?,tirs_lliures_tirats=?,rebots_ofensius=?,rebots_defensius=?,assistencies=?,robades=?,bloqueigs=? WHERE jugador_id=? AND partit_id=?"
@@ -258,21 +278,5 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
         sentencia.setInt(15,estadisticaJugador.getPartitId());
 
         return sentencia.executeUpdate() > 0;
-    }
-
-    //7
-    public int cercarPartitJugat(int partitID, int jugadorId, Connection connexio) throws SQLException {
-        PreparedStatement sentencia = connexio.prepareStatement(
-                "SELECT * FROM estadistiques_jugadors WHERE jugador_id=? AND partit_id=?"
-        );
-
-        sentencia.setInt(1,jugadorId);
-        sentencia.setInt(2,partitID);
-        ResultSet rsResultat = sentencia.executeQuery();
-
-        if (rsResultat.next()) {
-            return rsResultat.getInt("partit_id");
-        }
-        return 0;
     }
 }

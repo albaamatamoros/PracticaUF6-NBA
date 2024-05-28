@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 public class JugadorDAO implements DAO<Jugador> {
 
     //MÈTODES D'INTERFÍCIE DAO GENERALS
-    //Insertar
+    //Insertar Jugador
     @Override
     public boolean insertar(Jugador jugador, Connection connexio) throws SQLException {
         Vista.mostrarMissatge("INTRODUINT JUGADOR...");
@@ -32,7 +32,7 @@ public class JugadorDAO implements DAO<Jugador> {
         return sentencia.executeUpdate() > 0;
     }
 
-    //Actulitzar
+    //Actulitzar Jugador
     @Override
     public boolean actualitzar(Jugador jugador, Connection connexio) throws SQLException {
         Vista.mostrarMissatge("TRASSPASANT JUGADOR...");
@@ -53,7 +53,7 @@ public class JugadorDAO implements DAO<Jugador> {
         return sentencia.executeUpdate() > 0;
     }
 
-    //Esborrar
+    //Esborrar Jugador
     @Override
     public boolean esborrar(Jugador jugador, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
@@ -65,7 +65,7 @@ public class JugadorDAO implements DAO<Jugador> {
         return sentencia.executeUpdate() > 0;
     }
 
-    //Buscar
+    //Buscar Jugador
     @Override
     public Jugador cercar(int id, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
@@ -93,7 +93,7 @@ public class JugadorDAO implements DAO<Jugador> {
         }
     }
 
-    //Contar
+    //Contar Jugadors
     @Override
     public int count(Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
@@ -111,6 +111,7 @@ public class JugadorDAO implements DAO<Jugador> {
     //2 Calcular la mitjana de punts, rebots, assistències, ... d'un jugador
     public LinkedHashMap<String,Float> calcularMitjana(String nomComplet, Connection connexio) throws Exception {
         Vista.mostrarMissatge("CERCANT MITJANA...");
+        //Consulta per calcular les diferents mitjanes.
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT ROUND(AVG(punts),2) AS mitjana_punts, " +
                         "ROUND(AVG(rebots_defensius) + AVG(rebots_ofensius),2) AS mitjana_rebots, " +
@@ -127,10 +128,12 @@ public class JugadorDAO implements DAO<Jugador> {
 
         sentencia.setInt(1,jugadorId);
         ResultSet rsJugador = sentencia.executeQuery();
-        rsJugador.next();
+        rsJugador.next(); //Avançem al primer resultat.
 
+        //Creem un LinkedHasMap per guardar les mitjanes amb el seu nom (Utilitzem LinkedHasMap per poder mostrar les dades de forma ordenada).
         LinkedHashMap<String, Float> mitjanes = new LinkedHashMap<>(3);
 
+        //Afegim els noms i les mitjanes.
         mitjanes.put("Mitjana Punts", rsJugador.getFloat("mitjana_punts"));
         mitjanes.put("Mitjana Rebots", rsJugador.getFloat("mitjana_rebots"));
         mitjanes.put("Mitjana Assistencies", rsJugador.getFloat("mitjana_assistencies"));

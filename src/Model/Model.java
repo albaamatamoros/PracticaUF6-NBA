@@ -46,6 +46,7 @@ public class Model {
     //3.- Llistar tots els partits jugats per un equip amb el seu resultat.
     public static void exercici3(String equipNom, Connection connexio) throws Exception {
         List<Set<Map.Entry<String,Integer>>> llista = equipDAO.obtenirResultatPartits(equipNom, connexio);
+        //Mostrem els resultat anteriorment guardats.
         Vista.llistarPartitsIResultats(llista);
     }
 
@@ -68,7 +69,7 @@ public class Model {
         return false;
     }
 
-    //Generem un jugador aleatoriament per l'exercici 4.
+    //4.1- Generem un jugador aleatoriament per l'exercici 4.
     private static Jugador generarJugadorAleatori(String jugadorNom, int equipId) throws Exception {
         String[] nomComplet = jugadorNom.split(" ");
         String nom;
@@ -82,9 +83,12 @@ public class Model {
             cognom = nomComplet[1];
         }
 
+        //Array de números per generar aleatòriament el dorsal.
         String[] numeros = {"0","1","2","3","4","5","6","7","8","9"};
+        //Array de posicions per adjudicar una aleatòriament.
         String[] posicions = {"Forward","Guard","Center-Forward","Forward-Center","Center","Guard-Forward","Forward-Guard"};
 
+        //Dades generades aleatòriament per generar un nou jugador.
         Date dataNaixementAleatoria = Date.valueOf(LocalDate.of(random.nextInt(3000) + 1,random.nextInt(12) + 1,random.nextInt(28) + 1));
         Float alcadaAleatoria = random.nextFloat(170f,300f);
         Float pesAleatori = random.nextFloat(65f, 150f);
@@ -98,9 +102,11 @@ public class Model {
     public static void exercici5(String jugadorNom, String equipNom, Connection connexio) throws Exception {
         int jugadorId = jugadorDAO.cercarIdPerNom(jugadorNom, connexio);
 
+        //Comprovem que le jugador existeixi.
         if (jugadorId != 0) {
             int equipId = equipDAO.cercarIdPerNom(equipNom,connexio);
 
+            //Comprovem que l'equip existeixi.
             if (equipId != 0) {
                 Jugador jugador = jugadorDAO.cercar(jugadorId, connexio);
                 jugador.setEquipId(equipId);
@@ -118,6 +124,7 @@ public class Model {
 
     //6.- Actualitzar les dades de jugadors o equips després d'un partit.
     public static void exercici6(Connection connexio) throws Exception {
+        //Creem les rutes dels fitxers.
         String rutaPython = "./obtenirActualitzacions.py";
 
         String rutaCsvPartits = "./partits.csv";
@@ -131,20 +138,23 @@ public class Model {
             Process proces = pb.start();
             int codiSortida = proces.waitFor();
 
-            if (codiSortida != 0) {
-                throw new Exception("Ha ocurregut un error en l'execució del script Python");
-            }
+            if (codiSortida != 0) throw new Exception("Ha ocurregut un error en l'execució del script Python");
         }
 
+        //Utilitzem BufferedReader per llegir els csv.
         BufferedReader brCsvPartits = new BufferedReader(new FileReader(csvPartits));
         BufferedReader brCsvEstadistiques = new BufferedReader(new FileReader(csvEstadistiques));
         String linia;
 
+        //Creem dos array List per emplenar-les amb les dades llegides.
         List<Partit> partits = new ArrayList<>();
         List<EstadisticaJugador> estadistiquesJugadors = new ArrayList<>();
 
         brCsvPartits.readLine();
+        //Anem agafant els diferents camps distingint-los amb punt i coma.
+        //Fem un bucle i amb l'ajuda de l'array els anem separant.
         while ((linia = brCsvPartits.readLine()) != null) {
+            //Aquí llegim el csv brCsvPartits
             String[] camps = linia.split(";");
 
             Partit partit = new Partit(Integer.parseInt(camps[0]),
@@ -158,6 +168,7 @@ public class Model {
 
         brCsvEstadistiques.readLine();
         while ((linia = brCsvEstadistiques.readLine()) != null) {
+            //Aquí llegim el csv brCsvEstadistiques.
             String[] camps = linia.split(";");
 
             EstadisticaJugador estadisticaJugador = new EstadisticaJugador(Integer.parseInt(camps[0]),
@@ -180,20 +191,18 @@ public class Model {
             estadistiquesJugadors.add(estadisticaJugador);
         }
 
+        //Fem l'actualització de les dades i amb un bool comprovem que s'hagi fet correctament.
         boolean correctePartits = partitDAO.actualitzarEnMassa(partits, connexio);
         boolean correcteEstadistiques = estadisticaJugadorDAO.actualitzarEnMassa(estadistiquesJugadors, connexio);
 
-        if (correctePartits && correcteEstadistiques) {
-            Vista.mostrarMissatge("S'han actualitzat les dades correctament");
-        } else {
-            Vista.mostrarMissatge("No s'han pogut actualitzar les dades");
-        }
+        if (correctePartits && correcteEstadistiques) Vista.mostrarMissatge("S'han actualitzat les dades correctament");
+        else Vista.mostrarMissatge("No s'han pogut actualitzar les dades");
     }
 
-    //7.- Modificar les estadístiques d’un jugador
+    //7.- Modificar les estadístiques d’un jugador.
     public static EstadisticaJugador exercici7(String jugadorNom, int partitID, Connection connexio) throws Exception {
         int jugadorId = jugadorDAO.cercarIdPerNom(jugadorNom, connexio);
-
+        //Comprovem que el jugador i l'equip existeixin i després comprovem que aquest jugador hagi jugat aquest partit.
         if (jugadorId != 0) {
             int IDpartit = partitDAO.cercarPartitID(partitID, connexio);
             if (IDpartit != 0) {
@@ -205,7 +214,8 @@ public class Model {
         } else Vista.mostrarMissatge("El jugador no existeix");
         return null;
     }
-    //
+
+    //7.1- Actualitzem les dades un cop modificades.
     public static void exercici7P2(EstadisticaJugador eJugador, boolean modificacio, Connection connexio) throws SQLException {
         if (modificacio) {
             estadisticaJugadorDAO.actualitzarModificacions(eJugador, connexio);
@@ -219,9 +229,12 @@ public class Model {
 
         if (jugadorId != 0) {
             Jugador jugador = jugadorDAO.cercar(jugadorId,connexio);
+            //Creem una llista on guardarem les estadistiques obtingudes.
             List<EstadisticaJugador> estadistiques = estadisticaJugadorDAO.obtenirEstadistiques(jugadorId,connexio);
+            //Creem una llista per afegir les noves dades.
             List<EstadisticaJugadorHistoric> estadistiquesHistoriques = new ArrayList<>();
 
+            //Afegim les dades.
             for (EstadisticaJugador estadistica : estadistiques) {
                 EstadisticaJugadorHistoric eH = new EstadisticaJugadorHistoric(jugadorId,
                         jugador.getNom(),
@@ -245,6 +258,7 @@ public class Model {
                 estadistiquesHistoriques.add(eH);
             }
 
+            //Afegim totes les noves dades amb un insert a la nova taula.
             estadisticsJugadorsHistoricsDAO.traspassarEstadistiques(estadistiquesHistoriques,connexio);
         }
     }
@@ -254,8 +268,10 @@ public class Model {
         int equipId = equipDAO.cercarIdPerNom(equipNom,connexio);
         if (equipId != 0){
             Equip equip = equipDAO.cercar(equipId, connexio);
+            //Modifiquem la ciutat, per canviar la franquícia (franquícia)
             equip.setCiutat(franquiciaNom);
 
+            //actualitzem les noves dades proporcionades
             boolean correcte = equipDAO.actualitzar(equip, connexio);
 
             if (correcte) Vista.mostrarMissatge("S'ha actualitzat correctament");

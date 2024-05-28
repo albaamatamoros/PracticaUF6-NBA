@@ -169,6 +169,7 @@ public class EquipDAO implements DAO<Equip> {
 
     //3 Llistar tots els partits jugats per un equip amb el seu resultat.
     public List<Set<Map.Entry<String,Integer>>> obtenirResultatPartits(String nomEquip, Connection connexio) throws Exception {
+        //Preparem la consulta.
         PreparedStatement sentenciaEquip = connexio.prepareStatement(
                 "SELECT equip_id,acronim,CONCAT(ciutat,' ',nom) AS nom_equip FROM equips HAVING nom_equip LIKE ?"
         );
@@ -179,13 +180,16 @@ public class EquipDAO implements DAO<Equip> {
         int equipId;
         String acronim;
 
+        //Obtenim l'ID i l'acronim.
         if (rsEquip.next()) {
             equipId = rsEquip.getInt("equip_id");
             acronim = rsEquip.getString("acronim");
         } else {
+            //Llançar una excepció si l'equip no és trobat.
             throw new Exception("Equip no trobat");
         }
 
+        //Consulta per a obtenir els punts dels partits propis.
         PreparedStatement sentenciaPuntsPartitsPropis = connexio.prepareStatement(
                 "SELECT CONCAT(e.ciutat,' ',e.nom) AS nom,SUM(punts) AS punts " +
                         "FROM estadistiques_jugadors es " +
@@ -193,6 +197,7 @@ public class EquipDAO implements DAO<Equip> {
                         "WHERE es.equip_id = ? GROUP BY es.partit_id ORDER BY es.partit_id"
         );
 
+        //Consulta per a obtenir els punts dels partits rivals.
         PreparedStatement sentenciaPuntsPartitsRivals = connexio.prepareStatement(
                 "SELECT CONCAT(e.ciutat,' ',e.nom) AS nom,SUM(punts) AS punts " +
                         "FROM estadistiques_jugadors es " +
@@ -210,26 +215,34 @@ public class EquipDAO implements DAO<Equip> {
         sentenciaPuntsPartitsRivals.setInt(2, equipId);
         ResultSet rsPuntsPartitsRivals = sentenciaPuntsPartitsRivals.executeQuery();
 
+        //Llista per emmagatzemar els resultats dels partits.
         List<Set<Map.Entry<String,Integer>>> llistaResultats = new ArrayList<>();
 
         while (rsPuntsPartitsPropis.next() && rsPuntsPartitsRivals.next()) {
+            //Obtenim el nom i la puntuacio de l'equip propi.
             String nomPropi = rsPuntsPartitsPropis.getString("nom");
             int puntuacioPropia = rsPuntsPartitsPropis.getInt("punts");
 
+            //Obtenim el nom i la puntuacio de l'equip rival.
             String nomRival = rsPuntsPartitsRivals.getString("nom");
             int puntuacioRival = rsPuntsPartitsRivals.getInt("punts");
 
+            //Guardem el conjunt de dades al Set.
             Set<Map.Entry<String,Integer>> resultatPartit = new LinkedHashSet<>();
 
+            //Afegim al Map.entry el resultat de l'equip propi.
             Map.Entry<String,Integer> resultatPropi = new AbstractMap.SimpleEntry<>(nomPropi, puntuacioPropia);
             resultatPartit.add(resultatPropi);
 
+            //Afegim al Map.entry el resultat de l'equip rival.
             Map.Entry<String,Integer> resultatRival = new AbstractMap.SimpleEntry<>(nomRival, puntuacioRival);
             resultatPartit.add(resultatRival);
 
+            //Tot conjuntament es guarda a la llista.
             llistaResultats.add(resultatPartit);
         }
 
+        //Retornem la llista
         return llistaResultats;
     }
 }

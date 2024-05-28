@@ -122,7 +122,7 @@ public class Controlador {
                         EstadisticaJugador eJugador = Model.exercici7(jugadorNom, partitID,connexio);
                         try {
                             do {
-                                //Cridem al menú
+                                //Cridem al menú per veure quines opcions es poden modificar
                                 Vista.menúModificarEstadistiques();
                                 opcio2 = scan.nextLine();
 
@@ -136,6 +136,7 @@ public class Controlador {
                                         modificacio = true;
                                         break;
                                     case "2":
+                                        //NOU punts
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Punts):");
                                         int nouPunts = scan.nextInt();
                                         scan.nextLine();
@@ -143,6 +144,7 @@ public class Controlador {
                                         modificacio = true;
                                         break;
                                     case "3":
+                                        //NOU tirs anotats
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs anotats):");
                                         int nouTirsAnotats = scan.nextInt();
                                         scan.nextLine();
@@ -150,6 +152,7 @@ public class Controlador {
                                         modificacio = true;
                                         break;
                                     case "4":
+                                        //NOU tirs tirats
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs tirats):");
                                         int nouTirsTirats = scan.nextInt();
                                         scan.nextLine();
@@ -157,6 +160,7 @@ public class Controlador {
                                         modificacio = true;
                                         break;
                                     case "5":
+                                        //NOU tirs triples anotats
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs triples anotats):");
                                         int nouTirsTriplesAnotats = scan.nextInt();
                                         scan.nextLine();
@@ -164,6 +168,7 @@ public class Controlador {
                                         modificacio = true;
                                         break;
                                     case "6":
+                                        //NOU tirs triples tirats
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs triples tirats):");
                                         int nouTirsTriplesTirats = scan.nextInt();
                                         scan.nextLine();
@@ -171,6 +176,7 @@ public class Controlador {
                                         modificacio = true;
                                         break;
                                     case "7":
+                                        //NOU tirs lliures anotats
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs lliures anotats):");
                                         int nouTirsLliuresAnotats = scan.nextInt();
                                         scan.nextLine();
@@ -178,6 +184,7 @@ public class Controlador {
                                         modificacio = true;
                                         break;
                                     case "8":
+                                        //NOU tirs triples tirats
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs lliures tirats):");
                                         int nouTirsLliuresTirats = scan.nextInt();
                                         scan.nextLine();
@@ -185,6 +192,7 @@ public class Controlador {
                                         modificacio = true;
                                         break;
                                     case "9":
+                                        //NOU Rebots ofensius
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Rebots ofensius):");
                                         int nouRebotsOfensius = scan.nextInt();
                                         scan.nextLine();
@@ -192,6 +200,7 @@ public class Controlador {
                                         modificacio = true;
                                         break;
                                     case "10":
+                                        //NOU rebots defensius
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Rebots defensius):");
                                         int nouRebotsDefensius = scan.nextInt();
                                         scan.nextLine();
@@ -199,6 +208,7 @@ public class Controlador {
                                         modificacio = true;
                                         break;
                                     case "11":
+                                        //NOU assistencies
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Assistencies):");
                                         int nouAssistencies = scan.nextInt();
                                         scan.nextLine();
@@ -206,6 +216,7 @@ public class Controlador {
                                         modificacio = true;
                                         break;
                                     case "12":
+                                        //NOU robades
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Robades):");
                                         int nouRobades = scan.nextInt();
                                         scan.nextLine();
@@ -213,6 +224,7 @@ public class Controlador {
                                         modificacio = true;
                                         break;
                                     case "13":
+                                        //NOU bloqueig
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Bloqueig):");
                                         int nouBloqueig = scan.nextInt();
                                         scan.nextLine();
@@ -230,9 +242,9 @@ public class Controlador {
                                 }
                             } while (!(opcio2.equals("0")));
                         } catch (InputMismatchException e){
-                            Vista.mostrarMissatge("Dades incorrectes");
+                            Vista.mostrarMissatge("EXCEPCIÓ, ves amb compte: Dades incorrectes, recorda que només poden ser números");
                         } catch (Exception e) {
-                            Vista.mostrarMissatge(e.getMessage());
+                            Vista.mostrarMissatge("EXCEPCIÓ, ves amb compte: " + e.getMessage());
                         }
                         break;
                     case "8":
@@ -264,7 +276,7 @@ public class Controlador {
                 }
             } while (!(opcio.equals("0")));
         } catch (Exception e){
-            Vista.mostrarMissatge(e.getMessage());
+            Vista.mostrarMissatge("EXCEPCIÓ, ves amb compte: " + e.getMessage());
         }
     }
 }

@@ -12,6 +12,7 @@ public class Jugador {
     private String posicio;
     private int equipId;
 
+    //Constructor Jugador
     public Jugador(String nom, String cognom, Date dataNaixement, float alcada, float pes, String dorsal, String posicio, int equipId) {
         this.id = 0;
         this.nom = nom;
@@ -24,6 +25,7 @@ public class Jugador {
         this.equipId = equipId;
     }
 
+    //Setter i getters Jugador
     public int getId() {
         return id;
     }

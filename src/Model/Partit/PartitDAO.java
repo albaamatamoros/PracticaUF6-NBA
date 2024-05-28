@@ -12,6 +12,7 @@ public class PartitDAO implements DAO<Partit> {
 
     //MÈTODES D'INTERFÍCIE DAO GENERALS
     @Override
+    //Insertar Partit
     public boolean insertar(Partit partit, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "INSERT INTO partits (equip_id,data_partit,matx,resultat) VALUES (?,?,?,?)"
@@ -26,6 +27,7 @@ public class PartitDAO implements DAO<Partit> {
     }
 
     @Override
+    //Actualitzar Partit
     public boolean actualitzar(Partit partit, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "UPDATE partits SET data_partit= ?, matx= ?, resultat= ? WHERE partit_id= ? AND equip_id = ?"
@@ -41,6 +43,7 @@ public class PartitDAO implements DAO<Partit> {
     }
 
     @Override
+    //Esborrar Partit
     public boolean esborrar(Partit partit, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement("DELETE FROM partits WHERE partit_id = ?");
 
@@ -50,6 +53,7 @@ public class PartitDAO implements DAO<Partit> {
     }
 
     @Override
+    //Cercar Partits
     public Partit cercar(int id, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT * FROM partits WHERE partit_id = ?"
@@ -74,6 +78,7 @@ public class PartitDAO implements DAO<Partit> {
     }
 
     @Override
+    //Contar Partits
     public int count(Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT COUNT(*) FROM partits"
@@ -111,7 +116,7 @@ public class PartitDAO implements DAO<Partit> {
         return true;
     }
 
-    //7
+    //7 Buscar si exsistei el partit inserit
     public int cercarPartitID(int partitID, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT * FROM partits WHERE partit_id = ?"
