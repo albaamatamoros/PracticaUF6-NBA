@@ -51,7 +51,6 @@ public class PartitDAO implements DAO<Partit> {
 
     @Override
     public Partit cercar(int id, Connection connexio) throws SQLException {
-        //Connection connexio = Connexio.getConnection();
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT * FROM partits WHERE partit_id = ?"
         );
@@ -75,8 +74,7 @@ public class PartitDAO implements DAO<Partit> {
     }
 
     @Override
-    public int count() throws SQLException {
-        Connection connexio = Connexio.getConnection();
+    public int count(Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT COUNT(*) FROM partits"
         );
@@ -89,8 +87,7 @@ public class PartitDAO implements DAO<Partit> {
     //MÈTODES D'INTERFÍCIE ESPECÍFICS EXERCICIS
 
     //6 Actualitzar les dades de jugadors o equips després d'un partit
-    public boolean actualitzarEnMassa(List<Partit> partits) throws SQLException {
-        Connection connexio = Connexio.getConnection();
+    public boolean actualitzarEnMassa(List<Partit> partits, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "UPDATE partits SET data_partit=?, matx=?, resultat=? WHERE partit_id=? AND equip_id =?"
         );
@@ -115,7 +112,18 @@ public class PartitDAO implements DAO<Partit> {
     }
 
     //7
-    public int cercarPartit(int partitID) throws SQLException {
-        return 0;
+    public int cercarPartitID(int partitID, Connection connexio) throws SQLException {
+        PreparedStatement sentencia = connexio.prepareStatement(
+                "SELECT * FROM partits WHERE partit_id = ?"
+        );
+
+        sentencia.setInt(1,partitID);
+        ResultSet rsPartit = sentencia.executeQuery();
+
+        if (rsPartit.next()) {
+            return rsPartit.getInt("partit_id");
+        } else {
+            return 0;
+        }
     }
 }

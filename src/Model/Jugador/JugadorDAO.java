@@ -8,8 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 public class JugadorDAO implements DAO<Jugador> {
 
@@ -90,8 +88,7 @@ public class JugadorDAO implements DAO<Jugador> {
     }
 
     @Override
-    public int count() throws SQLException {
-        Connection connexio = Connexio.getConnection();
+    public int count(Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT COUNT(*) FROM jugadors"
         );
@@ -105,8 +102,7 @@ public class JugadorDAO implements DAO<Jugador> {
     //MÈTODES D'INTERFÍCIE ESPECÍFICS EXERCICIS
 
     //2 Calcular la mitjana de punts, rebots, assistències, ... d'un jugador
-    public LinkedHashMap<String,Float> calcularMitjana(String nomComplet) throws Exception {
-        Connection connexio = Connexio.getConnection();
+    public LinkedHashMap<String,Float> calcularMitjana(String nomComplet, Connection connexio) throws Exception {
         Vista.mostrarMissatge("Cercant mitjana...");
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT ROUND(AVG(punts),2) AS mitjana_punts, " +
@@ -116,7 +112,7 @@ public class JugadorDAO implements DAO<Jugador> {
                         "WHERE jugador_id = ?"
         );
 
-        int jugadorId = cercarIdPerNom(nomComplet);
+        int jugadorId = cercarIdPerNom(nomComplet,connexio);
 
         if (jugadorId == 0) {
             throw new Exception("Jugador no trobat");
@@ -136,8 +132,7 @@ public class JugadorDAO implements DAO<Jugador> {
     }
 
     //4 Inserir un nou jugador a un equip.
-    public int cercarIdPerNom(String nomComplet) throws SQLException {
-        Connection connexio = Connexio.getConnection();
+    public int cercarIdPerNom(String nomComplet, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT jugador_id,CONCAT(nom,' ',cognom) AS nom_complet FROM jugadors HAVING nom_complet = ?"
         );

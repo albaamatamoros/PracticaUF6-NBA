@@ -3,6 +3,7 @@ import Model.Connexio;
 import Model.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -50,12 +51,11 @@ public class EstadisticsJugadorsHistoricsDAO implements DAO<EstadisticaJugadorHi
     }
 
     @Override
-    public int count() throws SQLException {
+    public int count(Connection connexio) throws SQLException {
         return 0;
     }
 
-    public boolean traspassarEstadistiques(List<EstadisticaJugadorHistoric> estadistiquesHistoriques) throws SQLException {
-        Connection connexio = Connexio.getConnection();
+    public boolean traspassarEstadistiques(List<EstadisticaJugadorHistoric> estadistiquesHistoriques, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "INSERT INTO estadistiques_jugadors_historics (jugador_id,nom,cognom,equip_id,partit_id,minuts_jugats,punts,tirs_anotats,tirs_tirats,tirs_triples_anotats,tirs_triples_tirats,tirs_lliures_anotats,tirs_lliures_tirats,rebots_ofensius,rebots_defensius,assistencies,robades,bloqueigs) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
         );

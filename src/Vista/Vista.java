@@ -54,14 +54,15 @@ public class Vista {
         System.out.println("2. Punts");
         System.out.println("3. Tirs anotats");
         System.out.println("4. Tirs tirats");
-        System.out.println("5. Tirs tirats");
-        System.out.println("6. Tirs triples anotats");
-        System.out.println("7. Tirs triples tirats");
-        System.out.println("8. Tirs lliures anotats");
-        System.out.println("9. Tirs lliures tirats");
-        System.out.println("10. Rebots ofensius");
-        System.out.println("11. Rebots defensius");
-        System.out.println("12. Assistencies");
+        System.out.println("5. Tirs triples anotats");
+        System.out.println("6. Tirs triples tirats");
+        System.out.println("7. Tirs lliures anotats");
+        System.out.println("8. Tirs lliures tirats");
+        System.out.println("9. Rebots ofensius");
+        System.out.println("10. Rebots defensius");
+        System.out.println("11. Assistencies");
+        System.out.println("12. Robades");
+        System.out.println("13. Bloqueig");
         System.out.println("0. sortir");
     }
 }

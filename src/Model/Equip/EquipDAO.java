@@ -5,7 +5,6 @@ import Model.Connexio;
 import Model.Jugador.JugadorDAO;
 import Vista.Vista;
 
-import javax.print.attribute.standard.RequestingUserName;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -74,8 +73,6 @@ public class EquipDAO implements DAO<Equip> {
     @Override
     //Cercar un equip.
     public Equip cercar(int id, Connection connexio) throws SQLException {
-        //Cridem a la connexió per connectar-nos a una BD
-        //Connection connexio = Connexio.getConnection();
         //Preparem una consulta per poder cercar un equip en concret.
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT * FROM equips WHERE equip_id = ?"
@@ -107,8 +104,7 @@ public class EquipDAO implements DAO<Equip> {
 
     @Override
     //Contar quants equips tenim.
-    public int count() throws SQLException {
-        Connection connexio = Connexio.getConnection();
+    public int count(Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT COUNT(*) FROM equips"
         );
@@ -123,8 +119,7 @@ public class EquipDAO implements DAO<Equip> {
 
     //1 Llistar tots els jugadors d'un equip
     public List<Jugador> obtenirJugadors(String nomEquip, Connection connexio) throws Exception {
-        //Connectem a la BD.
-        //Connection connexio = Connexio.getConnection();
+        Vista.mostrarMissatge("CERCANT JUGADORS...");
         //Preparem la nostra sentència amb la consulta DML que volem utilitzar.
         PreparedStatement sentenciaJugadors = connexio.prepareStatement(
                 //La nostra sentència mostra amb una concatenació el nom i el cognom dels jugadors que pertanyin de l'equip que insereix l'usuari.
@@ -138,7 +133,6 @@ public class EquipDAO implements DAO<Equip> {
         //Fem una llista de jugadors.
         List<Jugador> llistaJugadors;
 
-        Vista.mostrarMissatge("Cercant jugadors...");
         if (rsJugadors.next()) {
             llistaJugadors = new ArrayList<>();
             JugadorDAO jugadorDAO = new JugadorDAO();
@@ -156,8 +150,7 @@ public class EquipDAO implements DAO<Equip> {
     }
 
     //4 Inserir un nou jugador a un equip. (Cercar l'ID)
-    public int cercarIdPerNom(String nomEquip) throws SQLException {
-        Connection connexio = Connexio.getConnection();
+    public int cercarIdPerNom(String nomEquip, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT equip_id,CONCAT(ciutat,' ',nom) AS nom_equip FROM equips HAVING nom_equip = ?"
         );
@@ -174,8 +167,7 @@ public class EquipDAO implements DAO<Equip> {
     }
 
     //3 Llistar tots els partits jugats per un equip amb el seu resultat.
-    public List<Set<Map.Entry<String,Integer>>> obtenirResultatPartits(String nomEquip) throws Exception {
-        Connection connexio = Connexio.getConnection();
+    public List<Set<Map.Entry<String,Integer>>> obtenirResultatPartits(String nomEquip, Connection connexio) throws Exception {
         PreparedStatement sentenciaEquip = connexio.prepareStatement(
                 "SELECT equip_id,acronim,CONCAT(ciutat,' ',nom) AS nom_equip FROM equips HAVING nom_equip LIKE ?"
         );

@@ -1,6 +1,8 @@
 package Model.EstadisticaJugador;
 import Model.DAO;
 import Model.Connexio;
+import Vista.Vista;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -116,8 +118,7 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
     }
 
     @Override
-    public int count() throws SQLException {
-        Connection connexio = Connexio.getConnection();
+    public int count(Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT COUNT(*) FROM estadistiques_jugadors"
         );
@@ -131,8 +132,8 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
     //MÈTODES D'INTERFÍCIE ESPECÍFICS EXERCICIS
 
     //6 Actualitzar les dades de jugadors o equips després d'un partit
-    public boolean actualitzarEnMassa(List<EstadisticaJugador> estadistiquesJugador) throws SQLException {
-        Connection connexio = Connexio.getConnection();
+    public boolean actualitzarEnMassa(List<EstadisticaJugador> estadistiquesJugador, Connection connexio) throws SQLException {
+        Vista.mostrarMissatge("Actualitzant dades...");
         PreparedStatement sentencia = connexio.prepareStatement(
                 "UPDATE estadistiques_jugadors SET minuts_jugats=?,punts=?,tirs_anotats=?,tirs_tirats=?,tirs_triples_anotats=?,tirs_triples_tirats=?,tirs_lliures_anotats=?,tirs_lliures_tirats=?,rebots_ofensius=?,rebots_defensius=?,assistencies=?,robades=?,bloqueigs=? WHERE jugador_id=? AND equip_id=? AND partit_id=?"
         );
@@ -164,8 +165,7 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
         return true;
     }
 
-    public List<EstadisticaJugador> obtenirEstadistiques(int jugadorId) throws SQLException {
-        Connection connexio = Connexio.getConnection();
+    public List<EstadisticaJugador> obtenirEstadistiques(int jugadorId, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT * FROM estadistiques_jugadors WHERE jugador_id = ?"
         );
@@ -235,15 +235,44 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
         return eJugador;
     }
 
-    /*
-    @Override
-    public boolean modificarDades(EstadisticaJugador estadisticaJugador, Connection connexio) throws SQLException {
+    //7
+    public boolean actualitzarModificacions(EstadisticaJugador estadisticaJugador, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
-                "UPDATE estadistiques_jugadors SET punts = ?"
+                "UPDATE estadistiques_jugadors SET minuts_jugats=?,punts=?,tirs_anotats=?,tirs_tirats=?,tirs_triples_anotats=?,tirs_triples_tirats=?,tirs_lliures_anotats=?,tirs_lliures_tirats=?,rebots_ofensius=?,rebots_defensius=?,assistencies=?,robades=?,bloqueigs=? WHERE jugador_id=? AND partit_id=?"
         );
+
+        sentencia.setFloat(1,estadisticaJugador.getMinutsJugats());
+        sentencia.setInt(2,estadisticaJugador.getPunts());
+        sentencia.setInt(3,estadisticaJugador.getTirsAnotats());
+        sentencia.setInt(4,estadisticaJugador.getTirsTirats());
+        sentencia.setInt(5,estadisticaJugador.getTirsTriplesAnotats());
+        sentencia.setInt(6,estadisticaJugador.getTirsTriplesTirats());
+        sentencia.setInt(7,estadisticaJugador.getTirsLliuresAnotats());
+        sentencia.setInt(8,estadisticaJugador.getTirsLliuresTirats());
+        sentencia.setInt(9,estadisticaJugador.getRebotsOfensius());
+        sentencia.setInt(10,estadisticaJugador.getRebotsDefensius());
+        sentencia.setInt(11,estadisticaJugador.getAssistencies());
+        sentencia.setInt(12,estadisticaJugador.getRobades());
+        sentencia.setInt(13,estadisticaJugador.getBloqueigs());
+        sentencia.setInt(14,estadisticaJugador.getJugadorId());
+        sentencia.setInt(15,estadisticaJugador.getPartitId());
 
         return sentencia.executeUpdate() > 0;
     }
 
-     */
+    //7
+    public int cercarPartitJugat(int partitID, int jugadorId, Connection connexio) throws SQLException {
+        PreparedStatement sentencia = connexio.prepareStatement(
+                "SELECT * FROM estadistiques_jugadors WHERE jugador_id=? AND partit_id=?"
+        );
+
+        sentencia.setInt(1,jugadorId);
+        sentencia.setInt(2,partitID);
+        ResultSet rsResultat = sentencia.executeQuery();
+
+        if (rsResultat.next()) {
+            return rsResultat.getInt("partit_id");
+        }
+        return 0;
+    }
 }

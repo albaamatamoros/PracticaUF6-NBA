@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -27,9 +28,7 @@ public class Model {
     static EstadisticsJugadorsHistoricsDAO estadisticsJugadorsHistoricsDAO = new EstadisticsJugadorsHistoricsDAO();
 
     //1.- Llistar tots els jugadors d'un equip
-    public static void exercici1(String equipNom) throws Exception {
-        //Cridem a la connexió per connectar-nos a una BD.
-        Connection connexio = Connexio.getConnection();
+    public static void exercici1(String equipNom, Connection connexio) throws Exception {
         //Fem una llista jugadors per poder guardar i mostrar tots els jugadors de l'equip demanat.
         List<Jugador> jugadors = equipDAO.obtenirJugadors(equipNom,connexio);
         //Mostra la llista de jugadors.
@@ -37,30 +36,27 @@ public class Model {
     }
 
     //2.- Calcular la mitjana de punts, rebots, assistències, ... d'un jugador
-    public static void exercici2(String jugadorNom) throws Exception {
-        Connection connexio = Connexio.getConnection();
+    public static void exercici2(String jugadorNom, Connection connexio) throws Exception {
         //Utilitzem un LinkedHasMap per mostrar els càlculs de les mitjanes de forma ordenada.
-        LinkedHashMap<String,Float> mitjanes = jugadorDAO.calcularMitjana(jugadorNom);
+        LinkedHashMap<String,Float> mitjanes = jugadorDAO.calcularMitjana(jugadorNom, connexio);
         //Mostrem totes les mitjanes.
         Vista.llistarMitjanes(mitjanes);
     }
 
     //3.- Llistar tots els partits jugats per un equip amb el seu resultat.
-    public static void exercici3(String equipNom) throws Exception {
-        Connection connexio = Connexio.getConnection();
-        List<Set<Map.Entry<String,Integer>>> llista = equipDAO.obtenirResultatPartits(equipNom);
+    public static void exercici3(String equipNom, Connection connexio) throws Exception {
+        List<Set<Map.Entry<String,Integer>>> llista = equipDAO.obtenirResultatPartits(equipNom, connexio);
         Vista.llistarPartitsIResultats(llista);
     }
 
     //4.- Inserir un nou jugador a un equip.
-    public static boolean exercici4(String jugadorNom, String equipNom) throws Exception {
-        Connection connexio = Connexio.getConnection();
-        if (jugadorDAO.cercarIdPerNom(jugadorNom) == 0) {
-            int equipId = equipDAO.cercarIdPerNom(equipNom);
+    public static boolean exercici4(String jugadorNom, String equipNom, Connection connexio) throws Exception {
+        if (jugadorDAO.cercarIdPerNom(jugadorNom, connexio) == 0) {
+            int equipId = equipDAO.cercarIdPerNom(equipNom,connexio);
             if (equipId != 0) {
                 //Generar el jugador i insertar-lo
                 Jugador jugador = generarJugadorAleatori(jugadorNom,equipId);
-                boolean correcte = jugadorDAO.insertar(jugador, connexio);
+                boolean correcte = jugadorDAO.insertar(jugador,connexio);
 
                 //Comprovar si s'ha creat correctament.
                 if (correcte) Vista.mostrarMissatge("El jugador s'ha registrat correctament");
@@ -99,12 +95,11 @@ public class Model {
     }
 
     //5.- Traspassar un judador a un altra equip
-    public static void exercici5(String jugadorNom, String equipNom) throws Exception {
-        Connection connexio = Connexio.getConnection();
-        int jugadorId = jugadorDAO.cercarIdPerNom(jugadorNom);
+    public static void exercici5(String jugadorNom, String equipNom, Connection connexio) throws Exception {
+        int jugadorId = jugadorDAO.cercarIdPerNom(jugadorNom, connexio);
 
         if (jugadorId != 0) {
-            int equipId = equipDAO.cercarIdPerNom(equipNom);
+            int equipId = equipDAO.cercarIdPerNom(equipNom,connexio);
 
             if (equipId != 0) {
                 Jugador jugador = jugadorDAO.cercar(jugadorId, connexio);
@@ -118,12 +113,11 @@ public class Model {
                     Vista.mostrarMissatge("No s'ha pogut traspassar el jugador");
                 }
             } else { Vista.mostrarMissatge("L'equip no existeix"); }
-        } else { Vista.mostrarMissatge("El jugador no existeix."); }
+        } else { Vista.mostrarMissatge("El jugador no existeix"); }
     }
 
     //6.- Actualitzar les dades de jugadors o equips després d'un partit.
-    public static void exercici6() throws Exception {
-        Connection connexio = Connexio.getConnection();
+    public static void exercici6(Connection connexio) throws Exception {
         String rutaPython = "./obtenirActualitzacions.py";
 
         String rutaCsvPartits = "./partits.csv";
@@ -186,8 +180,8 @@ public class Model {
             estadistiquesJugadors.add(estadisticaJugador);
         }
 
-        boolean correctePartits = partitDAO.actualitzarEnMassa(partits);
-        boolean correcteEstadistiques = estadisticaJugadorDAO.actualitzarEnMassa(estadistiquesJugadors);
+        boolean correctePartits = partitDAO.actualitzarEnMassa(partits, connexio);
+        boolean correcteEstadistiques = estadisticaJugadorDAO.actualitzarEnMassa(estadistiquesJugadors, connexio);
 
         if (correctePartits && correcteEstadistiques) {
             Vista.mostrarMissatge("S'han actualitzat les dades correctament");
@@ -197,28 +191,36 @@ public class Model {
     }
 
     //7.- Modificar les estadístiques d’un jugador
-    public static EstadisticaJugador exercici7(String jugadorNom, int partitID) throws Exception {
-        Connection connexio = Connexio.getConnection();
-        int jugadorId = jugadorDAO.cercarIdPerNom(jugadorNom);
+    public static EstadisticaJugador exercici7(String jugadorNom, int partitID, Connection connexio) throws Exception {
+        int jugadorId = jugadorDAO.cercarIdPerNom(jugadorNom, connexio);
 
         if (jugadorId != 0) {
-            int IDpartit = partitDAO.cercarPartit(partitID);
+            int IDpartit = partitDAO.cercarPartitID(partitID, connexio);
             if (IDpartit != 0) {
-                EstadisticaJugador eJugador = estadisticaJugadorDAO.obtenirEstadistiquesModificables(jugadorId, IDpartit, connexio);
-                return eJugador;
-            }
-        }
+                if (estadisticaJugadorDAO.cercarPartitJugat(partitID, jugadorId, connexio) != 0){
+                    EstadisticaJugador eJugador = estadisticaJugadorDAO.obtenirEstadistiquesModificables(jugadorId, IDpartit, connexio);
+                    return eJugador;
+                } else Vista.mostrarMissatge("Aquest jugador no ha jugat cap partit amb aquesta ID");
+            } else Vista.mostrarMissatge("No s'ha trobat el partit especificat");
+        } else Vista.mostrarMissatge("El jugador no existeix");
         return null;
     }
 
+    public static void exercici7P2(EstadisticaJugador eJugador, boolean modificacio, Connection connexio) throws SQLException {
+        System.out.printf(String.valueOf(modificacio));
+        if (modificacio) {
+            estadisticaJugadorDAO.actualitzarModificacions(eJugador, connexio);
+            Vista.mostrarMissatge("S'han actualitzat les dades modificades correctament");
+        } else Vista.mostrarMissatge("No s'ha fet cap modificació, no s'actualitzaran les dades");
+    }
+
     //8.- Retirar (Eliminar) un jugador.
-    public static void exercici8(String jugadorNom) throws Exception {
-        Connection connexio = Connexio.getConnection();
-        int jugadorId = jugadorDAO.cercarIdPerNom(jugadorNom);
+    public static void exercici8(String jugadorNom, Connection connexio) throws Exception {
+        int jugadorId = jugadorDAO.cercarIdPerNom(jugadorNom,connexio);
 
         if (jugadorId != 0) {
-            Jugador jugador = jugadorDAO.cercar(jugadorId, connexio);
-            List<EstadisticaJugador> estadistiques = estadisticaJugadorDAO.obtenirEstadistiques(jugadorId);
+            Jugador jugador = jugadorDAO.cercar(jugadorId,connexio);
+            List<EstadisticaJugador> estadistiques = estadisticaJugadorDAO.obtenirEstadistiques(jugadorId,connexio);
             List<EstadisticaJugadorHistoric> estadistiquesHistoriques = new ArrayList<>();
 
             for (EstadisticaJugador estadistica : estadistiques) {
@@ -244,14 +246,13 @@ public class Model {
                 estadistiquesHistoriques.add(eH);
             }
 
-            estadisticsJugadorsHistoricsDAO.traspassarEstadistiques(estadistiquesHistoriques);
+            estadisticsJugadorsHistoricsDAO.traspassarEstadistiques(estadistiquesHistoriques,connexio);
         }
     }
 
     //9.- Canviar nom franquícia d’un equip
-    public static void exercici9(String equipNom, String franquiciaNom) throws Exception {
-        Connection connexio = Connexio.getConnection();
-        int equipId = equipDAO.cercarIdPerNom(equipNom);
+    public static void exercici9(String equipNom, String franquiciaNom, Connection connexio) throws Exception {
+        int equipId = equipDAO.cercarIdPerNom(equipNom,connexio);
         if (equipId != 0){
             Equip equip = equipDAO.cercar(equipId, connexio);
             equip.setCiutat(franquiciaNom);
