@@ -136,6 +136,7 @@ public class Controlador {
                             System.out.println(e.getMessage());
                         }
                         break;
+                        //a
                     case "8":
                         Vista.mostrarMissatge("Introdueix un jugador per eliminar-lo: (Ex: LeBron James)");
                         jugadorNom = scan.nextLine();
