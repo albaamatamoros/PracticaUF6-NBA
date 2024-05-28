@@ -25,8 +25,13 @@ public class Connexio {
     private static final String USUARI2 = "perepi";
     private static final String PASSWORD2 = "pastanaga";
 
-    //Comprovem si la base de dades principals és operativa, si no és el cas donarà una excepció que tractarem intent connectarà amb la BD secundària.
+    //PER FER PROVES CORRECTAMENT I QUE NO TRIGUI MASSA EN CARREGAR,
+    //RECOMANEM AFEGIR LA BASE DE DADES QUE SABEM QUE FUNCIONARA A LA PRIMERA EN AQUESTS VARIABLES PERQUÈ S'EXECUTI A LA PRIMERA
+    //(URL, USUARI, PASSWORD).
+
+    //Comprovem si la base de dades principals és operativa, si no és el cas donarà una excepció que tractarem intent connectarà amb les següents BD.
     public static Connection getConnection() throws SQLException {
+        Vista.mostrarMissatge("Connectant amb la base de dades, tingui paciència...");
         String[] urls = {URL, URL2, URL3}, usuaris = {USUARI, USUARI, USUARI2}, passwords = {PASSWORD, PASSWORD, PASSWORD2};
         Connection connection = null;
 
@@ -48,6 +53,7 @@ public class Connexio {
         }
         if (connection == null) {
             Vista.mostrarMissatge("No s'ha pogut connectar amb cap BD");
+            System.exit(0);
         }
         return connection;
     }

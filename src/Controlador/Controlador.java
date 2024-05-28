@@ -1,4 +1,5 @@
 package Controlador;
+import Model.EstadisticaJugador.EstadisticaJugador;
 import Vista.Vista;
 import Model.Model;
 import java.util.Scanner;
@@ -99,7 +100,9 @@ public class Controlador {
                         if (jugadorNom.matches(".*\\d.*")) throw new Exception("Un nom només pot contenir lletres.");
                         Vista.mostrarMissatge("Introdueix l'ID d'un partit per modificar les seves estadístiques: (Ex: 22300001)");
                         partitID = scan.nextInt();
-                        Model.exercici7(jugadorNom, partitID);
+                        scan.nextLine();
+                        //Cridem exercici 7.
+                        EstadisticaJugador eJugador = Model.exercici7(jugadorNom, partitID);
                         try {
                             do {
                                 //Cridem al menú
@@ -107,6 +110,10 @@ public class Controlador {
                                 opcio = scan.nextLine();
                                 switch (opcio) {
                                     case "1":
+                                        System.out.println("Introdueix el nou valor per minuts jugats:");
+                                        float nouMinutsJugats = scan.nextFloat();
+                                        scan.nextLine();
+                                        eJugador.setMinutsJugats(nouMinutsJugats);
                                         break;
                                     case "2":
                                         break;
@@ -125,6 +132,7 @@ public class Controlador {
                                     case "9":
                                         break;
                                     case "0":
+                                        //Actualitzar les dades modificades.
                                         break;
                                     default:
                                         System.out.println("-------------------------------");

@@ -5,14 +5,12 @@ import Model.EstadisticsJugadorsHistorics.*;
 import Model.Jugador.*;
 import Model.Partit.*;
 import Vista.Vista;
-import com.sun.source.tree.LiteralTree;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -199,39 +197,18 @@ public class Model {
     }
 
     //7.- Modificar les estadístiques d’un jugador
-    public static void exercici7(String jugadorNom, int partitID) throws Exception {
+    public static EstadisticaJugador exercici7(String jugadorNom, int partitID) throws Exception {
         Connection connexio = Connexio.getConnection();
         int jugadorId = jugadorDAO.cercarIdPerNom(jugadorNom);
 
         if (jugadorId != 0) {
-            int partitID = partitDAO.cercarPartit(partitID);
-            if (partitID != 0) {
-                EstadisticaJugador estadisticaJugador = estadisticaJugadorDAO.obtenirEstadistiquesModificables(jugadorId, partitID, connexio)
-
-                if (estadisticaJugador == null) {
-                    EstadisticaJugadorHistoric estadisticaJugador = new estadisticaJugadorEscollit (jugadorId,
-                            jugador.getNom(),
-                            jugador.getCognom(),
-                            estadistica.getEquipId(),
-                            estadistica.getPartitId(),
-                            estadistica.getMinutsJugats(),
-                            estadistica.getPunts(),
-                            estadistica.getTirsAnotats(),
-                            estadistica.getTirsTirats(),
-                            estadistica.getTirsTriplesAnotats(),
-                            estadistica.getTirsTriplesTirats(),
-                            estadistica.getTirsLliuresAnotats(),
-                            estadistica.getTirsLliuresTirats(),
-                            estadistica.getRebotsOfensius(),
-                            estadistica.getRebotsDefensius(),
-                            estadistica.getAssistencies(),
-                            estadistica.getRobades(),
-                            estadistica.getBloqueigs());
-
-                    eestadisticaJugadorEscollit = estadisticaJugador;
-                }
+            int IDpartit = partitDAO.cercarPartit(partitID);
+            if (IDpartit != 0) {
+                EstadisticaJugador eJugador = estadisticaJugadorDAO.obtenirEstadistiquesModificables(jugadorId, IDpartit, connexio);
+                return eJugador;
             }
         }
+        return null;
     }
 
     //8.- Retirar (Eliminar) un jugador.
