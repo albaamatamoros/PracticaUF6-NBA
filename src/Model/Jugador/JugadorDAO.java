@@ -15,8 +15,7 @@ public class JugadorDAO implements DAO<Jugador> {
 
     //MÈTODES D'INTERFÍCIE DAO GENERALS
     @Override
-    public boolean insertar(Jugador jugador) throws SQLException {
-        Connection connexio = Connexio.getConnection();
+    public boolean insertar(Jugador jugador, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "INSERT INTO jugadors (nom,cognom,data_naixement,alcada,pes,dorsal,posicio,equip_id) VALUES (?,?,?,?,?,?,?,?)"
         );
@@ -34,8 +33,7 @@ public class JugadorDAO implements DAO<Jugador> {
     }
 
     @Override
-    public boolean actualitzar(Jugador jugador) throws SQLException {
-        Connection connexio = Connexio.getConnection();
+    public boolean actualitzar(Jugador jugador, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "UPDATE jugadors SET nom=?,cognom=?,data_naixement=?,alcada=?,pes=?,dorsal=?,posicio=?,equip_id=? WHERE jugador_id=?"
         );
@@ -54,8 +52,7 @@ public class JugadorDAO implements DAO<Jugador> {
     }
 
     @Override
-    public boolean esborrar(Jugador jugador) throws SQLException {
-        Connection connexio = Connexio.getConnection();
+    public boolean esborrar(Jugador jugador, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "DELETE FROM jugadors WHERE jugador_id = ?"
         );
@@ -66,8 +63,7 @@ public class JugadorDAO implements DAO<Jugador> {
     }
 
     @Override
-    public Jugador cercar(int id) throws SQLException {
-        Connection connexio = Connexio.getConnection();
+    public Jugador cercar(int id, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT * FROM jugadors WHERE jugador_id = ?"
         );

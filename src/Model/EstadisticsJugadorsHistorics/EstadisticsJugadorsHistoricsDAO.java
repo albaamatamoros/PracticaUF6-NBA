@@ -9,8 +9,7 @@ import java.util.List;
 public class EstadisticsJugadorsHistoricsDAO implements DAO<EstadisticaJugadorHistoric> {
 
     @Override
-    public boolean insertar(EstadisticaJugadorHistoric estadisticaJugadorHistoric) throws SQLException {
-        Connection connexio = Connexio.getConnection();
+    public boolean insertar(EstadisticaJugadorHistoric estadisticaJugadorHistoric, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement("INSERT INTO estadistiques_jugadors_historics (jugador_id,nom,cognom,equip_id,partit_id,minuts_jugats,punts,tirs_anotats,tirs_tirats,tirs_triples_anotats,tirs_triples_tirats,tirs_lliures_anotats,tirs_lliures_tirats,rebots_ofensius,rebots_defensius,assistencies,robades,bloqueigs) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
         sentencia.setInt(1, estadisticaJugadorHistoric.getJugadorId());
@@ -36,17 +35,17 @@ public class EstadisticsJugadorsHistoricsDAO implements DAO<EstadisticaJugadorHi
     }
 
     @Override
-    public boolean actualitzar(EstadisticaJugadorHistoric obj) throws SQLException {
+    public boolean actualitzar(EstadisticaJugadorHistoric obj, Connection connexio) throws SQLException {
         return false;
     }
 
     @Override
-    public boolean esborrar(EstadisticaJugadorHistoric obj) throws SQLException {
+    public boolean esborrar(EstadisticaJugadorHistoric obj, Connection connexio) throws SQLException {
         return false;
     }
 
     @Override
-    public EstadisticaJugadorHistoric cercar(int id) throws SQLException {
+    public EstadisticaJugadorHistoric cercar(int id, Connection connexio) throws SQLException {
         return null;
     }
 

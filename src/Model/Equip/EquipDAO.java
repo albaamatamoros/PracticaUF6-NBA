@@ -17,9 +17,7 @@ public class EquipDAO implements DAO<Equip> {
     //MÈTODES D'INTERFÍCIE DAO GENERALS
     @Override
     //Insertar un equip.
-    public boolean insertar(Equip equip) throws SQLException {
-        //Cridem a la connexió per connectar-nos a una BD.
-        Connection connexio = Connexio.getConnection();
+    public boolean insertar(Equip equip, Connection connexio) throws SQLException {
         //Preparem la sentència DDL per afegir el nostre nou equip amb PreparedStatement.
         PreparedStatement sentencia = connexio.prepareStatement(
                 "INSERT INTO equips (ciutat,nom,acronim,divisio,guanyades,perdudes) VALUES (?,?,?,?,?,?)"
@@ -39,9 +37,7 @@ public class EquipDAO implements DAO<Equip> {
 
     @Override
     //Actualitzar un equip.
-    public boolean actualitzar(Equip equip) throws SQLException {
-        //Cridem a la connexió per connectar-nos a una BD
-        Connection connexio = Connexio.getConnection();
+    public boolean actualitzar(Equip equip, Connection connexio) throws SQLException {
         //Preparem la sentència DDL per actualitzar dades d'un equip amb PreparedStatement.
         PreparedStatement sentencia = connexio.prepareStatement(
                 "UPDATE equips SET ciutat = ?, nom = ?, acronim = ?, divisio = ?, guanyades = ?, perdudes = ? WHERE equip_id = ?"
@@ -62,9 +58,7 @@ public class EquipDAO implements DAO<Equip> {
 
     @Override
     //Esborrar un equip.
-    public boolean esborrar(Equip equip) throws SQLException {
-        //Cridem a la connexió per connectar-nos a una BD
-        Connection connexio = Connexio.getConnection();
+    public boolean esborrar(Equip equip, Connection connexio) throws SQLException {
         //Preparem la sentència DDL per esborrar un equip amb PreparedStatement.
         PreparedStatement sentencia = connexio.prepareStatement(
                 "DELETE FROM equips WHERE equip_id = ?"
@@ -79,9 +73,9 @@ public class EquipDAO implements DAO<Equip> {
 
     @Override
     //Cercar un equip.
-    public Equip cercar(int id) throws SQLException {
+    public Equip cercar(int id, Connection connexio) throws SQLException {
         //Cridem a la connexió per connectar-nos a una BD
-        Connection connexio = Connexio.getConnection();
+        //Connection connexio = Connexio.getConnection();
         //Preparem una consulta per poder cercar un equip en concret.
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT * FROM equips WHERE equip_id = ?"
@@ -128,9 +122,9 @@ public class EquipDAO implements DAO<Equip> {
     //MÈTODES D'INTERFÍCIE ESPECÍFICS EXERCICIS
 
     //1 Llistar tots els jugadors d'un equip
-    public List<Jugador> obtenirJugadors(String nomEquip) throws Exception {
+    public List<Jugador> obtenirJugadors(String nomEquip, Connection connexio) throws Exception {
         //Connectem a la BD.
-        Connection connexio = Connexio.getConnection();
+        //Connection connexio = Connexio.getConnection();
         //Preparem la nostra sentència amb la consulta DML que volem utilitzar.
         PreparedStatement sentenciaJugadors = connexio.prepareStatement(
                 //La nostra sentència mostra amb una concatenació el nom i el cognom dels jugadors que pertanyin de l'equip que insereix l'usuari.
@@ -151,7 +145,7 @@ public class EquipDAO implements DAO<Equip> {
 
             //Amb rsJugadors.next() anem llegint i afegint els jugadors que complexin els requisits a la llista jugadors.
             while (rsJugadors.next()) {
-                llistaJugadors.add(jugadorDAO.cercar(rsJugadors.getInt("j.jugador_id")));
+                llistaJugadors.add(jugadorDAO.cercar(rsJugadors.getInt("j.jugador_id"),connexio));
             }
         } else {
             throw new Exception("Equip no trobat");

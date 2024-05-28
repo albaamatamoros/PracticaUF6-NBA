@@ -13,8 +13,7 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
 
     //MÈTODES D'INTERFÍCIE DAO GENERALS
     @Override
-    public boolean insertar(EstadisticaJugador estadisticaJugador) throws SQLException {
-        Connection connexio = Connexio.getConnection();
+    public boolean insertar(EstadisticaJugador estadisticaJugador, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "INSERT INTO estadistiques_jugadors (jugador_id,equip_id,partit_id,minuts_jugats,punts,tirs_anotats,tirs_tirats,tirs_triples_anotats,tirs_triples_tirats,tirs_lliures_anotats,tirs_lliures_tirats,rebots_ofensius,rebots_defensius,assistencies,robades,bloqueigs) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
         );
@@ -41,8 +40,7 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
     }
 
     @Override
-    public boolean actualitzar(EstadisticaJugador estadisticaJugador) throws SQLException {
-        Connection connexio = Connexio.getConnection();
+    public boolean actualitzar(EstadisticaJugador estadisticaJugador, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "UPDATE estadistiques_jugadors SET minuts_jugats=?,punts=?,tirs_anotats=?,tirs_tirats=?,tirs_triples_anotats=?,tirs_triples_tirats=?,tirs_lliures_anotats=?,tirs_lliures_tirats=?,rebots_ofensius=?,rebots_defensius=?,assistencies=?,robades=?,bloqueigs=? WHERE jugador_id=?,equip_id=?,partit_id=?"
         );
@@ -68,8 +66,7 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
     }
 
     @Override
-    public boolean esborrar(EstadisticaJugador estadisticaJugador) throws SQLException {
-        Connection connexio = Connexio.getConnection();
+    public boolean esborrar(EstadisticaJugador estadisticaJugador, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "DELETE FROM estadistiques_jugadors WHERE jugador_id = ? AND equip_id = ? AND partit_id = ?"
         );
@@ -82,11 +79,11 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
     }
 
     @Override
-    public EstadisticaJugador cercar(int id) throws SQLException {
-        Connection connexio;
+    public EstadisticaJugador cercar(int id, Connection connexio) throws SQLException {
+        //Connection connexio;
         PreparedStatement sentencia;
 
-        connexio = Connexio.getConnection();
+        //connexio = Connexio.getConnection();
         sentencia = connexio.prepareStatement(
                 "SELECT * FROM estadistiques_jugadors WHERE jugador_id = ? LIMIT 1"
         );
@@ -203,4 +200,50 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
 
         return llistaEstadistiques;
     }
+
+    public EstadisticaJugador obtenirEstadistiquesModificables (int jugadorId, int partitID, Connection connexio) throws SQLException {
+        PreparedStatement sentencia = connexio.prepareStatement(
+                "SELECT * FROM estadistiques_jugadors WHERE jugador_id = ? AND partit_id = ?"
+        );
+
+        sentencia.setInt(1, jugadorId);
+        sentencia.setInt(2, partitID);
+        ResultSet rsEstadisticaJugador = sentencia.executeQuery();
+
+        EstadisticaJugador eJugador = null;
+
+        if (rsEstadisticaJugador.next()) {
+            eJugador = new EstadisticaJugador(
+                    rsEstadisticaJugador.getInt("jugador_id"),
+                    rsEstadisticaJugador.getInt("equip_id"),
+                    rsEstadisticaJugador.getInt("partit_id"),
+                    rsEstadisticaJugador.getFloat("minuts_jugats"),
+                    rsEstadisticaJugador.getInt("punts"),
+                    rsEstadisticaJugador.getInt("tirs_anotats"),
+                    rsEstadisticaJugador.getInt("tirs_tirats"),
+                    rsEstadisticaJugador.getInt("tirs_triples_anotats"),
+                    rsEstadisticaJugador.getInt("tirs_triples_tirats"),
+                    rsEstadisticaJugador.getInt("tirs_lliures_anotats"),
+                    rsEstadisticaJugador.getInt("tirs_lliures_tirats"),
+                    rsEstadisticaJugador.getInt("rebots_ofensius"),
+                    rsEstadisticaJugador.getInt("rebots_defensius"),
+                    rsEstadisticaJugador.getInt("assistencies"),
+                    rsEstadisticaJugador.getInt("robades"),
+                    rsEstadisticaJugador.getInt("bloqueigs")
+            );
+        }
+        return eJugador;
+    }
+
+    /*
+    @Override
+    public boolean modificarDades(EstadisticaJugador estadisticaJugador, Connection connexio) throws SQLException {
+        PreparedStatement sentencia = connexio.prepareStatement(
+                "UPDATE estadistiques_jugadors SET punts = ?"
+        );
+
+        return sentencia.executeUpdate() > 0;
+    }
+
+     */
 }

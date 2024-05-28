@@ -47,4 +47,21 @@ public class Vista {
     public static void mostrarMissatge(String missatge){
         System.out.println(missatge);
     }
+
+    public static void menúModificarEstadistiques(){
+        System.out.println("\n------ MODIFICAR ESTADISTIQUES ------");
+        System.out.println("1. Minuts jugats");
+        System.out.println("2. Punts");
+        System.out.println("3. Tirs anotats");
+        System.out.println("4. Tirs tirats");
+        System.out.println("5. Tirs tirats");
+        System.out.println("6. Tirs triples anotats");
+        System.out.println("7. Tirs triples tirats");
+        System.out.println("8. Tirs lliures anotats");
+        System.out.println("9. Tirs lliures tirats");
+        System.out.println("10. Rebots ofensius");
+        System.out.println("11. Rebots defensius");
+        System.out.println("12. Assistencies");
+        System.out.println("0. sortir");
+    }
 }

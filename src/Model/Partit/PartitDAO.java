@@ -12,8 +12,7 @@ public class PartitDAO implements DAO<Partit> {
 
     //MÈTODES D'INTERFÍCIE DAO GENERALS
     @Override
-    public boolean insertar(Partit partit) throws SQLException {
-        Connection connexio = Connexio.getConnection();
+    public boolean insertar(Partit partit, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "INSERT INTO partits (equip_id,data_partit,matx,resultat) VALUES (?,?,?,?)"
         );
@@ -27,8 +26,7 @@ public class PartitDAO implements DAO<Partit> {
     }
 
     @Override
-    public boolean actualitzar(Partit partit) throws SQLException {
-        Connection connexio = Connexio.getConnection();
+    public boolean actualitzar(Partit partit, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "UPDATE partits SET data_partit= ?, matx= ?, resultat= ? WHERE partit_id= ? AND equip_id = ?"
         );
@@ -43,8 +41,7 @@ public class PartitDAO implements DAO<Partit> {
     }
 
     @Override
-    public boolean esborrar(Partit partit) throws SQLException {
-        Connection connexio = Connexio.getConnection();
+    public boolean esborrar(Partit partit, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement("DELETE FROM partits WHERE partit_id = ?");
 
         sentencia.setInt(1,partit.getPartitId());
@@ -53,8 +50,8 @@ public class PartitDAO implements DAO<Partit> {
     }
 
     @Override
-    public Partit cercar(int id) throws SQLException {
-        Connection connexio = Connexio.getConnection();
+    public Partit cercar(int id, Connection connexio) throws SQLException {
+        //Connection connexio = Connexio.getConnection();
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT * FROM partits WHERE partit_id = ?"
         );
@@ -115,5 +112,10 @@ public class PartitDAO implements DAO<Partit> {
         }
         connexio.commit();
         return true;
+    }
+
+    //7
+    public int cercarPartit(int partitID) throws SQLException {
+        return 0;
     }
 }

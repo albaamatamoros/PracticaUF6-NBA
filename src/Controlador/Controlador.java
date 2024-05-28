@@ -20,6 +20,9 @@ public class Controlador {
     //Variable per rebre la nova franquícia.
     public static String franquiciaNom;
 
+    //Variable per rebre un partit_id
+    public static int partitID;
+
     public static void consultas() {
         try {
             do {
@@ -94,8 +97,44 @@ public class Controlador {
                         Vista.mostrarMissatge("Introdueix un jugador per modificar les seves estadístiques: (Ex: LeBron James)");
                         jugadorNom = scan.nextLine();
                         if (jugadorNom.matches(".*\\d.*")) throw new Exception("Un nom només pot contenir lletres.");
-                        Vista.mostrarMissatge("Modifcant dades dels partits...");
-                        Model.exercici7(jugadorNom);
+                        Vista.mostrarMissatge("Introdueix l'ID d'un partit per modificar les seves estadístiques: (Ex: 22300001)");
+                        partitID = scan.nextInt();
+                        Model.exercici7(jugadorNom, partitID);
+                        try {
+                            do {
+                                //Cridem al menú
+                                Vista.menúModificarEstadistiques();
+                                opcio = scan.nextLine();
+                                switch (opcio) {
+                                    case "1":
+                                        break;
+                                    case "2":
+                                        break;
+                                    case "3":
+                                        break;
+                                    case "4":
+                                        break;
+                                    case "5":
+                                        break;
+                                    case "6":
+                                        break;
+                                    case "7":
+                                        break;
+                                    case "8":
+                                        break;
+                                    case "9":
+                                        break;
+                                    case "0":
+                                        break;
+                                    default:
+                                        System.out.println("-------------------------------");
+                                        System.out.println("ATENCIÓ! Ha de ser entre 0 i 9");
+                                        System.out.println("-------------------------------");
+                                }
+                            } while (!(opcio.equals("0")));
+                        } catch (Exception e){
+                            System.out.println(e.getMessage());
+                        }
                         break;
                     case "8":
                         Vista.mostrarMissatge("Introdueix un jugador per eliminar-lo: (Ex: LeBron James)");
