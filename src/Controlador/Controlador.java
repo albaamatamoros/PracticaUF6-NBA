@@ -38,6 +38,8 @@ public class Controlador {
     public static void consultas() throws SQLException {
         Vista.mostrarMissatge("------ BENVINGUT ------");
         //Cridem a la connexió per connectar-nos a una BD.
+        //Fem la connexió només executar el programa per evitar càrregues innecessàries un cop ja estem movent-nos pel menú i fent els exercicis.
+        // Això ho fem passant sempre la connexió als mètodes.
         Connection connexio = Connexio.getConnection();
         do {
             try {
@@ -120,143 +122,146 @@ public class Controlador {
 
                         //Cridem exercici 7.
                         EstadisticaJugador eJugador = Model.exercici7(jugadorNom, partitID,connexio);
-                        try {
-                            do {
-                                //Cridem al menú per veure quines opcions es poden modificar
-                                Vista.menúModificarEstadistiques();
-                                opcio2 = scan.nextLine();
 
-                                switch (opcio2) {
-                                    case "1":
-                                        //NOU minuts jugats
-                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Minuts jugats):");
-                                        float nouMinutsJugats = scan.nextFloat();
-                                        scan.nextLine();
-                                        //Assignem el valor donat per l'usuari.
-                                        eJugador.setMinutsJugats(nouMinutsJugats);
-                                        modificacio = true;
-                                        break;
-                                    case "2":
-                                        //NOU punts
-                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Punts):");
-                                        int nouPunts = scan.nextInt();
-                                        scan.nextLine();
-                                        //Assignem el valor donat per l'usuari.
-                                        eJugador.setPunts(nouPunts);
-                                        modificacio = true;
-                                        break;
-                                    case "3":
-                                        //NOU tirs anotats
-                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs anotats):");
-                                        int nouTirsAnotats = scan.nextInt();
-                                        scan.nextLine();
-                                        //Assignem el valor donat per l'usuari.
-                                        eJugador.setTirsAnotats(nouTirsAnotats);
-                                        modificacio = true;
-                                        break;
-                                    case "4":
-                                        //NOU tirs tirats
-                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs tirats):");
-                                        int nouTirsTirats = scan.nextInt();
-                                        scan.nextLine();
-                                        //Assignem el valor donat per l'usuari.
-                                        eJugador.setTirsTirats(nouTirsTirats);
-                                        modificacio = true;
-                                        break;
-                                    case "5":
-                                        //NOU tirs triples anotats
-                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs triples anotats):");
-                                        int nouTirsTriplesAnotats = scan.nextInt();
-                                        scan.nextLine();
-                                        //Assignem el valor donat per l'usuari.
-                                        eJugador.setTirsTriplesAnotats(nouTirsTriplesAnotats);
-                                        modificacio = true;
-                                        break;
-                                    case "6":
-                                        //NOU tirs triples tirats
-                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs triples tirats):");
-                                        int nouTirsTriplesTirats = scan.nextInt();
-                                        scan.nextLine();
-                                        //Assignem el valor donat per l'usuari.
-                                        eJugador.setTirsTriplesTirats(nouTirsTriplesTirats);
-                                        modificacio = true;
-                                        break;
-                                    case "7":
-                                        //NOU tirs lliures anotats
-                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs lliures anotats):");
-                                        int nouTirsLliuresAnotats = scan.nextInt();
-                                        scan.nextLine();
-                                        //Assignem el valor donat per l'usuari.
-                                        eJugador.setTirsLliuresAnotats(nouTirsLliuresAnotats);
-                                        modificacio = true;
-                                        break;
-                                    case "8":
-                                        //NOU tirs triples tirats
-                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs lliures tirats):");
-                                        int nouTirsLliuresTirats = scan.nextInt();
-                                        scan.nextLine();
-                                        //Assignem el valor donat per l'usuari.
-                                        eJugador.setTirsLliuresTirats(nouTirsLliuresTirats);
-                                        modificacio = true;
-                                        break;
-                                    case "9":
-                                        //NOU Rebots ofensius
-                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Rebots ofensius):");
-                                        int nouRebotsOfensius = scan.nextInt();
-                                        scan.nextLine();
-                                        //Assignem el valor donat per l'usuari.
-                                        eJugador.setRebotsOfensius(nouRebotsOfensius);
-                                        modificacio = true;
-                                        break;
-                                    case "10":
-                                        //NOU rebots defensius
-                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Rebots defensius):");
-                                        int nouRebotsDefensius = scan.nextInt();
-                                        scan.nextLine();
-                                        eJugador.setRebotsDefensius(nouRebotsDefensius);
-                                        modificacio = true;
-                                        break;
-                                    case "11":
-                                        //NOU assistencies
-                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Assistencies):");
-                                        int nouAssistencies = scan.nextInt();
-                                        scan.nextLine();
-                                        //Assignem el valor donat per l'usuari.
-                                        eJugador.setAssistencies(nouAssistencies);
-                                        modificacio = true;
-                                        break;
-                                    case "12":
-                                        //NOU robades
-                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Robades):");
-                                        int nouRobades = scan.nextInt();
-                                        scan.nextLine();
-                                        //Assignem el valor donat per l'usuari.
-                                        eJugador.setRobades(nouRobades);
-                                        modificacio = true;
-                                        break;
-                                    case "13":
-                                        //NOU bloqueig
-                                        Vista.mostrarMissatge("Introdueix el nou valor per la columna (Bloqueig):");
-                                        int nouBloqueig = scan.nextInt();
-                                        scan.nextLine();
-                                        //Assignem el valor donat per l'usuari.
-                                        eJugador.setBloqueigs(nouBloqueig);
-                                        modificacio = true;
-                                        break;
-                                    case "0":
-                                        //Actualitzar les dades modificades.
-                                        Model.exercici7P2(eJugador, modificacio, connexio);
-                                        break;
-                                    default:
-                                        Vista.mostrarMissatge("-------------------------------");
-                                        Vista.mostrarMissatge("ATENCIÓ! Ha de ser entre 0 i 13");
-                                        Vista.mostrarMissatge("-------------------------------");
-                                }
-                            } while (!(opcio2.equals("0")));
-                        } catch (InputMismatchException e){
-                            Vista.mostrarMissatge("EXCEPCIÓ, ves amb compte: Dades incorrectes, recorda que només poden ser números");
-                        } catch (Exception e) {
-                            Vista.mostrarMissatge("EXCEPCIÓ, ves amb compte: " + e.getMessage());
+                        if (eJugador != null) {
+                            try {
+                                do {
+                                    //Cridem al menú per veure quines opcions es poden modificar
+                                    Vista.menuModificarEstadistiques();
+                                    opcio2 = scan.nextLine();
+
+                                    switch (opcio2) {
+                                        case "1":
+                                            //NOU minuts jugats
+                                            Vista.mostrarMissatge("Introdueix el nou valor per la columna (Minuts jugats):");
+                                            float nouMinutsJugats = scan.nextFloat();
+                                            scan.nextLine();
+                                            //Assignem el valor donat per l'usuari.
+                                            eJugador.setMinutsJugats(nouMinutsJugats);
+                                            modificacio = true;
+                                            break;
+                                        case "2":
+                                            //NOU punts
+                                            Vista.mostrarMissatge("Introdueix el nou valor per la columna (Punts):");
+                                            int nouPunts = scan.nextInt();
+                                            scan.nextLine();
+                                            //Assignem el valor donat per l'usuari.
+                                            eJugador.setPunts(nouPunts);
+                                            modificacio = true;
+                                            break;
+                                        case "3":
+                                            //NOU tirs anotats
+                                            Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs anotats):");
+                                            int nouTirsAnotats = scan.nextInt();
+                                            scan.nextLine();
+                                            //Assignem el valor donat per l'usuari.
+                                            eJugador.setTirsAnotats(nouTirsAnotats);
+                                            modificacio = true;
+                                            break;
+                                        case "4":
+                                            //NOU tirs tirats
+                                            Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs tirats):");
+                                            int nouTirsTirats = scan.nextInt();
+                                            scan.nextLine();
+                                            //Assignem el valor donat per l'usuari.
+                                            eJugador.setTirsTirats(nouTirsTirats);
+                                            modificacio = true;
+                                            break;
+                                        case "5":
+                                            //NOU tirs triples anotats
+                                            Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs triples anotats):");
+                                            int nouTirsTriplesAnotats = scan.nextInt();
+                                            scan.nextLine();
+                                            //Assignem el valor donat per l'usuari.
+                                            eJugador.setTirsTriplesAnotats(nouTirsTriplesAnotats);
+                                            modificacio = true;
+                                            break;
+                                        case "6":
+                                            //NOU tirs triples tirats
+                                            Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs triples tirats):");
+                                            int nouTirsTriplesTirats = scan.nextInt();
+                                            scan.nextLine();
+                                            //Assignem el valor donat per l'usuari.
+                                            eJugador.setTirsTriplesTirats(nouTirsTriplesTirats);
+                                            modificacio = true;
+                                            break;
+                                        case "7":
+                                            //NOU tirs lliures anotats
+                                            Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs lliures anotats):");
+                                            int nouTirsLliuresAnotats = scan.nextInt();
+                                            scan.nextLine();
+                                            //Assignem el valor donat per l'usuari.
+                                            eJugador.setTirsLliuresAnotats(nouTirsLliuresAnotats);
+                                            modificacio = true;
+                                            break;
+                                        case "8":
+                                            //NOU tirs triples tirats
+                                            Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs lliures tirats):");
+                                            int nouTirsLliuresTirats = scan.nextInt();
+                                            scan.nextLine();
+                                            //Assignem el valor donat per l'usuari.
+                                            eJugador.setTirsLliuresTirats(nouTirsLliuresTirats);
+                                            modificacio = true;
+                                            break;
+                                        case "9":
+                                            //NOU Rebots ofensius
+                                            Vista.mostrarMissatge("Introdueix el nou valor per la columna (Rebots ofensius):");
+                                            int nouRebotsOfensius = scan.nextInt();
+                                            scan.nextLine();
+                                            //Assignem el valor donat per l'usuari.
+                                            eJugador.setRebotsOfensius(nouRebotsOfensius);
+                                            modificacio = true;
+                                            break;
+                                        case "10":
+                                            //NOU rebots defensius
+                                            Vista.mostrarMissatge("Introdueix el nou valor per la columna (Rebots defensius):");
+                                            int nouRebotsDefensius = scan.nextInt();
+                                            scan.nextLine();
+                                            eJugador.setRebotsDefensius(nouRebotsDefensius);
+                                            modificacio = true;
+                                            break;
+                                        case "11":
+                                            //NOU assistencies
+                                            Vista.mostrarMissatge("Introdueix el nou valor per la columna (Assistencies):");
+                                            int nouAssistencies = scan.nextInt();
+                                            scan.nextLine();
+                                            //Assignem el valor donat per l'usuari.
+                                            eJugador.setAssistencies(nouAssistencies);
+                                            modificacio = true;
+                                            break;
+                                        case "12":
+                                            //NOU robades
+                                            Vista.mostrarMissatge("Introdueix el nou valor per la columna (Robades):");
+                                            int nouRobades = scan.nextInt();
+                                            scan.nextLine();
+                                            //Assignem el valor donat per l'usuari.
+                                            eJugador.setRobades(nouRobades);
+                                            modificacio = true;
+                                            break;
+                                        case "13":
+                                            //NOU bloqueig
+                                            Vista.mostrarMissatge("Introdueix el nou valor per la columna (Bloqueig):");
+                                            int nouBloqueig = scan.nextInt();
+                                            scan.nextLine();
+                                            //Assignem el valor donat per l'usuari.
+                                            eJugador.setBloqueigs(nouBloqueig);
+                                            modificacio = true;
+                                            break;
+                                        case "0":
+                                            //Actualitzar les dades modificades.
+                                            Model.exercici7P2(eJugador, modificacio, connexio);
+                                            break;
+                                        default:
+                                            Vista.mostrarMissatge("-------------------------------");
+                                            Vista.mostrarMissatge("ATENCIÓ! Ha de ser entre 0 i 13");
+                                            Vista.mostrarMissatge("-------------------------------");
+                                    }
+                                } while (!(opcio2.equals("0")));
+                            } catch (InputMismatchException e){
+                                Vista.mostrarMissatge("EXCEPCIÓ, ves amb compte: Dades incorrectes, recorda que només poden ser números");
+                            } catch (Exception e) {
+                                Vista.mostrarMissatge("EXCEPCIÓ, ves amb compte: " + e.getMessage());
+                            }
                         }
                         break;
                     case "8":
@@ -286,8 +291,12 @@ public class Controlador {
                         Vista.mostrarMissatge("ATENCIÓ! Ha de ser entre 0 i 9");
                         Vista.mostrarMissatge("-------------------------------");
                 }
+            } catch (InputMismatchException e1) {
+                Vista.mostrarMissatge("EXCEPCIÓ, ves amb compte: Dades incorrectes.");
             } catch (Exception e){
                 Vista.mostrarMissatge("EXCEPCIÓ, ves amb compte: " + e.getMessage());
+            } finally {
+                scan.nextLine();
             }
         } while (!(opcio.equals("0")));
     }

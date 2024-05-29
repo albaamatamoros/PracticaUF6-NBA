@@ -131,6 +131,7 @@ public class Model {
 
     //6.- Actualitzar les dades de jugadors o equips després d'un partit.
     public static void exercici6(Connection connexio) throws Exception {
+        Vista.mostrarMissatge("Aquest procés pot trigar una estona, esperi pacientment...");
         //Creem les rutes dels fitxers.
         String rutaPython = "./obtenirActualitzacions.py";
 
@@ -141,6 +142,7 @@ public class Model {
         File csvEstadistiques = new File(rutaCsvEstadistiques);
 
         if (!(csvPartits.exists() && csvEstadistiques.exists())) {
+            Vista.mostrarMissatge("GENERANT FITXERS CSV...");
             ProcessBuilder pb = new ProcessBuilder("python",rutaPython);
             Process proces = pb.start();
             int codiSortida = proces.waitFor();
@@ -203,7 +205,7 @@ public class Model {
         boolean correcteEstadistiques = estadisticaJugadorDAO.actualitzarEnMassa(estadistiquesJugadors, connexio);
 
         if (correctePartits && correcteEstadistiques) Vista.mostrarMissatge("S'han actualitzat les dades correctament");
-        else Vista.mostrarMissatge("No s'han pogut actualitzar les dades");
+        else Vista.mostrarMissatge("No s'han pogut actualitzar les dades. Ya están actualitzades.");
     }
 
     //7.- Modificar les estadístiques d’un jugador.

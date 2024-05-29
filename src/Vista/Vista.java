@@ -51,7 +51,7 @@ public class Vista {
     }
 
     //7 Menú de modificacions a fer a les estadístiques de l'exercici 7.
-    public static void menúModificarEstadistiques(){
+    public static void menuModificarEstadistiques(){
         System.out.println("\n------ MODIFICAR ESTADISTIQUES ------");
         System.out.println("1. Minuts jugats");
         System.out.println("2. Punts");
