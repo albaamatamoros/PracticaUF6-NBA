@@ -75,6 +75,7 @@ public class Model {
         String nom;
         String cognom;
 
+        //Comprovem si el nom es un nom compost.
         if (nomComplet.length > 2) {
             nom = nomComplet[0] + " " + nomComplet[1];
             cognom = nomComplet[2];
@@ -90,11 +91,16 @@ public class Model {
 
         //Dades generades aleatòriament per generar un nou jugador.
         Date dataNaixementAleatoria = Date.valueOf(LocalDate.of(random.nextInt(3000) + 1,random.nextInt(12) + 1,random.nextInt(28) + 1));
+        //Alçada aleatoria entre 1,70 i 3,00.
         Float alcadaAleatoria = random.nextFloat(170f,300f);
+        //Pes aleatori entre 65kg i 150kg.
         Float pesAleatori = random.nextFloat(65f, 150f);
+        //Dorsal aleatori utilitzan l'array anterior.
         String dorsalRandom = numeros[random.nextInt(numeros.length)] + numeros[random.nextInt(numeros.length)];
+        //Posicio aleatoria utilitzan l'array anterior.
         String posicioAleatoria = posicions[random.nextInt(posicions.length)];
 
+        //Retornem el jugador amb totes les dades generades.
         return new Jugador(nom,cognom,dataNaixementAleatoria,alcadaAleatoria,pesAleatori,dorsalRandom,posicioAleatoria,equipId);
     }
 
@@ -111,6 +117,7 @@ public class Model {
                 Jugador jugador = jugadorDAO.cercar(jugadorId, connexio);
                 jugador.setEquipId(equipId);
 
+                //Actualitzem les dades
                 boolean correcte = jugadorDAO.actualitzar(jugador, connexio);
 
                 if (correcte) {

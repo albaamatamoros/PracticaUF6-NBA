@@ -21,7 +21,6 @@ public class EstadisticaJugadorDAO implements DAO<EstadisticaJugador>{
                 "INSERT INTO estadistiques_jugadors (jugador_id,equip_id,partit_id,minuts_jugats,punts,tirs_anotats,tirs_tirats,tirs_triples_anotats,tirs_triples_tirats,tirs_lliures_anotats,tirs_lliures_tirats,rebots_ofensius,rebots_defensius,assistencies,robades,bloqueigs) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
         );
 
-
         sentencia.setInt(1,estadisticaJugador.getJugadorId());
         sentencia.setInt(2,estadisticaJugador.getEquipId());
         sentencia.setInt(3,estadisticaJugador.getPartitId());

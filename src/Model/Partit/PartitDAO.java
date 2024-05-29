@@ -91,7 +91,7 @@ public class PartitDAO implements DAO<Partit> {
 
     //MÈTODES D'INTERFÍCIE ESPECÍFICS EXERCICIS
 
-    //6 Actualitzar les dades de jugadors o equips després d'un partit
+    //6 Actualitzar les dades de jugadors o equips després d'un partit.
     public boolean actualitzarEnMassa(List<Partit> partits, Connection connexio) throws SQLException {
         PreparedStatement sentencia = connexio.prepareStatement(
                 "UPDATE partits SET data_partit=?, matx=?, resultat=? WHERE partit_id=? AND equip_id =?"
@@ -118,6 +118,7 @@ public class PartitDAO implements DAO<Partit> {
 
     //7 Buscar si exsistei el partit inserit
     public int cercarPartitID(int partitID, Connection connexio) throws SQLException {
+        //Preparem la sentencia SQL.
         PreparedStatement sentencia = connexio.prepareStatement(
                 "SELECT * FROM partits WHERE partit_id = ?"
         );

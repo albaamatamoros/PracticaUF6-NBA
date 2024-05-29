@@ -1,30 +1,38 @@
 # Pràctica 6.1 - BDD relacionals amb JDBC (NBA) Santi i Alba
 
-Les dades de la nostra base de dades han sigut generades mitjançant endpoints amb Python.
+### ACLARIMENTS
 
--> Connexio amb la base de dades <-
+- Les dades de la nostra base de dades han sigut generades mitjançant endpoints amb Python.
+
+
+- Per al correcte funcionament de l'exercici 6 cal tenir instal·lat Python.
+
+
+### CONNEXIÓ AMB LA BASE DE DADES
 
 En la classe "Connexió" recomanem a l'hora d'afegir la base de dades, modificar els valors següents perquè la connexió sigui més ràpida, ja que el programa comprova diferents connexions i aquesta és la primera en executar-se.
 
-(private static final String URL = "url";
+- private static final String URL = "url";
 
-private static final String USUARI = "usuari";
+- private static final String USUARI = "usuari";
 
-private static final String PASSWORD = "contrasenya";)
+- private static final String PASSWORD = "contrasenya";
+
+
 
 ## MÈTODE CRUD, DAO.
 
 La nostra interfície DAO implementa 5 mètodes que s'han d'implementar en cadascuna de les classes DAO, els mètodes que conté són: 
 
-inserir -> per afegir nous registres, 
+INSERIR -> Afegir nous registres a la nostra taula. 
 
-actualitzar -> per actualitzar dades errònies o modificar dades existents,
+ACTUALITZAR -> Actualitzem dades inserides incorrectament o que volem modificar antics valors.
 
-esborrar -> per eliminar dades innecessàries, 
+ESBORRAR -> Eliminem dades incorrectes, obsoletes o innecessàries. 
 
-cercar -> per cercar dades concretes mitjançant consultes, 
+CERCAR -> Cerquem "x" informació mitjançant consultes. 
 
-count -> per contar el número de registres.
+COUNT/CONTAR -> Contem el nombre de registres de la nostra taula
 
 ## CLASSES
 

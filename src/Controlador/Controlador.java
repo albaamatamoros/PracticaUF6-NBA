@@ -39,8 +39,8 @@ public class Controlador {
         Vista.mostrarMissatge("------ BENVINGUT ------");
         //Cridem a la connexió per connectar-nos a una BD.
         Connection connexio = Connexio.getConnection();
-        try {
-            do {
+        do {
+            try {
                 //Canviem el limitador de scan perquè agafi espais. (Per evitar problemes amb els espais dels noms)
                 scan.useDelimiter("\\n");
                 //Cridem al menú
@@ -132,6 +132,7 @@ public class Controlador {
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Minuts jugats):");
                                         float nouMinutsJugats = scan.nextFloat();
                                         scan.nextLine();
+                                        //Assignem el valor donat per l'usuari.
                                         eJugador.setMinutsJugats(nouMinutsJugats);
                                         modificacio = true;
                                         break;
@@ -140,6 +141,7 @@ public class Controlador {
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Punts):");
                                         int nouPunts = scan.nextInt();
                                         scan.nextLine();
+                                        //Assignem el valor donat per l'usuari.
                                         eJugador.setPunts(nouPunts);
                                         modificacio = true;
                                         break;
@@ -148,6 +150,7 @@ public class Controlador {
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs anotats):");
                                         int nouTirsAnotats = scan.nextInt();
                                         scan.nextLine();
+                                        //Assignem el valor donat per l'usuari.
                                         eJugador.setTirsAnotats(nouTirsAnotats);
                                         modificacio = true;
                                         break;
@@ -156,6 +159,7 @@ public class Controlador {
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs tirats):");
                                         int nouTirsTirats = scan.nextInt();
                                         scan.nextLine();
+                                        //Assignem el valor donat per l'usuari.
                                         eJugador.setTirsTirats(nouTirsTirats);
                                         modificacio = true;
                                         break;
@@ -164,6 +168,7 @@ public class Controlador {
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs triples anotats):");
                                         int nouTirsTriplesAnotats = scan.nextInt();
                                         scan.nextLine();
+                                        //Assignem el valor donat per l'usuari.
                                         eJugador.setTirsTriplesAnotats(nouTirsTriplesAnotats);
                                         modificacio = true;
                                         break;
@@ -172,6 +177,7 @@ public class Controlador {
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs triples tirats):");
                                         int nouTirsTriplesTirats = scan.nextInt();
                                         scan.nextLine();
+                                        //Assignem el valor donat per l'usuari.
                                         eJugador.setTirsTriplesTirats(nouTirsTriplesTirats);
                                         modificacio = true;
                                         break;
@@ -180,6 +186,7 @@ public class Controlador {
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs lliures anotats):");
                                         int nouTirsLliuresAnotats = scan.nextInt();
                                         scan.nextLine();
+                                        //Assignem el valor donat per l'usuari.
                                         eJugador.setTirsLliuresAnotats(nouTirsLliuresAnotats);
                                         modificacio = true;
                                         break;
@@ -188,6 +195,7 @@ public class Controlador {
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Tirs lliures tirats):");
                                         int nouTirsLliuresTirats = scan.nextInt();
                                         scan.nextLine();
+                                        //Assignem el valor donat per l'usuari.
                                         eJugador.setTirsLliuresTirats(nouTirsLliuresTirats);
                                         modificacio = true;
                                         break;
@@ -196,6 +204,7 @@ public class Controlador {
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Rebots ofensius):");
                                         int nouRebotsOfensius = scan.nextInt();
                                         scan.nextLine();
+                                        //Assignem el valor donat per l'usuari.
                                         eJugador.setRebotsOfensius(nouRebotsOfensius);
                                         modificacio = true;
                                         break;
@@ -212,6 +221,7 @@ public class Controlador {
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Assistencies):");
                                         int nouAssistencies = scan.nextInt();
                                         scan.nextLine();
+                                        //Assignem el valor donat per l'usuari.
                                         eJugador.setAssistencies(nouAssistencies);
                                         modificacio = true;
                                         break;
@@ -220,6 +230,7 @@ public class Controlador {
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Robades):");
                                         int nouRobades = scan.nextInt();
                                         scan.nextLine();
+                                        //Assignem el valor donat per l'usuari.
                                         eJugador.setRobades(nouRobades);
                                         modificacio = true;
                                         break;
@@ -228,6 +239,7 @@ public class Controlador {
                                         Vista.mostrarMissatge("Introdueix el nou valor per la columna (Bloqueig):");
                                         int nouBloqueig = scan.nextInt();
                                         scan.nextLine();
+                                        //Assignem el valor donat per l'usuari.
                                         eJugador.setBloqueigs(nouBloqueig);
                                         modificacio = true;
                                         break;
@@ -274,9 +286,9 @@ public class Controlador {
                         Vista.mostrarMissatge("ATENCIÓ! Ha de ser entre 0 i 9");
                         Vista.mostrarMissatge("-------------------------------");
                 }
-            } while (!(opcio.equals("0")));
-        } catch (Exception e){
-            Vista.mostrarMissatge("EXCEPCIÓ, ves amb compte: " + e.getMessage());
-        }
+            } catch (Exception e){
+                Vista.mostrarMissatge("EXCEPCIÓ, ves amb compte: " + e.getMessage());
+            }
+        } while (!(opcio.equals("0")));
     }
 }
